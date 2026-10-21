@@ -1,0 +1,5 @@
+[
+  {"user_id": "u1", "login": "ceo_demo", "role": "ceo", "company_ids": ["TODO_SYNTHETIC_U_1"]},
+  {"user_id": "u2", "login": "cfo_demo", "role": "cfo", "company_ids": ["TODO_SYNTHETIC_U_1", "TODO_SYNTHETIC_U_2"]},
+  {"user_id": "u3", "login": "treasurer_demo", "role": "treasurer", "company_ids": ["TODO_SYNTHETIC_U_2"]}
+]

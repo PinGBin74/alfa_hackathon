@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "news_item.schema.json",
+  "title": "NewsItem",
+  "type": "object",
+  "required": ["news_id", "title", "url", "source", "published_at"],
+  "properties": {
+    "news_id": {"type": "string"},
+    "title": {"type": "string"},
+    "url": {"type": "string"},
+    "source": {"type": "string"},
+    "published_at": {"type": "string", "format": "date-time"},
+    "body": {"type": "string"},
+    "summary": {"type": "string"},
+    "key_facts": {"type": "array", "items": {"type": "string"}},
+    "industries": {"type": "array", "items": {"type": "string"}, "description": "Коды/названия отраслей (ОКВЭД-раздел)"},
+    "regions": {"type": "array", "items": {"type": "string"}},
+    "event_type": {"type": "string", "description": "ключевая ставка, курс, регулирование, сырьё, санкции..."},
+    "dedup_hash": {"type": "string"}
+  }
+}

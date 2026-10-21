@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "client_profile.schema.json",
+  "title": "ClientProfile",
+  "description": "Профиль компании на основе df_Uid_data_hack.csv + граф связей.",
+  "type": "object",
+  "required": ["client_id"],
+  "properties": {
+    "client_id": {"type": "string", "description": "SYNTHETIC_U"},
+    "group_id": {"type": ["string", "null"]},
+    "okved_code": {"type": ["string", "null"]},
+    "okved_name": {"type": ["string", "null"]},
+    "org_type": {"type": ["string", "null"]},
+    "ownership": {"type": ["string", "null"]},
+    "age_gradation": {"type": ["string", "null"]},
+    "stage": {"type": ["string", "null"]},
+    "workers_fns": {"type": ["string", "null"]},
+    "workers_spark": {"type": ["string", "null"]},
+    "revenue": {"type": ["number", "null"]},
+    "city": {"type": ["string", "null"]},
+    "region": {"type": ["string", "null"]},
+    "client_type": {"enum": ["existing", "potential", null]},
+    "products": {
+      "type": "object",
+      "properties": {
+        "rko": {"type": "boolean"},
+        "guarantees": {"type": "boolean"},
+        "loans": {"type": "boolean"},
+        "leasing": {"type": "boolean"},
+        "deposits": {"type": "boolean"},
+        "payroll": {"type": "boolean"},
+        "factoring": {"type": "boolean"}
+      }
+    },
+    "foreign_trade": {
+      "type": "object",
+      "properties": {
+        "fts_flag": {"type": "boolean"},
+        "countries": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "graph": {
+      "type": "object",
+      "description": "Производные признаки графа",
+      "properties": {
+        "top_suppliers": {"type": "array", "items": {"type": "object"}},
+        "top_buyers": {"type": "array", "items": {"type": "object"}},
+        "supplier_concentration": {"type": ["number", "null"]},
+        "buyer_concentration": {"type": ["number", "null"]},
+        "group_size": {"type": ["integer", "null"]},
+        "regions_of_counterparties": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

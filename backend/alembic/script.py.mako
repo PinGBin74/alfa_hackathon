@@ -5,6 +5,7 @@ Revises: ${down_revision | comma,n}
 """
 from alembic import op
 import sqlalchemy as sa
+import pgvector.sqlalchemy  # noqa: F401  (autogenerate ссылается на pgvector.sqlalchemy.vector.VECTOR)
 ${imports if imports else ""}
 
 revision = ${repr(up_revision)}

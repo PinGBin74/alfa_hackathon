@@ -9,6 +9,7 @@ from sqlalchemy import (
     DateTime,
     Float,
     ForeignKey,
+    Index,
     Integer,
     String,
     Text,
@@ -21,6 +22,16 @@ from app.db.session import Base
 
 EMB_DIM = get_settings().embedding_dim
 
+
+def hnsw_cosine_index(table: str) -> Index:
+    """HNSW-индекс по embedding под поиск cosine_distance (оператор <=>)."""
+    return Index(
+        f"ix_{table}_embedding_hnsw",
+        "embedding",
+        postgresql_using="hnsw",
+        postgresql_with={"m": 16, "ef_construction": 64},
+        postgresql_ops={"embedding": "vector_cosine_ops"},
+    )
 
 
 class Company(Base):
@@ -78,6 +89,7 @@ class Payment(Base):
 
 class NewsItem(Base):
     __tablename__ = "news"
+    __table_args__ = (hnsw_cosine_index("news"),)
 
     news_id: Mapped[str] = mapped_column(String, primary_key=True)
     source: Mapped[str] = mapped_column(String, index=True)
@@ -109,6 +121,7 @@ class AnalyticsDoc(Base):
 
 class AnalyticsChunk(Base):
     __tablename__ = "analytics_chunks"
+    __table_args__ = (hnsw_cosine_index("analytics_chunks"),)
 
     chunk_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     doc_id: Mapped[str] = mapped_column(ForeignKey("analytics_docs.doc_id"), index=True)

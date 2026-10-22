@@ -1,0 +1,1145 @@
+{
+ "U_9250": {
+  "client_id": "U_9250",
+  "group_id": "group_133188_sb",
+  "okved_code": "42.99",
+  "okved_name": "Строительство прочих инженерных сооружений, не включенных в другие группировки",
+  "org_type": "КОММ_ОРГ",
+  "ownership": "ЧАСТНАЯ СОБСТВЕННОСТЬ",
+  "age_gradation": "16-25",
+  "stage": "Бизнес в новой реальности",
+  "workers_fns": "Более 251",
+  "workers_spark": null,
+  "revenue": 62340483339.0,
+  "large_business": true,
+  "negative_mark": true,
+  "city": "г. Иркутск",
+  "region": "Иркутская область",
+  "client_type": "existing",
+  "cl_type": "CLIENT",
+  "products": {
+   "rko": true,
+   "guarantees": true,
+   "loans": true,
+   "leasing": true,
+   "deposits": false,
+   "payroll": true,
+   "factoring": false
+  },
+  "foreign_trade": {
+   "fts_flag": true,
+   "countries": [
+    "КИТАЙ"
+   ]
+  },
+  "group": {
+   "group_id": "group_133188_sb",
+   "size": 22,
+   "total_revenue": 64232231077.0,
+   "large_business": true,
+   "top_industries": [
+    {
+     "okved2": "42",
+     "share": 0.9705,
+     "examples": [
+      "Строительство прочих инженерных сооружений, не включенных в другие группировки"
+     ]
+    },
+    {
+     "okved2": "68",
+     "share": 0.0187,
+     "examples": [
+      "Аренда и управление собственным или арендованным нежилым недвижимым имуществом",
+      "Аренда и управление собственным или арендованным недвижимым имуществом"
+     ]
+    },
+    {
+     "okved2": "41",
+     "share": 0.0056,
+     "examples": [
+      "Строительство жилых и нежилых зданий"
+     ]
+    }
+   ]
+  },
+  "industry_position": {
+   "okved2": "42",
+   "peers": 602,
+   "revenue_rank": 1,
+   "revenue_share": 0.0858
+  },
+  "graph": {
+   "top_suppliers": [
+    {
+     "client_id": "U_9972",
+     "amount": 799650000.0,
+     "share": 0.1712,
+     "payments": 32,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_151404",
+     "amount": 684267000.0,
+     "share": 0.1465,
+     "payments": 364,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_94110",
+     "amount": 308020000.0,
+     "share": 0.0659,
+     "payments": 45,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_47566",
+     "amount": 292427000.0,
+     "share": 0.0626,
+     "payments": 31,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_85655",
+     "amount": 208569000.0,
+     "share": 0.0447,
+     "payments": 10,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    }
+   ],
+   "top_buyers": [
+    {
+     "client_id": "U_130843",
+     "amount": 27671000.0,
+     "share": 0.6531,
+     "payments": 2,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_29399",
+     "amount": 4266000.0,
+     "share": 0.1007,
+     "payments": 5,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_108498",
+     "amount": 3136000.0,
+     "share": 0.074,
+     "payments": 4,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_48564",
+     "amount": 1443000.0,
+     "share": 0.0341,
+     "payments": 3,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_27288",
+     "amount": 1310000.0,
+     "share": 0.0309,
+     "payments": 1,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    }
+   ],
+   "supplier_concentration": 0.0698,
+   "buyer_concentration": 0.446,
+   "supplier_turnover": 4670751000.0,
+   "buyer_turnover": 42369000.0,
+   "suppliers_count": 215,
+   "buyers_count": 19,
+   "supplier_industries": [
+    {
+     "okved2": "46",
+     "share": 0.0726,
+     "examples": [
+      "Торговля оптовая неспециализированная",
+      "Торговля оптовая моторным топливом, включая авиационный бензин"
+     ]
+    },
+    {
+     "okved2": "45",
+     "share": 0.0344,
+     "examples": [
+      "Торговля оптовая автомобильными деталями, узлами и принадлежностями, кроме деятельности агентов",
+      "Техническое обслуживание и ремонт легковых автомобилей и легких грузовых автотранспортных средств"
+     ]
+    },
+    {
+     "okved2": "02",
+     "share": 0.0273,
+     "examples": [
+      "Лесозаготовки"
+     ]
+    },
+    {
+     "okved2": "49",
+     "share": 0.0115,
+     "examples": [
+      "Деятельность автомобильного грузового транспорта",
+      "Перевозка грузов специализированными автотранспортными средствами"
+     ]
+    },
+    {
+     "okved2": "25",
+     "share": 0.0097,
+     "examples": [
+      "Производство строительных металлических конструкций, изделий и их частей"
+     ]
+    }
+   ],
+   "buyer_industries": [
+    {
+     "okved2": "52",
+     "share": 0.0265,
+     "examples": [
+      "Деятельность вспомогательная прочая, связанная с перевозками"
+     ]
+    },
+    {
+     "okved2": "78",
+     "share": 0.0109,
+     "examples": [
+      "Деятельность агентств по подбору персонала"
+     ]
+    }
+   ],
+   "supplier_unknown_share": 0.8308,
+   "buyer_unknown_share": 0.9626,
+   "supplier_intragroup_share": 0.0218,
+   "buyer_intragroup_share": 0.0,
+   "group_size": 22,
+   "regions_of_counterparties": []
+  }
+ },
+ "U_200890": {
+  "client_id": "U_200890",
+  "group_id": "group_134320_sb",
+  "okved_code": "46.72",
+  "okved_name": "Торговля оптовая металлами и металлическими рудами",
+  "org_type": "КОММ_ОРГ",
+  "ownership": "ЧАСТНАЯ СОБСТВЕННОСТЬ",
+  "age_gradation": "0-3",
+  "stage": "Бизнес в новой реальности",
+  "workers_fns": "Менее 15",
+  "workers_spark": null,
+  "revenue": 59603929469.0,
+  "large_business": true,
+  "negative_mark": true,
+  "city": "г. Челябинск",
+  "region": "Челябинская область",
+  "client_type": "existing",
+  "cl_type": "CLIENT",
+  "products": {
+   "rko": true,
+   "guarantees": false,
+   "loans": false,
+   "leasing": false,
+   "deposits": false,
+   "payroll": false,
+   "factoring": false
+  },
+  "foreign_trade": {
+   "fts_flag": true,
+   "countries": [
+    "ИРАК",
+    "ЛИВАН",
+    "ГРУЗИЯ"
+   ]
+  },
+  "group": {
+   "group_id": "group_134320_sb",
+   "size": 1,
+   "total_revenue": 59603929469.0,
+   "large_business": true,
+   "top_industries": [
+    {
+     "okved2": "46",
+     "share": 1.0,
+     "examples": [
+      "Торговля оптовая металлами и металлическими рудами"
+     ]
+    }
+   ]
+  },
+  "industry_position": {
+   "okved2": "46",
+   "peers": 16106,
+   "revenue_rank": 4,
+   "revenue_share": 0.0044
+  },
+  "graph": {
+   "top_suppliers": [],
+   "top_buyers": [
+    {
+     "client_id": "U_196814",
+     "amount": 113471000.0,
+     "share": 0.2334,
+     "payments": 7,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_156404",
+     "amount": 57057000.0,
+     "share": 0.1174,
+     "payments": 2,
+     "okved_code": "22.23",
+     "okved_name": "Производство пластмассовых изделий, используемых в строительстве",
+     "region": "Москва"
+    },
+    {
+     "client_id": "U_241306",
+     "amount": 42530000.0,
+     "share": 0.0875,
+     "payments": 12,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_128825",
+     "amount": 32910000.0,
+     "share": 0.0677,
+     "payments": 14,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_76643",
+     "amount": 30979000.0,
+     "share": 0.0637,
+     "payments": 9,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    }
+   ],
+   "supplier_concentration": null,
+   "buyer_concentration": 0.0963,
+   "supplier_turnover": 0.0,
+   "buyer_turnover": 486143000.0,
+   "suppliers_count": 0,
+   "buyers_count": 29,
+   "supplier_industries": [],
+   "buyer_industries": [
+    {
+     "okved2": "22",
+     "share": 0.1174,
+     "examples": [
+      "Производство пластмассовых изделий, используемых в строительстве"
+     ]
+    },
+    {
+     "okved2": "46",
+     "share": 0.0479,
+     "examples": [
+      "Торговля оптовая прочими строительными материалами и изделиями",
+      "Торговля оптовая твердым, жидким и газообразным топливом и подобными продуктами"
+     ]
+    },
+    {
+     "okved2": "43",
+     "share": 0.0334,
+     "examples": [
+      "Производство прочих строительно-монтажных работ"
+     ]
+    },
+    {
+     "okved2": "23",
+     "share": 0.0072,
+     "examples": [
+      "Производство товарного бетона"
+     ]
+    },
+    {
+     "okved2": "41",
+     "share": 0.0066,
+     "examples": [
+      "Строительство жилых и нежилых зданий"
+     ]
+    }
+   ],
+   "supplier_unknown_share": null,
+   "buyer_unknown_share": 0.7875,
+   "supplier_intragroup_share": null,
+   "buyer_intragroup_share": 0.0,
+   "group_size": 1,
+   "regions_of_counterparties": [
+    "Москва"
+   ]
+  }
+ },
+ "U_1465": {
+  "client_id": "U_1465",
+  "group_id": "group_134460_sb",
+  "okved_code": "46.34",
+  "okved_name": "Торговля оптовая напитками",
+  "org_type": "КОММ_ОРГ",
+  "ownership": "ЧАСТНАЯ СОБСТВЕННОСТЬ",
+  "age_gradation": "16-25",
+  "stage": "Оптимизация",
+  "workers_fns": "Более 251",
+  "workers_spark": null,
+  "revenue": 44401187115.0,
+  "large_business": true,
+  "negative_mark": true,
+  "city": "г. Москва",
+  "region": "Москва",
+  "client_type": "existing",
+  "cl_type": "CLIENT",
+  "products": {
+   "rko": true,
+   "guarantees": false,
+   "loans": true,
+   "leasing": true,
+   "deposits": false,
+   "payroll": false,
+   "factoring": false
+  },
+  "foreign_trade": {
+   "fts_flag": true,
+   "countries": [
+    "ГРУЗИЯ",
+    "АЗЕРБАЙДЖАН",
+    "ТУРКМЕНИСТАН"
+   ]
+  },
+  "group": {
+   "group_id": "group_134460_sb",
+   "size": 215,
+   "total_revenue": 110258913595.0,
+   "large_business": true,
+   "top_industries": [
+    {
+     "okved2": "46",
+     "share": 0.717,
+     "examples": [
+      "Торговля оптовая напитками",
+      "Торговля оптовая неспециализированная"
+     ]
+    },
+    {
+     "okved2": "64",
+     "share": 0.0756,
+     "examples": [
+      "Предоставление прочих финансовых услуг, кроме услуг по страхованию и пенсионному обеспечению, не включенных в другие группировки",
+      "Деятельность холдинговых компаний"
+     ]
+    },
+    {
+     "okved2": "56",
+     "share": 0.0674,
+     "examples": [
+      "Деятельность ресторанов и услуги по доставке продуктов питания",
+      "Деятельность ресторанов и кафе с полным ресторанным обслуживанием, кафетериев, ресторанов быстрого питания и самообслуживания"
+     ]
+    }
+   ]
+  },
+  "industry_position": {
+   "okved2": "46",
+   "peers": 16106,
+   "revenue_rank": 9,
+   "revenue_share": 0.0032
+  },
+  "graph": {
+   "top_suppliers": [
+    {
+     "client_id": "U_58777",
+     "amount": 64530000.0,
+     "share": 0.1075,
+     "payments": 56,
+     "okved_code": "73.11.9",
+     "okved_name": "Деятельность рекламных агентств прочая",
+     "region": "Москва"
+    },
+    {
+     "client_id": "U_242062",
+     "amount": 54264000.0,
+     "share": 0.0904,
+     "payments": 24,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_220441",
+     "amount": 46517000.0,
+     "share": 0.0775,
+     "payments": 35,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_117204",
+     "amount": 33149000.0,
+     "share": 0.0552,
+     "payments": 31,
+     "okved_code": "73.11",
+     "okved_name": "Деятельность рекламных агентств",
+     "region": "Санкт-Петербург"
+    },
+    {
+     "client_id": "U_166964",
+     "amount": 32608000.0,
+     "share": 0.0543,
+     "payments": 4,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    }
+   ],
+   "top_buyers": [
+    {
+     "client_id": "U_104090",
+     "amount": 2979637000.0,
+     "share": 0.3922,
+     "payments": 227,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_108480",
+     "amount": 628656000.0,
+     "share": 0.0827,
+     "payments": 148,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_114650",
+     "amount": 324353000.0,
+     "share": 0.0427,
+     "payments": 209,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_143651",
+     "amount": 257301000.0,
+     "share": 0.0339,
+     "payments": 206,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_114947",
+     "amount": 151870000.0,
+     "share": 0.02,
+     "payments": 215,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    }
+   ],
+   "supplier_concentration": 0.0439,
+   "buyer_concentration": 0.1658,
+   "supplier_turnover": 600019000.0,
+   "buyer_turnover": 7597292000.0,
+   "suppliers_count": 203,
+   "buyers_count": 1193,
+   "supplier_industries": [
+    {
+     "okved2": "56",
+     "share": 0.2289,
+     "examples": [
+      "Деятельность ресторанов и услуги по доставке продуктов питания",
+      "Деятельность ресторанов и кафе с полным ресторанным обслуживанием, кафетериев, ресторанов быстрого питания и самообслуживания"
+     ]
+    },
+    {
+     "okved2": "73",
+     "share": 0.1943,
+     "examples": [
+      "Деятельность рекламных агентств прочая",
+      "Деятельность рекламных агентств"
+     ]
+    },
+    {
+     "okved2": "62",
+     "share": 0.0544,
+     "examples": [
+      "Разработка компьютерного программного обеспечения",
+      "Деятельность, связанная с использованием вычислительной техники и информационных технологий, прочая"
+     ]
+    },
+    {
+     "okved2": "41",
+     "share": 0.042,
+     "examples": [
+      "Строительство жилых и нежилых зданий"
+     ]
+    },
+    {
+     "okved2": "46",
+     "share": 0.0363,
+     "examples": [
+      "Деятельность агентов по оптовой торговле универсальным ассортиментом товаров",
+      "Торговля оптовая компьютерами, периферийными устройствами к компьютерам и программным обеспечением"
+     ]
+    }
+   ],
+   "buyer_industries": [
+    {
+     "okved2": "56",
+     "share": 0.1885,
+     "examples": [
+      "Деятельность ресторанов и услуги по доставке продуктов питания",
+      "Деятельность ресторанов и кафе с полным ресторанным обслуживанием, кафетериев, ресторанов быстрого питания и самообслуживания"
+     ]
+    },
+    {
+     "okved2": "46",
+     "share": 0.0138,
+     "examples": [
+      "Торговля оптовая напитками",
+      "Торговля оптовая лесоматериалами, строительными материалами и санитарно-техническим оборудованием"
+     ]
+    },
+    {
+     "okved2": "47",
+     "share": 0.0072,
+     "examples": [
+      "Торговля розничная напитками в специализированных магазинах",
+      "Торговля розничная алкогольными напитками, включая пиво, в специализированных магазинах"
+     ]
+    },
+    {
+     "okved2": "55",
+     "share": 0.0025,
+     "examples": [
+      "Деятельность гостиниц и прочих мест для временного проживания"
+     ]
+    },
+    {
+     "okved2": "73",
+     "share": 0.0022,
+     "examples": [
+      "Деятельность рекламных агентств",
+      "Деятельность рекламных агентств прочая"
+     ]
+    }
+   ],
+   "supplier_unknown_share": 0.3929,
+   "buyer_unknown_share": 0.7735,
+   "supplier_intragroup_share": 0.9017,
+   "buyer_intragroup_share": 0.1531,
+   "group_size": 215,
+   "regions_of_counterparties": [
+    "Москва",
+    "Санкт-Петербург"
+   ]
+  }
+ },
+ "U_177581": {
+  "client_id": "U_177581",
+  "group_id": "group_134409_sb",
+  "okved_code": "41.20.9",
+  "okved_name": "Прочие виды строительства жилых и нежилых зданий",
+  "org_type": "КОММ_ОРГ",
+  "ownership": "ЧАСТНАЯ СОБСТВЕННОСТЬ",
+  "age_gradation": "8-15",
+  "stage": "Оптимизация",
+  "workers_fns": "Более 251",
+  "workers_spark": null,
+  "revenue": 42407558334.0,
+  "large_business": true,
+  "negative_mark": false,
+  "city": "г. Москва",
+  "region": "Москва",
+  "client_type": "existing",
+  "cl_type": "CLIENT",
+  "products": {
+   "rko": true,
+   "guarantees": false,
+   "loans": false,
+   "leasing": true,
+   "deposits": false,
+   "payroll": true,
+   "factoring": false
+  },
+  "foreign_trade": {
+   "fts_flag": false,
+   "countries": []
+  },
+  "group": {
+   "group_id": "group_134409_sb",
+   "size": 482,
+   "total_revenue": 219465846665.0,
+   "large_business": true,
+   "top_industries": [
+    {
+     "okved2": "41",
+     "share": 0.411,
+     "examples": [
+      "Прочие виды строительства жилых и нежилых зданий",
+      "Строительство жилых и нежилых зданий"
+     ]
+    },
+    {
+     "okved2": "71",
+     "share": 0.2614,
+     "examples": [
+      "Деятельность заказчика-застройщика, генерального подрядчика",
+      "Деятельность в области архитектуры, связанная с созданием архитектурного объекта"
+     ]
+    },
+    {
+     "okved2": "82",
+     "share": 0.0888,
+     "examples": [
+      "Деятельность по предоставлению прочих вспомогательных услуг для бизнеса, не включенная в другие группировки",
+      "Деятельность административно-хозяйственная комплексная по обеспечению работы организации"
+     ]
+    }
+   ]
+  },
+  "industry_position": {
+   "okved2": "41",
+   "peers": 5964,
+   "revenue_rank": 2,
+   "revenue_share": 0.0177
+  },
+  "graph": {
+   "top_suppliers": [
+    {
+     "client_id": "U_136662",
+     "amount": 309460000.0,
+     "share": 0.2636,
+     "payments": 14,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_65088",
+     "amount": 101918000.0,
+     "share": 0.0868,
+     "payments": 8,
+     "okved_code": "46.69.5",
+     "okved_name": "Торговля оптовая производственным электротехническим оборудованием, машинами, аппаратурой и материалами",
+     "region": "Московская область"
+    },
+    {
+     "client_id": "U_211959",
+     "amount": 81410000.0,
+     "share": 0.0693,
+     "payments": 7,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_281706",
+     "amount": 68551000.0,
+     "share": 0.0584,
+     "payments": 5,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_366",
+     "amount": 58602000.0,
+     "share": 0.0499,
+     "payments": 35,
+     "okved_code": "81.22",
+     "okved_name": "Деятельность по чистке и уборке жилых зданий и нежилых помещений прочая",
+     "region": "Москва"
+    }
+   ],
+   "top_buyers": [
+    {
+     "client_id": "U_144574",
+     "amount": 8312000.0,
+     "share": 0.3045,
+     "payments": 21,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_54275",
+     "amount": 5184000.0,
+     "share": 0.1899,
+     "payments": 1,
+     "okved_code": "46.73",
+     "okved_name": "Торговля оптовая лесоматериалами, строительными материалами и санитарно-техническим оборудованием",
+     "region": "Санкт-Петербург"
+    },
+    {
+     "client_id": "U_37408",
+     "amount": 5012000.0,
+     "share": 0.1836,
+     "payments": 11,
+     "okved_code": "23.61.1",
+     "okved_name": "Производство готовых строительных изделий из бетона, цемента и искусственного камня",
+     "region": "Московская область"
+    },
+    {
+     "client_id": "U_86734",
+     "amount": 2953000.0,
+     "share": 0.1082,
+     "payments": 38,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_68014",
+     "amount": 1387000.0,
+     "share": 0.0508,
+     "payments": 16,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    }
+   ],
+   "supplier_concentration": 0.0964,
+   "buyer_concentration": 0.1803,
+   "supplier_turnover": 1173920000.0,
+   "buyer_turnover": 27294000.0,
+   "suppliers_count": 101,
+   "buyers_count": 28,
+   "supplier_industries": [
+    {
+     "okved2": "46",
+     "share": 0.1657,
+     "examples": [
+      "Торговля оптовая производственным электротехническим оборудованием, машинами, аппаратурой и материалами",
+      "Торговля оптовая прочими машинами и оборудованием"
+     ]
+    },
+    {
+     "okved2": "43",
+     "share": 0.0846,
+     "examples": [
+      "Работы столярные и плотничные",
+      "Производство прочих строительно-монтажных работ"
+     ]
+    },
+    {
+     "okved2": "81",
+     "share": 0.0499,
+     "examples": [
+      "Деятельность по чистке и уборке жилых зданий и нежилых помещений прочая"
+     ]
+    },
+    {
+     "okved2": "42",
+     "share": 0.0495,
+     "examples": [
+      "Строительство автомобильных дорог и автомагистралей",
+      "Строительство инженерных коммуникаций для водоснабжения и водоотведения, газоснабжения"
+     ]
+    },
+    {
+     "okved2": "41",
+     "share": 0.0336,
+     "examples": [
+      "Строительство жилых и нежилых зданий",
+      "Прочие виды строительства жилых и нежилых зданий"
+     ]
+    }
+   ],
+   "buyer_industries": [
+    {
+     "okved2": "23",
+     "share": 0.2001,
+     "examples": [
+      "Производство готовых строительных изделий из бетона, цемента и искусственного камня",
+      "Производство товарного бетона"
+     ]
+    },
+    {
+     "okved2": "46",
+     "share": 0.192,
+     "examples": [
+      "Торговля оптовая лесоматериалами, строительными материалами и санитарно-техническим оборудованием",
+      "Торговля оптовая прочими строительными материалами и изделиями"
+     ]
+    },
+    {
+     "okved2": "43",
+     "share": 0.0268,
+     "examples": [
+      "Работы столярные и плотничные",
+      "Подготовка строительной площадки"
+     ]
+    },
+    {
+     "okved2": "41",
+     "share": 0.0066,
+     "examples": [
+      "Строительство жилых и нежилых зданий",
+      "Прочие виды строительства жилых и нежилых зданий"
+     ]
+    }
+   ],
+   "supplier_unknown_share": 0.5904,
+   "buyer_unknown_share": 0.5745,
+   "supplier_intragroup_share": 0.0142,
+   "buyer_intragroup_share": 0.4431,
+   "group_size": 482,
+   "regions_of_counterparties": [
+    "Москва",
+    "Московская область",
+    "Санкт-Петербург"
+   ]
+  }
+ },
+ "U_34911": {
+  "client_id": "U_34911",
+  "group_id": "group_133081_sb",
+  "okved_code": "46.21",
+  "okved_name": "Торговля оптовая зерном, необработанным табаком, семенами и кормами для сельскохозяйственных животных",
+  "org_type": "КОММ_ОРГ",
+  "ownership": "ЧАСТНАЯ СОБСТВЕННОСТЬ",
+  "age_gradation": "16-25",
+  "stage": "Бизнес в новой реальности",
+  "workers_fns": "16-100",
+  "workers_spark": null,
+  "revenue": 53868155228.0,
+  "large_business": true,
+  "negative_mark": false,
+  "city": "г. Ростов-На-Дону",
+  "region": "Ростовская область",
+  "client_type": "existing",
+  "cl_type": "CLIENT",
+  "products": {
+   "rko": true,
+   "guarantees": false,
+   "loans": true,
+   "leasing": false,
+   "deposits": false,
+   "payroll": false,
+   "factoring": false
+  },
+  "foreign_trade": {
+   "fts_flag": true,
+   "countries": [
+    "ОАЭ",
+    "АЛЖИР",
+    "ИНДИЯ"
+   ]
+  },
+  "group": {
+   "group_id": "group_133081_sb",
+   "size": 1,
+   "total_revenue": 53868155228.0,
+   "large_business": true,
+   "top_industries": [
+    {
+     "okved2": "46",
+     "share": 1.0,
+     "examples": [
+      "Торговля оптовая зерном, необработанным табаком, семенами и кормами для сельскохозяйственных животных"
+     ]
+    }
+   ]
+  },
+  "industry_position": {
+   "okved2": "46",
+   "peers": 16106,
+   "revenue_rank": 7,
+   "revenue_share": 0.0039
+  },
+  "graph": {
+   "top_suppliers": [
+    {
+     "client_id": "U_4754",
+     "amount": 588353000.0,
+     "share": 0.1441,
+     "payments": 266,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_153112",
+     "amount": 558397000.0,
+     "share": 0.1368,
+     "payments": 35,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_17010",
+     "amount": 438209000.0,
+     "share": 0.1073,
+     "payments": 191,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_67806",
+     "amount": 375287000.0,
+     "share": 0.0919,
+     "payments": 4,
+     "okved_code": "46.21",
+     "okved_name": "Торговля оптовая зерном, необработанным табаком, семенами и кормами для сельскохозяйственных животных",
+     "region": "Москва"
+    },
+    {
+     "client_id": "U_38292",
+     "amount": 306331000.0,
+     "share": 0.075,
+     "payments": 19,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    }
+   ],
+   "top_buyers": [
+    {
+     "client_id": "U_231389",
+     "amount": 10045000.0,
+     "share": 0.8233,
+     "payments": 1,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_238493",
+     "amount": 706000.0,
+     "share": 0.0579,
+     "payments": 2,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_72759",
+     "amount": 594000.0,
+     "share": 0.0487,
+     "payments": 4,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_195804",
+     "amount": 452000.0,
+     "share": 0.037,
+     "payments": 1,
+     "okved_code": null,
+     "okved_name": null,
+     "region": null
+    },
+    {
+     "client_id": "U_42222",
+     "amount": 213000.0,
+     "share": 0.0175,
+     "payments": 1,
+     "okved_code": "46.21",
+     "okved_name": "Торговля оптовая зерном, необработанным табаком, семенами и кормами для сельскохозяйственных животных",
+     "region": "Ростовская область"
+    }
+   ],
+   "supplier_concentration": 0.0777,
+   "buyer_concentration": 0.6854,
+   "supplier_turnover": 4083043000.0,
+   "buyer_turnover": 12201000.0,
+   "suppliers_count": 80,
+   "buyers_count": 7,
+   "supplier_industries": [
+    {
+     "okved2": "46",
+     "share": 0.0978,
+     "examples": [
+      "Торговля оптовая зерном, необработанным табаком, семенами и кормами для сельскохозяйственных животных",
+      "Торговля оптовая неспециализированная"
+     ]
+    },
+    {
+     "okved2": "52",
+     "share": 0.02,
+     "examples": [
+      "Деятельность вспомогательная прочая, связанная с перевозками",
+      "Транспортная обработка прочих грузов"
+     ]
+    },
+    {
+     "okved2": "49",
+     "share": 0.0013,
+     "examples": [
+      "Деятельность автомобильного грузового транспорта и услуги по перевозкам",
+      "Деятельность автомобильного грузового транспорта"
+     ]
+    },
+    {
+     "okved2": "45",
+     "share": 0.0006,
+     "examples": [
+      "Торговля розничная автомобильными деталями, узлами и принадлежностями",
+      "Техническое обслуживание и ремонт легковых автомобилей и легких грузовых автотранспортных средств"
+     ]
+    },
+    {
+     "okved2": "68",
+     "share": 0.0003,
+     "examples": [
+      "Управление эксплуатацией жилого фонда за вознаграждение или на договорной основе"
+     ]
+    }
+   ],
+   "buyer_industries": [
+    {
+     "okved2": "46",
+     "share": 0.0175,
+     "examples": [
+      "Торговля оптовая зерном, необработанным табаком, семенами и кормами для сельскохозяйственных животных"
+     ]
+    },
+    {
+     "okved2": "61",
+     "share": 0.0007,
+     "examples": [
+      "Деятельность в области связи на базе проводных технологий"
+     ]
+    }
+   ],
+   "supplier_unknown_share": 0.88,
+   "buyer_unknown_share": 0.9819,
+   "supplier_intragroup_share": 0.0,
+   "buyer_intragroup_share": 0.0,
+   "group_size": 1,
+   "regions_of_counterparties": [
+    "Москва",
+    "Ростовская область"
+   ]
+  }
+ }
+}

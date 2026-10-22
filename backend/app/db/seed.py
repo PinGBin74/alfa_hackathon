@@ -1,15 +1,23 @@
-"""Загрузка CSV в БД. Запуск: python -m app.db.seed [--dir data/synthetic]
+"""Загрузка CSV в БД. Запуск: python -m app.db.seed [--dir data/raw]
 
-Имена колонок - из Приложения 1. Перед первым запуском сверьте фактические
-заголовки файлов (в задании у физлиц и платежей указано одно имя файла).
+Имена колонок - из Приложения 1, разделитель в выгрузке - «;». Загрузка полностью заменяет
+companies / persons / payments. Очистка (счётчики печатаются в лог):
+- SYNTHETIC_U, который стоит у нескольких разных компаний (артефакт обезличивания), неоднозначен:
+  убираем его и из компаний, и из платежей;
+- связи физлиц с компаниями вне df_Uid_data_hack.csv отбрасываются (FK на companies);
+- платежи компании самой себе отбрасываются, повторы пары плательщик-получатель суммируются.
 """
 import argparse
+import sys
 from pathlib import Path
 
 import pandas as pd
+from sqlalchemy import delete
 
 from app.db import models
 from app.db.session import Base, SessionLocal, engine
+
+CSV_SEP = ";"
 
 COMPANY_MAP = {
     "SYNTHETIC_U": "synthetic_u",
@@ -43,56 +51,77 @@ BOOL_COLS = [
 ]
 
 
-def load_companies(path: Path) -> None:
-    df = pd.read_csv(path).rename(columns=COMPANY_MAP)
-    df = df[[c for c in COMPANY_MAP.values() if c in df.columns]]
+PERSON_MAP = {"SYNTHETIC_F": "synthetic_f", "SYNTHETIC_U": "synthetic_u", "CITY_NAME": "city_name", "RC_NAME": "rc_name"}
+PAYMENT_MAP = {"PAYER": "payer", "BENEFICIARY": "beneficiary", "PAY_AMT": "pay_amt", "PAY_CNT": "pay_cnt"}
+
+
+def read_csv(path: Path, columns: dict[str, str] | None = None) -> pd.DataFrame:
+    df = pd.read_csv(path, sep=CSV_SEP, low_memory=False)
+    if columns:
+        df = df.rename(columns=columns)
+        df = df[[c for c in columns.values() if c in df.columns]]
+    return df
+
+
+def clean_companies(df: pd.DataFrame) -> tuple[pd.DataFrame, set[str]]:
+    """Возвращает (компании, неоднозначные id)."""
+    dup = df.synthetic_u.duplicated(keep=False)
+    ambiguous = set(df.loc[dup, "synthetic_u"])
+    df = df[~dup].copy()
     for col in BOOL_COLS:
         if col in df.columns:
             df[col] = df[col].fillna(0).astype(bool)
-    df.to_sql("companies", engine, if_exists="append", index=False, chunksize=5000)
+    return df, ambiguous
 
 
-def load_persons(path: Path) -> None:
-    df = pd.read_csv(path).rename(columns={
-        "SYNTHETIC_F": "synthetic_f", "SYNTHETIC_U": "synthetic_u",
-        "CITY_NAME": "city_name", "RC_NAME": "rc_name",
-    })
-    df.to_sql("persons", engine, if_exists="append", index=False, chunksize=5000)
+def clean_persons(df: pd.DataFrame, known: set[str]) -> pd.DataFrame:
+    return df[df.synthetic_u.isin(known)]
 
 
-def load_payments(path: Path) -> None:
-    df = pd.read_csv(path).rename(columns={
-        "PAYER": "payer", "BENEFICIARY": "beneficiary",
-        "PAY_AMT": "pay_amt", "PAY_CNT": "pay_cnt",
-    })
-    df.to_sql("payments", engine, if_exists="append", index=False, chunksize=5000)
+def clean_payments(df: pd.DataFrame, ambiguous: set[str]) -> pd.DataFrame:
+    keep = (df.payer != df.beneficiary) & ~df.payer.isin(ambiguous) & ~df.beneficiary.isin(ambiguous)
+    return df[keep].groupby(["payer", "beneficiary"], as_index=False)[["pay_amt", "pay_cnt"]].sum()
+
+
+def _to_sql(df: pd.DataFrame, table: str, raw_rows: int) -> None:
+    df.to_sql(table, engine, if_exists="append", index=False, chunksize=10_000)
+    print(f"{table}: loaded {len(df)} of {raw_rows} rows")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dir", default="data/synthetic")
+    parser.add_argument("--dir", default="data/raw")
     parser.add_argument("--companies", default="df_Uid_data_hack.csv")
     parser.add_argument("--persons", default="df_Fid_Uid_link_hack.csv")
-    parser.add_argument("--payments", default="df_payments_hack.csv")  # TODO: уточнить имя файла платежей
+    parser.add_argument("--payments", default="df_Uid_payment_hack.csv")
     args = parser.parse_args()
 
     base = Path(args.dir)
+    companies_path, persons_path, payments_path = (base / args.companies, base / args.persons, base / args.payments)
+    if not companies_path.exists():
+        sys.exit(f"not found: {companies_path}")
+
     Base.metadata.create_all(engine)  # на старте; далее - alembic
+    with SessionLocal() as db:  # полная замена: сначала таблицы, которые ссылаются на companies
+        for model in (models.Payment, models.Person, models.Company):
+            db.execute(delete(model))
+        db.commit()
 
-    for name, loader in (
-        (args.companies, load_companies),
-        (args.persons, load_persons),
-        (args.payments, load_payments),
+    raw = read_csv(companies_path, COMPANY_MAP)
+    companies, ambiguous = clean_companies(raw)
+    _to_sql(companies, "companies", len(raw))
+    if ambiguous:
+        print(f"companies: dropped ambiguous ids {sorted(ambiguous)}")
+
+    for path, columns, table, clean in (
+        (persons_path, PERSON_MAP, "persons", lambda df: clean_persons(df, set(companies.synthetic_u))),
+        (payments_path, PAYMENT_MAP, "payments", lambda df: clean_payments(df, ambiguous)),
     ):
-        p = base / name
-        if p.exists():
-            print(f"loading {p}")
-            loader(p)
-        else:
-            print(f"skip (not found): {p}")
-
-    with SessionLocal() as db:
-        print("companies:", db.query(models.Company).count())
+        if not path.exists():
+            print(f"skip (not found): {path}")
+            continue
+        raw = read_csv(path, columns)
+        _to_sql(clean(raw), table, len(raw))
 
 
 if __name__ == "__main__":

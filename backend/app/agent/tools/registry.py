@@ -35,8 +35,8 @@ def search_news(db: Session, query: str, k: int = 5, **_) -> list[dict]:
     return retriever.search_news(db, query, k)
 
 
-def search_bank_analytics(db: Session, query: str, k: int = 4, **_) -> list[dict]:
-    return retriever.search_bank_analytics(db, query, k)
+def search_bank_analytics(db: Session, query: str, k: int = 4, factors: list[str] | None = None, **_) -> list[dict]:
+    return retriever.search_bank_analytics(db, query, k, factors=factors)
 
 
 TOOLS: dict[str, Callable] = {

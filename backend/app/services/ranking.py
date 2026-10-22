@@ -1,73 +1,141 @@
-"""Скоринг «новость <-> профиль клиента».
+"""Скоринг «новость <-> клиент (+ роль пользователя)».
 
-Гибрид: правила по признакам (отрасль, регион, продукты, ВЭД) + семантическая
-близость (векторный поиск) + свежесть. Веса - в одном месте, чтобы их можно
-было подбирать вместе с ML-инженером и проверять в eval/.
+Компоненты (веса - в одном месте, подбираются по eval/):
+- factor: чувствительность клиента к факторам новости (`taxonomy.exposures`) с учётом роли пользователя;
+- industry: новость про отрасль клиента, его группы или его контрагентов по платежам;
+- geo: регион клиента или страны его ВЭД упомянуты в новости;
+- importance: важность события по разметке (1..5);
+- freshness: свежесть;
+- semantic: близость текста (пока 0: разрешённой эмбеддинг-модели нет).
+Каждая сработавшая компонента даёт причину с признаком клиента - её видит пользователь и агент.
 """
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 
-from app.db.models import NewsItem
+from app.ml import taxonomy
+from app.ml.news import news_meta
 from app.schemas.client import ClientProfile
+from app.services.counterparty_graph import okved2
 
 WEIGHTS = {
-    "industry": 0.30,
-    "region": 0.10,
-    "product_link": 0.20,   # напр. новость о ставке и у клиента есть кредиты
-    "foreign_trade": 0.10,
-    "semantic": 0.20,
+    "factor": 0.40,
+    "industry": 0.25,
+    "geo": 0.10,
+    "importance": 0.15,
     "freshness": 0.10,
+    "semantic": 0.0,
 }
+FACTOR_POSITION = (1.0, 0.6, 0.45, 0.35)   # главный фактор новости важнее второстепенных
+IRRELEVANT_PENALTY = 0.3                  # новость без последствий для бизнеса
+MAX_AGE_DAYS = 14
+BROAD_CLASS_MATCH = 0.35                  # «новость про опт» для оптовика другим товаром - слабый сигнал
+# Меры, которые бьют по конкретным товарам, странам и отраслям: без совпадения страны или отрасли
+# общая чувствительность (например, «есть ВЭД») учитывается частично.
+TARGETED_FACTORS = {"sanctions_trade", "regulation", "company_event"}
+UNTARGETED_SCALE = 0.4
 
-# Тип события -> признак продукта клиента, к которому оно «цепляется»
-EVENT_PRODUCT_LINK = {
-    "key_rate": ["loans", "leasing", "deposits"],
-    "fx_rate": ["foreign_trade"],
-    "sanctions": ["foreign_trade"],
-    "commodities": [],
-}
+
+@dataclass
+class Detail:
+    component: str
+    feature: str
+    text: str
+    contribution: float
 
 
 @dataclass
 class Score:
     value: float
     reasons: list[str] = field(default_factory=list)
+    details: list[Detail] = field(default_factory=list)
+    parts: dict[str, float] = field(default_factory=dict)
 
 
-def score_news(profile: ClientProfile, news: NewsItem, semantic_sim: float = 0.0) -> Score:
-    reasons: list[str] = []
-    parts: dict[str, float] = {}
+def _factor_part(profile: ClientProfile, factors: list[str], role: str | None, details: list[Detail],
+                 targeted_hit: bool) -> float:
+    exp = taxonomy.exposures(profile)
+    contrib: list[float] = []
+    for i, code in enumerate(factors[: len(FACTOR_POSITION)]):
+        e = exp[code]
+        c = e.weight * taxonomy.role_weight(role, code) * FACTOR_POSITION[i]
+        if code in TARGETED_FACTORS and not targeted_hit:
+            c *= UNTARGETED_SCALE
+        contrib.append(c)
+        label = taxonomy.FACTORS[code].label
+        for r in e.reasons:
+            details.append(Detail("factor", r.feature, f"{label}: {r.text}", round(c, 3)))
+    if not contrib:
+        return 0.0
+    best = max(contrib)
+    return min(1.0, best + 0.3 * (sum(contrib) - best))
 
-    # Отрасль: пересечение по префиксу ОКВЭД. TODO: словарь отраслей и зависимостей между ними
-    industries = news.industries or []
-    okved = profile.okved_code or ""
-    ind_hit = any(okved.startswith(str(i)) for i in industries if i) if okved else False
-    parts["industry"] = 1.0 if ind_hit else 0.0
-    if ind_hit:
-        reasons.append(f"MAINOKVED_CODE={okved}")
 
-    regions = news.regions or []
-    reg_hit = bool(profile.region and profile.region in regions)
-    parts["region"] = 1.0 if reg_hit else 0.0
-    if reg_hit:
-        reasons.append(f"REGION={profile.region}")
+def _industry_part(profile: ClientProfile, industries: list[str], details: list[Detail]) -> float:
+    if not industries:
+        return 0.0
+    names = ", ".join(f"{c} {taxonomy.OKVED2_CLASSES.get(c, '')}".strip() for c in industries)
+    own = okved2(profile.okved_code)
+    classes = taxonomy.client_industry_classes(profile.okved_code)
+    for cls, why in classes.items():
+        if cls in industries and not (cls == own and own in taxonomy.BROAD_CLASSES):
+            details.append(Detail("industry", "MAINOKVED_CODE", f"новость касается отрасли клиента: {why} ({names})", 1.0))
+            return 1.0
+    best = 0.0
+    specific = [c for c in industries if c not in taxonomy.BROAD_CLASSES]
+    if own in industries and not specific:  # новость о торговле в целом, без конкретного товара
+        best = BROAD_CLASS_MATCH
+        details.append(Detail("industry", "MAINOKVED_CODE", f"новость о классе {own} {taxonomy.OKVED2_CLASSES.get(own, '')} в целом", best))
+    # Группа и контрагенты: только конкретные отрасли - доля оборота «в опте вообще» не говорит о товаре.
+    if profile.group and specific:
+        share = sum(i.share for i in profile.group.top_industries if i.okved2 in specific)
+        if share >= 0.1:
+            best = max(best, 0.6 * min(1.0, share * 2))
+            details.append(Detail("industry", "GROUP_ID", f"{share:.0%} выручки группы компаний - в отраслях новости ({names})", best))
+    g = profile.graph
+    for side, label in (("supplier", "закупок у поставщиков"), ("buyer", "поступлений от покупателей")):
+        share = sum(i.share for i in getattr(g, f"{side}_industries") if i.okved2 in specific)
+        if share >= 0.03:
+            part = 0.8 * min(1.0, share * 2)
+            best = max(best, part)
+            details.append(Detail("industry", f"graph.{side}_industries", f"{share:.0%} {label} приходится на отрасли новости ({names})", part))
+    return best
 
-    link_hit = False
-    for feat in EVENT_PRODUCT_LINK.get(news.event_type or "", []):
-        if feat == "foreign_trade":
-            if profile.foreign_trade.fts_flag:
-                link_hit = True
-                reasons.append("FTS_FLAG=1")
-        elif getattr(profile.products, feat, False):
-            link_hit = True
-            reasons.append(f"product:{feat}")
-    parts["product_link"] = 1.0 if link_hit else 0.0
-    parts["foreign_trade"] = 1.0 if (profile.foreign_trade.fts_flag and news.event_type in {"fx_rate", "sanctions"}) else 0.0
 
-    parts["semantic"] = max(0.0, min(1.0, semantic_sim))
+def _geo_part(profile: ClientProfile, regions: list[str], countries: list[str], details: list[Detail]) -> float:
+    part = 0.0
+    if profile.region and any(profile.region.lower() in r.lower() or r.lower() in profile.region.lower() for r in regions):
+        part = 0.6
+        details.append(Detail("geo", "REGION", f"событие в регионе регистрации клиента ({profile.region})", part))
+    hits = sorted({c for c in profile.foreign_trade.countries for n in countries if c.lower() == n.lower()})
+    if hits:
+        part = 1.0
+        details.append(Detail("geo", "FTS_COUNTRY_NAME", f"страна внешнеторговых контрактов клиента: {', '.join(hits)}", part))
+    return part
 
-    age_days = (datetime.now(UTC) - news.published_at).total_seconds() / 86400
-    parts["freshness"] = max(0.0, 1.0 - age_days / 14)
+
+def score_news(profile: ClientProfile, news, semantic_sim: float = 0.0, role: str | None = None) -> Score:
+    meta = news_meta(news)
+    details: list[Detail] = []
+    industry = _industry_part(profile, meta.industries, details)
+    geo = _geo_part(profile, meta.regions, meta.countries, details)
+    targeted_hit = industry >= 0.5 or geo >= 1.0 or not (meta.industries or meta.countries)
+    parts = {
+        "factor": _factor_part(profile, meta.factor_codes, role, details, targeted_hit),
+        "industry": industry,
+        "geo": geo,
+        "importance": (meta.importance - 1) / 4,
+        "semantic": max(0.0, min(1.0, semantic_sim)),
+    }
+    published = getattr(news, "published_at", None)
+    if published is not None and published.tzinfo is None:
+        published = published.replace(tzinfo=UTC)
+    age_days = (datetime.now(UTC) - published).total_seconds() / 86400 if published else MAX_AGE_DAYS
+    parts["freshness"] = max(0.0, 1.0 - age_days / MAX_AGE_DAYS)
 
     total = sum(WEIGHTS[k] * v for k, v in parts.items())
-    return Score(value=round(total, 4), reasons=reasons)
+    if not meta.is_business_relevant:
+        total *= IRRELEVANT_PENALTY
+    details.sort(key=lambda d: d.contribution, reverse=True)
+    reasons = list(dict.fromkeys(f"{d.text} [{d.feature}]" for d in details))
+    return Score(value=round(min(1.0, total), 4), reasons=reasons[:6], details=details,
+                 parts={k: round(v, 3) for k, v in parts.items()})

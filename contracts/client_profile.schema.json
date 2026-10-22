@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "client_profile.schema.json",
   "title": "ClientProfile",
-  "description": "Профиль компании на основе df_Uid_data_hack.csv + граф связей.",
+  "description": "Профиль компании на основе df_Uid_data_hack.csv + группа компаний + граф платежей.",
   "type": "object",
   "required": ["client_id"],
   "properties": {
@@ -15,13 +15,17 @@
     "age_gradation": {"type": ["string", "null"]},
     "stage": {"type": ["string", "null"]},
     "workers_fns": {"type": ["string", "null"]},
-    "workers_spark": {"type": ["string", "null"]},
-    "revenue": {"type": ["number", "null"]},
+    "workers_spark": {"type": ["string", "null"], "description": "В выгрузке заполнено у 0,2% компаний"},
+    "revenue": {"type": ["number", "null"], "description": "Годовая выручка, руб."},
+    "large_business": {"type": "boolean", "description": "Выручка компании > 15 млрд руб. (порог кейса)"},
+    "negative_mark": {"type": ["boolean", "null"], "description": "NEGATIVEMARK: признак ключевого собственника"},
     "city": {"type": ["string", "null"]},
     "region": {"type": ["string", "null"]},
-    "client_type": {"enum": ["existing", "potential", null]},
+    "client_type": {"enum": ["existing", "potential", "closed", null], "description": "CLIENT / PROSPECT / CLOSE_CLIENT"},
+    "cl_type": {"type": ["string", "null"], "description": "Исходное значение CL_TYPE"},
     "products": {
       "type": "object",
+      "description": "Продукты в Альфа-Банке, а не весь долг компании",
       "properties": {
         "rko": {"type": "boolean"},
         "guarantees": {"type": "boolean"},
@@ -36,19 +40,73 @@
       "type": "object",
       "properties": {
         "fts_flag": {"type": "boolean"},
-        "countries": {"type": "array", "items": {"type": "string"}}
+        "countries": {"type": "array", "items": {"type": "string"}, "description": "FTS_COUNTRY_NAME, разбит по запятой"}
+      }
+    },
+    "group": {
+      "type": ["object", "null"],
+      "properties": {
+        "group_id": {"type": "string"},
+        "size": {"type": "integer"},
+        "total_revenue": {"type": ["number", "null"]},
+        "large_business": {"type": "boolean", "description": "Суммарная выручка группы > 15 млрд руб."},
+        "top_industries": {"type": "array", "items": {"$ref": "#/$defs/industry_share"}, "description": "По выручке участников"}
+      }
+    },
+    "industry_position": {
+      "type": ["object", "null"],
+      "description": "Положение в своём классе ОКВЭД внутри выборки банка (не доля всего рынка)",
+      "properties": {
+        "okved2": {"type": "string"},
+        "peers": {"type": "integer"},
+        "revenue_rank": {"type": ["integer", "null"]},
+        "revenue_share": {"type": ["number", "null"]}
       }
     },
     "graph": {
       "type": "object",
-      "description": "Производные признаки графа",
+      "description": "Поставщики = получатели платежей клиента, покупатели = плательщики клиенту. Платежи внутри своей группы в топы, доли и HHI не входят.",
       "properties": {
-        "top_suppliers": {"type": "array", "items": {"type": "object"}},
-        "top_buyers": {"type": "array", "items": {"type": "object"}},
-        "supplier_concentration": {"type": ["number", "null"]},
+        "top_suppliers": {"type": "array", "items": {"$ref": "#/$defs/counterparty"}},
+        "top_buyers": {"type": "array", "items": {"$ref": "#/$defs/counterparty"}},
+        "supplier_concentration": {"type": ["number", "null"], "description": "HHI по внешним поставщикам"},
         "buyer_concentration": {"type": ["number", "null"]},
+        "supplier_turnover": {"type": "number"},
+        "buyer_turnover": {"type": "number"},
+        "suppliers_count": {"type": "integer"},
+        "buyers_count": {"type": "integer"},
+        "supplier_industries": {"type": "array", "items": {"$ref": "#/$defs/industry_share"}},
+        "buyer_industries": {"type": "array", "items": {"$ref": "#/$defs/industry_share"}},
+        "supplier_unknown_share": {"type": ["number", "null"], "description": "Доля оборота с контрагентами вне выборки"},
+        "buyer_unknown_share": {"type": ["number", "null"]},
+        "supplier_intragroup_share": {"type": ["number", "null"], "description": "Доля платежей внутри своей группы"},
+        "buyer_intragroup_share": {"type": ["number", "null"]},
         "group_size": {"type": ["integer", "null"]},
         "regions_of_counterparties": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  },
+  "$defs": {
+    "counterparty": {
+      "type": "object",
+      "required": ["client_id", "amount", "share"],
+      "properties": {
+        "client_id": {"type": "string"},
+        "amount": {"type": "number"},
+        "share": {"type": "number", "description": "Доля во внешнем обороте этого направления"},
+        "payments": {"type": ["integer", "null"]},
+        "okved_code": {"type": ["string", "null"], "description": "null: контрагента нет в выборке"},
+        "okved_name": {"type": ["string", "null"]},
+        "region": {"type": ["string", "null"]}
+      }
+    },
+    "industry_share": {
+      "type": "object",
+      "required": ["okved2", "share"],
+      "properties": {
+        "okved2": {"type": "string", "description": "Класс ОКВЭД (первые две цифры)"},
+        "share": {"type": "number"},
+        "examples": {"type": "array", "items": {"type": "string"}}
       }
     }
   }

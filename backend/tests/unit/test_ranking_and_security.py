@@ -16,7 +16,7 @@ def test_rate_news_links_to_loans():
     )
     score = ranking.score_news(profile, news)
     assert score.value > 0.4
-    assert any("loans" in r for r in score.reasons)
+    assert any("CL_PRODUCT_LOA_MARK" in r for r in score.reasons)
 
 
 def test_injection_scan_detects_pattern():

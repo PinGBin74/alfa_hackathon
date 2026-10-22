@@ -27,8 +27,9 @@ def check_budget(db: Session) -> None:
         raise BudgetExceeded("Daily LLM budget exhausted")
 
 
-def record(db: Session, model: str, tokens_in: int, tokens_out: int) -> float:
-    cost = estimate_cost(tokens_in, tokens_out)
+def record(db: Session, model: str, tokens_in: int, tokens_out: int, cost_rub: float | None = None) -> float:
+    """cost_rub - фактическая цена из ответа прокси (x-litellm-response-cost); без неё - оценка по тарифу."""
+    cost = cost_rub if cost_rub is not None else estimate_cost(tokens_in, tokens_out)
     db.add(TokenUsage(day=date.today().isoformat(), model=model,
                       tokens_in=tokens_in, tokens_out=tokens_out, cost_rub=cost))
     db.commit()

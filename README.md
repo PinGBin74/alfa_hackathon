@@ -27,7 +27,7 @@
 ```bash
 cp .env.example .env        # заполнить LLM_BASE_URL и LLM_API_KEY
 make up                     # db + backend + worker + frontend
-make seed                   # загрузка CSV из data/synthetic (или data/raw)
+make seed                   # загрузка CSV из data/raw (полная замена; синтетика: --dir data/synthetic)
 make ingest                 # разовый сбор новостей и индексация аналитики
 ```
 - API: http://localhost:8000 (Swagger: `/docs`)

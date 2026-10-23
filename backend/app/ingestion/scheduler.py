@@ -108,9 +108,7 @@ class NewsPipeline:
     def store(self, raw: RawNews, news_id: str, cls: NewsClassification) -> NewsItem | None:
         h = dedup.dedup_hash(raw.title, published_at=raw.published_at)
         item = NewsItem(news_id=news_id, source=raw.source, url=raw.url, title=raw.title, body=raw.body,
-                        published_at=raw.published_at, dedup_hash=h, **cls.columns())
-        if hasattr(NewsItem, "ml_meta"):  # колонку добавит backend; до этого разметка восстанавливается из колонок
-            item.ml_meta = cls.meta()
+                        published_at=raw.published_at, dedup_hash=h, ml_meta=cls.meta(), **cls.columns())
         self.db.add(item)
         try:
             self.db.commit()

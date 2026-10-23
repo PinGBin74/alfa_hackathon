@@ -101,6 +101,7 @@ class NewsItem(Base):
     industries: Mapped[list | None] = mapped_column(JSON)
     regions: Mapped[list | None] = mapped_column(JSON)
     event_type: Mapped[str | None] = mapped_column(String, index=True)
+    ml_meta: Mapped[dict | None] = mapped_column(JSON)  # полная разметка: app.ml.news.NewsClassification
     dedup_hash: Mapped[str] = mapped_column(String, unique=True)
     published_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
     embedding = mapped_column(Vector(EMB_DIM), nullable=True)

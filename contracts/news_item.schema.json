@@ -3,19 +3,113 @@
   "$id": "news_item.schema.json",
   "title": "NewsItem",
   "type": "object",
-  "required": ["news_id", "title", "url", "source", "published_at"],
+  "required": [
+    "news_id",
+    "title",
+    "url",
+    "source",
+    "published_at"
+  ],
   "properties": {
-    "news_id": {"type": "string"},
-    "title": {"type": "string"},
-    "url": {"type": "string"},
-    "source": {"type": "string"},
-    "published_at": {"type": "string", "format": "date-time"},
-    "body": {"type": "string"},
-    "summary": {"type": "string"},
-    "key_facts": {"type": "array", "items": {"type": "string"}},
-    "industries": {"type": "array", "items": {"type": "string"}, "description": "Коды/названия отраслей (ОКВЭД-раздел)"},
-    "regions": {"type": "array", "items": {"type": "string"}},
-    "event_type": {"type": "string", "description": "ключевая ставка, курс, регулирование, сырьё, санкции..."},
-    "dedup_hash": {"type": "string"}
+    "news_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "body": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "key_facts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "industries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Коды/названия отраслей (ОКВЭД-раздел)"
+    },
+    "regions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "event_type": {
+      "type": "string",
+      "description": "ключевая ставка, курс, регулирование, сырьё, санкции..."
+    },
+    "dedup_hash": {
+      "type": "string"
+    },
+    "factors": {
+      "type": "array",
+      "description": "Факторы события из разметки, главный первым (app/ml/news.py)",
+      "items": {
+        "type": "object",
+        "required": [
+          "factor"
+        ],
+        "properties": {
+          "factor": {
+            "type": "string",
+            "description": "код фактора таксономии (app/ml/taxonomy.py)"
+          },
+          "label": {
+            "type": "string"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "up",
+              "down",
+              "unchanged",
+              "mixed",
+              "unknown"
+            ]
+          }
+        }
+      }
+    },
+    "countries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Иностранные государства из текста"
+    },
+    "companies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "importance": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "5 - меняет условия для большинства компаний"
+    },
+    "ml_meta": {
+      "type": "object",
+      "description": "Полная разметка новости (только в БД)"
+    }
   }
 }

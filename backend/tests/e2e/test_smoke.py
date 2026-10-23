@@ -11,7 +11,8 @@ def test_health():
 
 def test_openapi_has_core_routes():
     paths = TestClient(app).get("/openapi.json").json()["paths"]
-    for p in ("/api/auth/login", "/api/feed/{client_id}", "/api/insights/{client_id}/{news_id}"):
+    for p in ("/api/auth/login", "/api/feed/{client_id}", "/api/insights/{client_id}/{news_id}", "/api/chat",
+              "/api/news", "/api/feedback/metrics"):
         assert p in paths
 
 

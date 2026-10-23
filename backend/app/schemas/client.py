@@ -100,6 +100,11 @@ class ClientProfile(BaseModel):
 
 class ClientSummary(BaseModel):
     client_id: str
+    okved_code: str | None = None
     okved_name: str | None = None
+    city: str | None = None
     region: str | None = None
     revenue: float | None = None
+    large_business: bool = False
+    client_type: Literal["existing", "potential", "closed"] | None = None
+    group_id: str | None = None

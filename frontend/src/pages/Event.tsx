@@ -59,7 +59,10 @@ export function Event() {
     api<Progress>(`/insights/${clientId}/${newsId}/progress`)
       .then(async (p) => {
         if (id !== run.current) return;
-        if (p.status === "ready" && p.insight_id) setInsight(await api<Insight>(`/insights/${p.insight_id}`));
+        if (p.status === "ready" && p.insight_id) {
+          const ready = await api<Insight>(`/insights/${p.insight_id}`);
+          if (id === run.current) setInsight(ready);
+        }
         else void generate(id);
       })
       .catch((e: ApiError) => id === run.current && setError(e));

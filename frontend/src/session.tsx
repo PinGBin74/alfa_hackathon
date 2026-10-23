@@ -45,8 +45,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       setMeta(m);
       const stored = readStored(companyKey(me.login));
       setCompanyId(list.some((c) => c.client_id === stored) ? stored : (list[0]?.client_id ?? null));
-    } catch {
-      setToken(null);
+    } catch (e) {
+      if ((e as { status?: number }).status === 401) setToken(null); // сбой сети или 5xx - не разлогинивать
       setUser(null);
     } finally {
       setReady(true);

@@ -8,5 +8,8 @@ node_modules/
 dist/
 data/raw/*
 !data/raw/.gitkeep
+# тексты статей набора eval real (авторское право - не в git)
+eval/.cache/
 *.log
 .DS_Store
+*.tsbuildinfo

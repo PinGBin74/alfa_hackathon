@@ -1,0 +1,854 @@
+{
+ "summary": {
+  "news": 49,
+  "not_classified": [
+   "daf91115399476b1"
+  ],
+  "business_news_gold": 46,
+  "tagged_news": 46,
+  "business_filter": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "support": 46,
+   "accuracy": 1.0,
+   "dropped_business_news": 0,
+   "kept_non_business_news": 0
+  },
+  "main_factor_accuracy": 0.682,
+  "main_factor_in_gold_set": 0.891,
+  "factors": {
+   "precision": 0.626,
+   "recall": 0.859,
+   "f1": 0.724,
+   "support": 78
+  },
+  "industries": {
+   "precision": 0.64,
+   "recall": 0.727,
+   "f1": 0.681,
+   "support": 44
+  },
+  "countries": {
+   "precision": 0.913,
+   "recall": 0.84,
+   "f1": 0.875,
+   "support": 25
+  },
+  "factors_missed_top": [
+   [
+    "key_rate",
+    2
+   ],
+   [
+    "inflation",
+    2
+   ],
+   [
+    "gdp_growth",
+    2
+   ],
+   [
+    "sanctions_trade",
+    1
+   ],
+   [
+    "logistics",
+    1
+   ]
+  ],
+  "factors_extra_top": [
+   [
+    "company_event",
+    8
+   ],
+   [
+    "consumption",
+    8
+   ],
+   [
+    "regulation",
+    8
+   ],
+   [
+    "taxes",
+    3
+   ],
+   [
+    "gdp_growth",
+    3
+   ]
+  ],
+  "industries_missed_top": [
+   [
+    "06",
+    3
+   ],
+   [
+    "19",
+    1
+   ],
+   [
+    "26",
+    1
+   ],
+   [
+    "73",
+    1
+   ],
+   [
+    "68",
+    1
+   ]
+  ],
+  "industries_extra_top": [
+   [
+    "64",
+    3
+   ],
+   [
+    "01",
+    3
+   ],
+   [
+    "68",
+    2
+   ],
+   [
+    "35",
+    2
+   ],
+   [
+    "62",
+    2
+   ]
+  ],
+  "countries_missed_top": [
+   [
+    "украина",
+    1
+   ],
+   [
+    "казахстан",
+    1
+   ],
+   [
+    "сша",
+    1
+   ],
+   [
+    "нидерланды",
+    1
+   ]
+  ],
+  "countries_extra_top": [
+   [
+    "сша",
+    2
+   ]
+  ]
+ },
+ "errors": [
+  {
+   "news_id": "89a2912c45cd43ef",
+   "title": "Финансовые инструменты открывают новые возможности для МСП",
+   "gold": {
+    "business": true,
+    "factors": [
+     "regulation"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "regulation",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "4561da70fb38b4fe",
+   "title": "Андрей Воронцов: Минфин России вместе с профильными ведомствами прорабатывает поправки в з",
+   "gold": {
+    "business": true,
+    "factors": [
+     "regulation"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "regulation",
+     "logistics"
+    ]
+   }
+  },
+  {
+   "news_id": "64910c01b1493bb8",
+   "title": "Антон Силуанов обозначил ключевые задачи для мировой экономики",
+   "gold": {
+    "business": true,
+    "factors": [
+     "gdp_growth",
+     "oil_gas"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "oil_gas",
+     "consumption",
+     "bonds",
+     "gdp_growth"
+    ]
+   }
+  },
+  {
+   "news_id": "bf7fc7d48b1c24b0",
+   "title": "Более 80 млрд рублей кредитов с господдержкой привлечет малый и средний бизнес в 4 квартал",
+   "gold": {
+    "business": true,
+    "factors": [
+     "key_rate"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "consumption",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "052da90654a6850a",
+   "title": "Международное налоговое сотрудничество обсудили в Бангкоке",
+   "gold": {
+    "business": true,
+    "factors": [
+     "taxes"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "taxes",
+     "regulation"
+    ]
+   }
+  },
+  {
+   "news_id": "fdad0469c1574659",
+   "title": "Число индивидуальных инвестиционных счетов достигло 6,7 млн, а объем средств на них превыс",
+   "gold": {
+    "business": true,
+    "factors": []
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "bonds",
+     "consumption",
+     "key_rate"
+    ]
+   }
+  },
+  {
+   "news_id": "70d7658de650c89c",
+   "title": "ПИСЬМЕННОЕ ЗАЯВЛЕНИЕ Министра финансов Российской Федерации, Управляющего МВФ от Российско",
+   "gold": {
+    "business": true,
+    "factors": [
+     "gdp_growth",
+     "oil_gas",
+     "bonds",
+     "inflation"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "gdp_growth",
+     "bonds",
+     "oil_gas",
+     "regulation"
+    ]
+   }
+  },
+  {
+   "news_id": "c9ea10287d9407b6",
+   "title": "Комитет Госдумы одобрил отвязку МРОТ от медианной зарплаты",
+   "gold": {
+    "business": true,
+    "factors": [
+     "labor",
+     "regulation",
+     "real_estate"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "labor",
+     "regulation",
+     "real_estate",
+     "taxes"
+    ]
+   }
+  },
+  {
+   "news_id": "d939f798ba2f4ea4",
+   "title": "Экономист Михаил Задорнов дал совет, куда вложить ₽1 млн",
+   "gold": {
+    "business": true,
+    "factors": [
+     "bonds",
+     "key_rate"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "key_rate",
+     "inflation",
+     "bonds",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "11484611400f9ff7",
+   "title": "Михаил Задорнов назвал объективный курс рубля на текущий момент",
+   "gold": {
+    "business": true,
+    "factors": [
+     "fx",
+     "sanctions_trade"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "fx",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "d27d32b9555618cc",
+   "title": "Рынок акций подскочил на новостях о прекращении огня в Алешках",
+   "gold": {
+    "business": true,
+    "factors": [
+     "sanctions_trade",
+     "oil_gas"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "sanctions_trade",
+     "oil_gas",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "47425fee5e93b461",
+   "title": "Ведев оценил, ждать ли «приятного сюрприза» от ЦБ в конце года",
+   "gold": {
+    "business": true,
+    "factors": [
+     "key_rate",
+     "gdp_growth"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "key_rate"
+    ]
+   }
+  },
+  {
+   "news_id": "c23e77250f9ae64a",
+   "title": "Глава Nvidia предсказал Казахстану роль центра ИИ для Европы",
+   "gold": {
+    "business": true,
+    "factors": [
+     "company_event",
+     "energy"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "energy",
+     "company_event",
+     "sanctions_trade"
+    ]
+   }
+  },
+  {
+   "news_id": "478940a7edcd60dd",
+   "title": "ЦБ опустил официальный курс доллара ниже ₽81 впервые с августа",
+   "gold": {
+    "business": true,
+    "factors": [
+     "fx",
+     "key_rate"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "fx",
+     "key_rate",
+     "inflation",
+     "oil_gas"
+    ]
+   }
+  },
+  {
+   "news_id": "829bb387910a9d5b",
+   "title": "«Яндекс» восстановил доступ более чем к 90% данных клиентов Yandex Cloud",
+   "gold": {
+    "business": true,
+    "factors": [
+     "company_event"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "company_event",
+     "regulation"
+    ]
+   }
+  },
+  {
+   "news_id": "5b6ba6225cb97a80",
+   "title": "\"Битва за внимание\": короткие видео убивают Netflix, пишут СМИ",
+   "gold": {
+    "business": true,
+    "factors": [
+     "company_event",
+     "consumption"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "consumption",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "af457d663b96428a",
+   "title": "Стартовал третий Всероссийский рейтинг отелей для деловых мероприятий",
+   "gold": {
+    "business": true,
+    "factors": []
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "e9c7f7a1d517fa2f",
+   "title": "Mercedes-Benz планирует сократить несколько тысяч временных работников",
+   "gold": {
+    "business": true,
+    "factors": [
+     "company_event",
+     "labor"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "labor",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "903b711300248e1c",
+   "title": "\"АвтоВАЗ\" субсидирует ставки по кредитам на ряд моделей автомобилей",
+   "gold": {
+    "business": true,
+    "factors": [
+     "company_event",
+     "consumption",
+     "key_rate"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "consumption",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "9aedae838d729659",
+   "title": "\"АвтоВАЗ\" допускает незначительное снижение продаж Lada в октябре",
+   "gold": {
+    "business": true,
+    "factors": [
+     "company_event",
+     "consumption"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "consumption",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "7e0d94978ca10d7d",
+   "title": "Axios: авиабилеты в США могут остаться дорогими даже при дешевом топливе",
+   "gold": {
+    "business": true,
+    "factors": [
+     "logistics",
+     "inflation",
+     "oil_gas"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "consumption",
+     "oil_gas",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "54480b029aebac4b",
+   "title": "Суд объявил перерыв в слушаниях по долгу \"Гугла\"",
+   "gold": {
+    "business": true,
+    "factors": [
+     "company_event"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "company_event",
+     "regulation"
+    ]
+   }
+  },
+  {
+   "news_id": "70f58df0739ff8e0",
+   "title": "Парламенты Юга России попросят федеральное правительство дерегулировать бизнес",
+   "gold": {
+    "business": true,
+    "factors": [
+     "regulation"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "regulation",
+     "gdp_growth",
+     "taxes"
+    ]
+   }
+  },
+  {
+   "news_id": "52940eff731d5e09",
+   "title": "Силуанов о бюджете: нужно жить экономнее, но без затягивания поясов",
+   "gold": {
+    "business": true,
+    "factors": [
+     "taxes"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "taxes",
+     "gdp_growth"
+    ]
+   }
+  },
+  {
+   "news_id": "1d917624da0850f0",
+   "title": "Риелторы попросили Генпрокуратуру проверить отказы СФР по маткапиталу",
+   "gold": {
+    "business": true,
+    "factors": [
+     "real_estate",
+     "regulation"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "regulation",
+     "real_estate"
+    ]
+   }
+  },
+  {
+   "news_id": "95c9e2a00a5f4f8e",
+   "title": "ФНС анонсировала переходный налоговый спецрежим для самозанятых",
+   "gold": {
+    "business": true,
+    "factors": [
+     "taxes"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "taxes",
+     "regulation"
+    ]
+   }
+  },
+  {
+   "news_id": "e68cbd64fbbb1e93",
+   "title": "Бумажный НДС с реальным риском // На форуме ТПП обсудили практику борьбы со схемами налого",
+   "gold": {
+    "business": true,
+    "factors": [
+     "taxes"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "taxes",
+     "regulation"
+    ]
+   }
+  },
+  {
+   "news_id": "6df50ba93e098d61",
+   "title": "«Русснефть» получила рассрочку на уплату задолженности в 10 млрд рублей",
+   "gold": {
+    "business": true,
+    "factors": [
+     "company_event",
+     "oil_gas",
+     "taxes"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "taxes",
+     "company_event",
+     "oil_gas",
+     "gdp_growth"
+    ]
+   }
+  },
+  {
+   "news_id": "c14186fd7ff83028",
+   "title": "Нефть марки Brent превысила $116 впервые с марта",
+   "gold": {
+    "business": true,
+    "factors": [
+     "oil_gas"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "oil_gas",
+     "sanctions_trade"
+    ]
+   }
+  },
+  {
+   "news_id": "54369d2c95bd6301",
+   "title": "«АвтоВАЗ» спрогнозировал снижение продаж новых Lada в октябре",
+   "gold": {
+    "business": true,
+    "factors": [
+     "company_event",
+     "consumption"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "consumption",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "62be49a05c7e5d6b",
+   "title": "Алиханов: выпуск легковых авто в России вырос более чем на 27% за девять месяцев",
+   "gold": {
+    "business": true,
+    "factors": [
+     "gdp_growth"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "gdp_growth",
+     "consumption"
+    ]
+   }
+  },
+  {
+   "news_id": "9f0560a483a6f280",
+   "title": "Никитин: около 100 иностранных судов перешли под флаг России с июня",
+   "gold": {
+    "business": true,
+    "factors": [
+     "logistics",
+     "regulation"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "logistics"
+    ]
+   }
+  },
+  {
+   "news_id": "297c04863ec3d3ad",
+   "title": "ФАС заподозрила «Пятерочку» в дискриминации воронежского производителя молока",
+   "gold": {
+    "business": true,
+    "factors": [
+     "company_event",
+     "regulation"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "regulation",
+     "consumption"
+    ]
+   }
+  },
+  {
+   "news_id": "afae82f53ee1cfd3",
+   "title": "Кредитный портфель Т-банка растет за счет корпоративных кредитов // Чистая прибыль Т-банка",
+   "gold": {
+    "business": true,
+    "factors": [
+     "company_event"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "company_event",
+     "consumption"
+    ]
+   }
+  },
+  {
+   "news_id": "714d65408703afd2",
+   "title": "Мустафаев: Россия вложила более $10 млрд в экономику Азербайджана",
+   "gold": {
+    "business": true,
+    "factors": [
+     "sanctions_trade"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "sanctions_trade",
+     "taxes"
+    ]
+   }
+  },
+  {
+   "news_id": "8edc62185a4daf85",
+   "title": "Частные инвестиции в городские ГЧП и концессии превысили 1 трлн рублей",
+   "gold": {
+    "business": true,
+    "factors": [
+     "gdp_growth",
+     "energy"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "consumption",
+     "energy",
+     "logistics"
+    ]
+   }
+  },
+  {
+   "news_id": "ad46a2a161001028",
+   "title": "Владельцы ПВЗ попросили не облагать налогом кадастровую стоимость их помещений",
+   "gold": {
+    "business": true,
+    "factors": [
+     "taxes",
+     "real_estate"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "taxes",
+     "regulation"
+    ]
+   }
+  },
+  {
+   "news_id": "7ae0da9eeb8003ca",
+   "title": "Как власти хотят изменить инвестиционный режим на Дальнем Востоке и в Арктике",
+   "gold": {
+    "business": true,
+    "factors": [
+     "regulation"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "regulation",
+     "company_event"
+    ]
+   }
+  },
+  {
+   "news_id": "3e04ea298f6a2f2e",
+   "title": "Минпромторг предложил отсрочить уплату утильсбора для автопроизводителей",
+   "gold": {
+    "business": true,
+    "factors": [
+     "taxes"
+    ]
+   },
+   "gemma": {
+    "business": true,
+    "factors": [
+     "taxes",
+     "regulation"
+    ]
+   }
+  }
+ ]
+}

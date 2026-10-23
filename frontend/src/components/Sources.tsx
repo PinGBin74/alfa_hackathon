@@ -105,12 +105,14 @@ function BankSource({ id }: { id: string }) {
 
   const openPdf = async () => {
     setPdfError(null);
+    const tab = window.open("", "_blank"); // до await: иначе браузер блокирует всплывающее окно
     try {
       const blob = await api<Blob>(`/analytics/${doc}/file`);
       const url = URL.createObjectURL(blob);
-      window.open(`${url}#page=${page}`, "_blank", "noopener");
+      if (tab) tab.location.href = `${url}#page=${page}`;
       setTimeout(() => URL.revokeObjectURL(url), 60_000);
     } catch (e) {
+      tab?.close();
       setPdfError((e as Error).message);
     }
   };

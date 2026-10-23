@@ -28,7 +28,7 @@ export function Chat({ insightId, onSources }: { insightId: string; onSources: (
   const ask = async (question: string) => {
     const q = question.trim();
     if (!q || busy) return;
-    const history = turns.map(({ role, content }) => ({ role, content }));
+    const history = turns.slice(-6).map(({ role, content }) => ({ role, content })); // backend читает 6 последних
     setTurns((t) => [...t, { role: "user", content: q }]);
     setText("");
     setBusy(true);

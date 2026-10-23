@@ -205,8 +205,9 @@ def _sources(state: AgentState) -> list[SourceRef]:
     return refs
 
 
-def run(db: Session, client_id: str, news_id: str, user_role: str | None = None) -> Insight:
-    tracer = Tracer(db)
+def run(db: Session, client_id: str, news_id: str, user_role: str | None = None, trace_id: str | None = None) -> Insight:
+    """trace_id задаётся заранее, когда за ходом генерации следят по трассе (GET .../progress)."""
+    tracer = Tracer(db, trace_id)
     llm = LLMClient(db, tracer=tracer)
     state = AgentState(client_id=client_id, news_id=news_id, user_role=user_role)
 

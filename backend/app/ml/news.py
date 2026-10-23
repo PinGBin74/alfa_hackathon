@@ -1,9 +1,9 @@
 """Контракт размеченной новости: выход классификатора и вход ранжирования/агента.
 
-Хранение: существующие колонки news (summary, key_facts, industries, regions, event_type) заполняются
-из `columns()`; полная разметка (`meta()`: факторы с направлением, страны, участники, важность)
-пишется в news.ml_meta, когда backend добавит эту JSON-колонку. До тех пор `news_meta()`
-восстанавливает разметку из колонок (основной фактор - event_type).
+Хранение: колонки news (summary, key_facts, industries, regions, event_type) заполняются из `columns()`,
+полная разметка (`meta()`: факторы с направлением, страны, участники, важность) - в JSON-колонку
+news.ml_meta. Для новостей, записанных до её появления, `news_meta()` восстанавливает разметку из колонок
+(основной фактор - event_type).
 """
 from typing import Literal
 
@@ -75,7 +75,7 @@ class NewsClassification(BaseModel):
 
 
 def news_meta(news) -> NewsClassification:
-    """Разметка из ORM-объекта news: ml_meta, если колонка есть и заполнена, иначе - из колонок."""
+    """Разметка из ORM-объекта news: ml_meta, если заполнена, иначе - из колонок."""
     raw = getattr(news, "ml_meta", None)
     if raw:
         return NewsClassification.model_validate(raw)

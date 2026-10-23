@@ -4,7 +4,7 @@
 идентификатором (news:..., bank:<doc>:<page>, client:...). Модель может ссылаться только на них, а
 верификатор проверяет ссылки по тем же спискам (критерии 04, 12).
 """
-from app.ml import taxonomy
+from app.ml import bank_positions, taxonomy
 from app.ml.news import NewsClassification
 from app.schemas.client import ClientProfile
 from app.security import injection_guard
@@ -118,16 +118,27 @@ def bank_source_id(item: dict) -> str:
     return f"bank:{item['doc_id']}:{item.get('page')}"
 
 
+def bank_flags(it: dict) -> list[str]:
+    """Пометки актуальности материала банка: их видят модель-автор, фактчекер и проверка правилами."""
+    flags = []
+    if it.get("stale"):
+        flags.append("УСТАРЕВШИЙ ДОКУМЕНТ")
+    if it.get("superseded_by"):
+        newer = bank_positions.newer_forecast(it["superseded_by"])
+        where = f"«{newer['doc_title']}», {newer['doc_date']} [bank:{newer['doc_id']}:{newer['page']}]" if newer else "более поздний материал"
+        what = "прогноз" if it.get("kind") == "position" else "прогнозы на этой странице"
+        flags.append(f"{what} ОБНОВЛЁН: актуальная версия - {where}; старые цифры не приводи как текущий прогноз банка")
+    if it.get("horizon_passed"):
+        flags.append("срок прогноза уже наступил: сравнивай с фактом, не подавай как действующий прогноз")
+    return flags
+
+
 def bank_block(items: list[dict]) -> str:
     if not items:
         return "АНАЛИТИКА АЛЬФА-БАНКА: по теме события материалов не найдено."
     lines = ["АНАЛИТИКА АЛЬФА-БАНКА (Центр макроэкономического анализа; только это - позиция банка):"]
     for it in items:
-        flags = []
-        if it.get("stale"):
-            flags.append("УСТАРЕВШИЙ ДОКУМЕНТ")
-        if it.get("superseded_by"):
-            flags.append(f"прогноз обновлён в более позднем материале ({it['superseded_by']})")
+        flags = bank_flags(it)
         kind = "позиция" if it.get("kind") == "position" else "фрагмент"
         lines.append(f"- [{bank_source_id(it)}] «{it.get('title')}», {it.get('published_at') or 'дата неизвестна'}, "
                      f"стр. {it.get('page')}, {kind}" + (f" ({'; '.join(flags)})" if flags else ""))

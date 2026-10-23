@@ -201,3 +201,61 @@ def test_bank_forecast_in_facts_is_moved_to_bank_position(db, monkeypatch):
     assert ins.verification.passed and ins.verification.iterations == 1
     assert [f.source_id for f in ins.what_happened.confirmed_facts] == ["news:n1"]
     assert any(b.text == "Ставка на конец 2026 года - 14,0%" for b in ins.bank_position)
+
+
+def test_planner_falls_back_to_second_model_before_rules(db, monkeypatch):
+    class FlakyPlanner(FakeLLM):
+        def structured(self, messages, schema, complexity="light", *, name="llm", **kw):
+            if schema is Plan and complexity == "light":
+                self.calls.append((name, messages))
+                raise LLMError("gemma looped")
+            return super().structured(messages, schema, complexity, name=name, **kw)
+
+    ins = _run(db, monkeypatch, FlakyPlanner([GOOD]))
+    plan_step = db.query(AgentTrace).filter_by(trace_id=ins.trace_id, kind="plan").one()
+    assert plan_step.output["source"].startswith("llm (reasoning")
+    assert plan_step.output["focus_factors"] == ["key_rate"]
+
+
+def test_superseded_bank_forecast_is_flagged_for_revision(db, monkeypatch):
+    stale = dict(BANK_ITEM, superseded_by="d2-p1-1")
+    monkeypatch.setattr(registry.retriever, "search_bank_analytics", lambda db, query, k=4, factors=None: [dict(stale)])
+    monkeypatch.setattr(orchestrator.context.bank_positions, "newer_forecast", lambda pid: None)
+    llm = FakeLLM([GOOD])
+    ins = _run(db, monkeypatch, llm)
+    assert ins.verification.iterations == 2       # устаревший прогноз с цифрами - блокирующее замечание
+    first = db.query(AgentTrace).filter_by(trace_id=ins.trace_id, kind="verify", name="verifier").order_by(AgentTrace.step).first()
+    assert any("stale_bank_view" in i for i in first.output["issues"])
+    assert not ins.bank_position                   # не исправлен - не показывается
+    assert any(i.startswith("removed:") and "bank_position" in i for i in ins.verification.issues)
+    draft_ctx = next(m for n, m in llm.calls if n == "draft#1")[1]["content"]
+    assert "ОБНОВЛЁН" in draft_ctx
+
+
+def test_company_event_position_is_not_required_in_insight(db, monkeypatch):
+    other = dict(BANK_ITEM, factors=["company_event"], text="Банк не ожидает ухудшения кредитного качества эмитента.")
+    monkeypatch.setattr(registry.retriever, "search_bank_analytics", lambda db, query, k=4, factors=None: [dict(other)])
+    plan = Plan(focus_factors=["company_event"], steps=[])
+    no_bank = copy.deepcopy(GOOD) | {"bank_position": [], "ai_inference": []}
+    ins = _run(db, monkeypatch, FakeLLM([no_bank], plan=plan))
+    assert ins.verification.passed and ins.verification.iterations == 1
+
+
+def test_chat_answer_with_invented_number_is_revised(db, monkeypatch):
+    class NumberChat(FakeLLM):
+        def structured(self, messages, schema, complexity="light", *, name="llm", **kw):
+            if schema is ChatReply:
+                self.calls.append((name, messages))
+                text = ("Спрос может упасть на 37%." if name == "chat" else "Ставка 14% сохранится, спрос под давлением.")
+                return ChatReply(answer=text, source_ids=["news:n1"]), {}
+            return super().structured(messages, schema, complexity, name=name, **kw)
+
+    llm = NumberChat([GOOD])
+    ins = _run(db, monkeypatch, llm)
+    monkeypatch.setattr(chat, "LLMClient", lambda db, tracer=None: llm)
+    ans = chat.answer(db, db.get(InsightRecord, ins.insight_id), "Что со спросом?", "cfo")
+    assert "37" not in ans.answer and [n for n, _ in llm.calls][-2:] == ["chat", "chat#2"]
+    assert "37" in llm.calls[-1][1][-1]["content"]          # замечание называет число без источника
+    steps = db.query(AgentTrace).filter_by(trace_id=ans.trace_id).all()
+    assert any(s.name == "chat_grounding" for s in steps)
+    assert ans.sources and ans.sources[0].source_id == "news:n1"

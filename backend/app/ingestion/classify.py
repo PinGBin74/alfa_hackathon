@@ -148,7 +148,9 @@ def request(llm: LLMClient, messages: list[dict], retries: int = 1) -> NewsClass
     for _ in range(retries + 1):
         meta = llm.chat(msgs, "light", json_mode=True, temperature=0.0, name="classify")
         try:
-            data = parse_json(meta["content"])
+            # служебные ключи JSON Schema ($defs, $schema), которые модель копирует из схемы рядом с ответом,
+            # данными не бывают; ответ «саму схему вместо разметки» по-прежнему ловит проверка ниже
+            data = {k: v for k, v in parse_json(meta["content"]).items() if not k.startswith("$")}
             unknown = sorted(set(data) - set(NewsClassification.model_fields))
             if unknown:
                 raise ValueError(f"незнакомые поля {unknown}; допустимые: {list(NewsClassification.model_fields)}")

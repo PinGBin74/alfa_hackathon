@@ -19,6 +19,10 @@ from app.ml.grounding import ungrounded
 
 PROMPT = (Path(__file__).parent / "prompts" / "verifier.md").read_text(encoding="utf-8")
 RESTATE_JACCARD = 0.5
+# Позиции банка по этим факторам - о конкретных компаниях и решениях («кредитное качество эмитента»), а не о
+# рынке: найденная позиция с таким фактором не значит, что инсайт обязан её использовать.
+NON_MARKET_FACTORS = {"company_event", "regulation"}
+_DIGITS = re.compile(r"\d")
 
 
 def _words(text: str) -> set[str]:
@@ -72,6 +76,14 @@ def bank_text(state: AgentState, doc_id: str | None, quote_ref: str | None = Non
     return "\n".join((c.get("text") or "") + date_forms(c.get("published_at")) for c in items)
 
 
+def _stale_ref(state: AgentState, quote_ref: str | None) -> str | None:
+    """Все найденные материалы этой страницы помечены как обновлённые позже - описание пометки, иначе None."""
+    items = [c for c in state.bank_chunks if f"bank:{c['doc_id']}:{c.get('page')}" == quote_ref]
+    if items and all(c.get("superseded_by") for c in items):
+        return "прогноз на этой странице банк обновил в более позднем материале"
+    return None
+
+
 def _statements(d: dict):
     for i, w in enumerate(d.get("why_it_matters") or []):
         yield f"why_it_matters[{i}]", w.get("text", ""), []
@@ -115,6 +127,11 @@ def check(state: AgentState) -> list[Issue]:
         elif miss := ungrounded(bp.get("text", ""), source):
             issues.append(Issue(type="wrong_number", field=field, text=f"чисел {miss} нет в материале банка {bp.get('quote_ref') or doc}",
                                 fix="цифры позиции банка - только из цитируемого фрагмента"))
+        elif stale := _stale_ref(state, bp.get("quote_ref")):
+            # прогноз с цифрами из материала, который банк позже обновил, - ошибка; без цифр - предупреждение
+            issues.append(Issue(type="stale_bank_view", field=field, blocking=bool(_DIGITS.search(bp.get("text", ""))),
+                                text=f"материал {bp.get('quote_ref')}: {stale}",
+                                fix="взять актуальный прогноз из более свежего материала или убрать пункт"))
 
     whys = d.get("why_it_matters") or []
     if not whys:
@@ -127,6 +144,7 @@ def check(state: AgentState) -> list[Issue]:
 
     summary_words = _words(wh.get("summary", "") + " " + (state.news or {}).get("title", ""))
     full_context = "\n".join([context_text, news_text(state, f"news:{state.news_id}"),
+                              *(news_text(state, f"news:{n['news_id']}") for n in state.related_news),
                               *(c.get("text") or "" for c in state.bank_chunks)])
     for field, text, basis in _statements(d):
         if unknown := [b for b in basis if b not in known and b not in allowed]:
@@ -138,8 +156,10 @@ def check(state: AgentState) -> list[Issue]:
         if field.startswith("why_it_matters") and w and len(w & summary_words) / len(w | summary_words) > RESTATE_JACCARD:
             issues.append(Issue(type="restates_news", field=field, text="пункт пересказывает новость", blocking=False))
 
-    focus = set(state.focus_factors)
+    focus = set(state.focus_factors) - NON_MARKET_FACTORS
     if not d.get("bank_position") and any(c.get("kind") == "position" and focus & set(c.get("factors") or [])
+                                          and not c.get("superseded_by") and not c.get("stale")
+                                          and not c.get("horizon_passed")
                                           for c in state.bank_chunks):
         issues.append(Issue(type="missing_bank_view", field="bank_position",
                             text="найдена позиция банка по фактору события, но она не использована",

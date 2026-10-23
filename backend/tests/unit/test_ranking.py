@@ -82,3 +82,33 @@ def test_trade_product_beats_broad_wholesale_class():
 def test_targeted_trade_measure_needs_country_or_industry_match():
     china_duty = _news(["sanctions_trade"], industries=["29"], countries=["Китай"])
     assert ranking.score_news(METAL_TRADER, china_duty).parts["factor"] < ranking.score_news(IMPORTER, china_duty).parts["factor"]
+
+
+# ---------- поправки против ложных совпадений ----------
+
+STEEL_TRADER = ClientProfile(client_id="st", okved_code="24.10")
+
+
+def test_news_about_many_industries_is_a_weak_industry_match():
+    focused = ranking.score_news(STEEL_TRADER, _news(["metals"], industries=["24"]))
+    broad = ranking.score_news(STEEL_TRADER, _news(["metals"], industries=["06", "19", "20", "24", "28", "35"]))
+    assert focused.parts["industry"] == 1.0
+    assert broad.parts["industry"] == pytest.approx(ranking.INDUSTRY_FOCUS / 6, abs=1e-3)
+    assert broad.value < focused.value
+
+
+def test_macro_news_industry_tags_are_background():
+    s = ranking.score_news(STEEL_TRADER, _news(["key_rate", "metals"], industries=["24"]))
+    assert s.parts["industry"] == pytest.approx(ranking.MACRO_INDUSTRY_SCALE, abs=1e-3)
+
+
+def test_fts_country_in_a_long_list_counts_less():
+    passing = ranking.score_news(IMPORTER, _news(["logistics"], countries=["Китай", "ОАЭ", "Турция", "Грузия", "Египет", "Армения"]))
+    assert passing.parts["geo"] == pytest.approx(ranking.COUNTRY_FOCUS / 6, abs=1e-3)
+    assert any("КИТАЙ" in r for r in passing.reasons)   # причина остаётся, вклад меньше
+
+
+def test_minor_event_does_not_outrank_rate_decision_for_borrower():
+    minor = _news(["key_rate", "consumption"], importance=1)
+    decision = _news(["key_rate"], importance=5)
+    assert ranking.score_news(BORROWER, decision).value > ranking.score_news(BORROWER, minor).value * 1.5

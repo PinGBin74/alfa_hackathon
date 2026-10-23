@@ -1,6 +1,6 @@
 """Ручное добавление новости по ссылке («вставьте ссылку на любую новость») тем же конвейером, что у
-планировщика: дедупликация -> классификация -> запись. Маршрут API подключает backend:
-`ingest_url(db, llm, url)`; IngestError - ссылку обработать нельзя (422), NotBusinessNews - не про бизнес."""
+планировщика: дедупликация -> классификация -> запись. Роут: POST /api/news (app/api/routes/news.py);
+IngestError - ссылку обработать нельзя (422), NotBusinessNews - не про бизнес (тоже 422)."""
 import ipaddress
 import logging
 import socket

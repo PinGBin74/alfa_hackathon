@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import auth, chat, clients, feed, feedback, insights
+from app.api.routes import analytics, auth, chat, clients, feed, feedback, insights, meta, news
 from app.config import get_settings
 
 settings = get_settings()
@@ -23,9 +23,12 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 app.include_router(clients.router, prefix="/api/clients", tags=["clients"])
 app.include_router(feed.router, prefix="/api/feed", tags=["feed"])
+app.include_router(news.router, prefix="/api/news", tags=["news"])
 app.include_router(insights.router, prefix="/api/insights", tags=["insights"])
 app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
 app.include_router(feedback.router, prefix="/api/feedback", tags=["feedback"])
+app.include_router(analytics.router, prefix="/api/analytics", tags=["analytics"])
+app.include_router(meta.router, prefix="/api/meta", tags=["meta"])
 
 
 @app.get("/health", tags=["system"])

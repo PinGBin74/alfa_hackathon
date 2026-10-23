@@ -1,0 +1,2219 @@
+{
+  "version": 1,
+  "generated_at": "2026-10-23T14:36:02+00:00",
+  "grounding": {
+    "extracted": 88,
+    "accepted": 88,
+    "pass_rate": 1.0
+  },
+  "runs": {
+    "afd9af4ac483": {
+      "model": "deepseek/deepseek-v4.1-flash",
+      "tokens_in": 5770,
+      "tokens_out": 5384,
+      "reasoning_tokens": 3591,
+      "cost_rub": 0.4751631676935,
+      "cached": false,
+      "file": "ALFA-7M26.pdf",
+      "extracted": 11,
+      "accepted": 11,
+      "pass_rate": 1.0
+    },
+    "e7aca197722c": {
+      "model": "deepseek/deepseek-v4.1-flash",
+      "tokens_in": 5053,
+      "tokens_out": 6277,
+      "reasoning_tokens": 4909,
+      "cost_rub": 0.48991887558471003,
+      "cached": false,
+      "file": "ALFA-Macro_Insights-Policy_Rate_11Sep.pdf",
+      "extracted": 10,
+      "accepted": 10,
+      "pass_rate": 1.0
+    },
+    "3ff9c067ca92": {
+      "model": "deepseek/deepseek-v4.1-flash",
+      "tokens_in": 5501,
+      "tokens_out": 11070,
+      "reasoning_tokens": 9360,
+      "cost_rub": 0.82478622879939,
+      "cached": false,
+      "file": "ALFA-consumption.pdf",
+      "extracted": 11,
+      "accepted": 11,
+      "pass_rate": 1.0
+    },
+    "a898da760e6e": {
+      "model": "deepseek/deepseek-v4.1-flash",
+      "tokens_in": 8105,
+      "tokens_out": 7313,
+      "reasoning_tokens": 5570,
+      "cost_rub": 0.60859098982539,
+      "cached": false,
+      "file": "ALFA-macro_stat1H26.pdf",
+      "extracted": 12,
+      "accepted": 12,
+      "pass_rate": 1.0
+    },
+    "f3b403644d04": {
+      "model": "deepseek/deepseek-v4.1-flash",
+      "tokens_in": 7292,
+      "tokens_out": 5196,
+      "reasoning_tokens": 3754,
+      "cost_rub": 0.44708841312564,
+      "cached": false,
+      "file": "ALFA_Russian_Steels_1К21PreviewUpdate_15Apr2021.pdf",
+      "extracted": 10,
+      "accepted": 10,
+      "pass_rate": 1.0
+    },
+    "0610b1dc454a": {
+      "model": "deepseek/deepseek-v4.1-flash",
+      "tokens_in": 22964,
+      "tokens_out": 1887,
+      "reasoning_tokens": 25,
+      "cost_rub": 0.17296732808784,
+      "cached": false,
+      "file": "FI_Strategy_3Q26_22072026.pdf",
+      "extracted": 11,
+      "accepted": 11,
+      "pass_rate": 1.0
+    },
+    "75505651a316": {
+      "model": "deepseek/deepseek-v4.1-flash",
+      "tokens_in": 6273,
+      "tokens_out": 11984,
+      "reasoning_tokens": 10391,
+      "cost_rub": 0.90183971545239,
+      "cached": false,
+      "file": "Gold_digest_August26.pdf",
+      "extracted": 10,
+      "accepted": 10,
+      "pass_rate": 1.0
+    },
+    "a9fe66fbf85c": {
+      "model": "deepseek/deepseek-v4.1-flash",
+      "tokens_in": 3841,
+      "tokens_out": 2096,
+      "reasoning_tokens": 1376,
+      "cost_rub": 0.17780701094871,
+      "cached": false,
+      "file": "Inflation_tracker_02.pdf",
+      "extracted": 6,
+      "accepted": 6,
+      "pass_rate": 1.0
+    },
+    "c462b20ee531": {
+      "model": "deepseek/deepseek-v4.1-flash",
+      "tokens_in": 5674,
+      "tokens_out": 4544,
+      "reasoning_tokens": 3465,
+      "cost_rub": 0.37355001326214,
+      "cached": false,
+      "file": "Бонд_Бриф_14092026.pdf",
+      "extracted": 7,
+      "accepted": 7,
+      "pass_rate": 1.0
+    }
+  },
+  "documents": [
+    {
+      "file": "ALFA-7M26.pdf",
+      "doc_id": "afd9af4ac483",
+      "title": "Макростатистика 7М26: данные по рынку труда не подтверждают охлаждения экономики",
+      "date": "2026-09-07",
+      "date_estimated": false,
+      "type": "macro_monthly",
+      "stale": false,
+      "stale_reason": null,
+      "factors": [
+        "labor",
+        "consumption",
+        "gdp_growth",
+        "inflation",
+        "key_rate",
+        "fx"
+      ],
+      "text_source": "mixed",
+      "in_case_list": true,
+      "case_title": "Макростатистика 7М26: данные по рынку труда не подтверждают охлаждения экономики"
+    },
+    {
+      "file": "ALFA-Macro_Insights-Policy_Rate_11Sep.pdf",
+      "doc_id": "e7aca197722c",
+      "title": "Ключевая ставка ЦБ РФ: ставка без изменения на 14,0%, риторика стала жестче",
+      "date": "2026-09-11",
+      "date_estimated": false,
+      "type": "key_rate_decision",
+      "stale": false,
+      "stale_reason": null,
+      "factors": [
+        "key_rate",
+        "inflation",
+        "fx",
+        "bonds"
+      ],
+      "text_source": "mixed",
+      "in_case_list": true,
+      "case_title": "Ключевая ставка ЦБ РФ: ставка без изменения на 14,0%, риторика стала жестче"
+    },
+    {
+      "file": "ALFA-consumption.pdf",
+      "doc_id": "3ff9c067ca92",
+      "title": "Потребление на пике",
+      "date": "2026-08-05",
+      "date_estimated": false,
+      "type": "macro_theme",
+      "stale": false,
+      "stale_reason": null,
+      "factors": [
+        "consumption",
+        "labor",
+        "inflation",
+        "key_rate",
+        "real_estate"
+      ],
+      "text_source": "ocr_sidecar",
+      "in_case_list": true,
+      "case_title": "Потребление на пике"
+    },
+    {
+      "file": "ALFA-macro_stat1H26.pdf",
+      "doc_id": "a898da760e6e",
+      "title": "Макростатистика 1П26: слабый рост 1П26 смещает прогноз роста ВВП на 0,1% за год",
+      "date": "2026-07-31",
+      "date_estimated": false,
+      "type": "macro_monthly",
+      "stale": false,
+      "stale_reason": null,
+      "factors": [
+        "gdp_growth",
+        "consumption",
+        "labor",
+        "inflation",
+        "key_rate",
+        "fx",
+        "sanctions_trade"
+      ],
+      "text_source": "mixed",
+      "in_case_list": true,
+      "case_title": "Макростатистика 1П26: слабый рост 1П26 смещает прогноз роста ВВП на 0,1% за год"
+    },
+    {
+      "file": "ALFA_Russian_Steels_1К21PreviewUpdate_15Apr2021.pdf",
+      "doc_id": "f3b403644d04",
+      "title": "Российская сталь: ралли цен продолжается; прогноз результатов за 1К21",
+      "date": "2021-04-15",
+      "date_estimated": false,
+      "type": "equity_sector",
+      "stale": true,
+      "stale_reason": "материал от 15.04.2021 и не из списка кейса: цены на сталь, прогнозы результатов и рекомендации по ГДР Северстали, НЛМК и ММК исторические (ГДР сняты с торгов LSE в 2022 г.)",
+      "factors": [
+        "metals",
+        "company_event"
+      ],
+      "text_source": "ocr_sidecar",
+      "in_case_list": false,
+      "case_title": null
+    },
+    {
+      "file": "FI_Strategy_3Q26_22072026.pdf",
+      "doc_id": "0610b1dc454a",
+      "title": "Тактический взгляд на 3-й квартал 2026 года: время собирать камни",
+      "date": "2026-07-22",
+      "date_estimated": false,
+      "type": "fi_strategy_quarterly",
+      "stale": false,
+      "stale_reason": null,
+      "factors": [
+        "bonds",
+        "key_rate",
+        "inflation",
+        "consumption",
+        "oil_gas"
+      ],
+      "text_source": "ocr_sidecar",
+      "in_case_list": true,
+      "case_title": "Тактический взгляд на 3-й квартал 2026 года: время собирать камни"
+    },
+    {
+      "file": "Gold_digest_August26.pdf",
+      "doc_id": "75505651a316",
+      "title": "Обзор рынка золота, август 2026",
+      "date": "2026-09-08",
+      "date_estimated": true,
+      "type": "gold_monthly",
+      "stale": false,
+      "stale_reason": null,
+      "factors": [
+        "gold",
+        "fx"
+      ],
+      "text_source": "ocr_sidecar",
+      "in_case_list": true,
+      "case_title": "Обзор рынка золота, август 2026"
+    },
+    {
+      "file": "Inflation_tracker_02.pdf",
+      "doc_id": "a9fe66fbf85c",
+      "title": "Инфляция 25–31 августа: основные выводы",
+      "date": "2026-09-02",
+      "date_estimated": false,
+      "type": "inflation_weekly",
+      "stale": false,
+      "stale_reason": null,
+      "factors": [
+        "inflation",
+        "oil_gas",
+        "fx",
+        "agri"
+      ],
+      "text_source": "ocr_sidecar",
+      "in_case_list": true,
+      "case_title": "Инфляция 25–31 августа: основные выводы"
+    },
+    {
+      "file": "Бонд_Бриф_14092026.pdf",
+      "doc_id": "c462b20ee531",
+      "title": "Бонд Бриф: итоги недели",
+      "date": "2026-09-14",
+      "date_estimated": false,
+      "type": "bond_weekly",
+      "stale": false,
+      "stale_reason": null,
+      "factors": [
+        "bonds",
+        "key_rate",
+        "inflation",
+        "company_event"
+      ],
+      "text_source": "ocr_sidecar",
+      "in_case_list": true,
+      "case_title": "Бонд Бриф: итоги недели"
+    }
+  ],
+  "positions": [
+    {
+      "position_id": "afd9af4ac483-p1-4bd453",
+      "doc_id": "afd9af4ac483",
+      "page": 1,
+      "factors": [
+        "labor",
+        "consumption"
+      ],
+      "thesis": "Банк отмечает, что летом 2026 г. рынок труда оставался сильным: рост числа вакансий за лето составил 12% против 4-5% в предыдущие два года, что не подтверждает охлаждения экономики.",
+      "quote": "Доступные оперативные данные и показатели рынка труда летом 2026 г. оставались достаточно сильными: несмотря на замедление темпов роста зарплат, в июне показатель их роста оставался на уровне 9,6% г/г, а рост числа вакансий за лето 2026 г., по данным HeadHunter, составил 12% против их увеличения на 4-5% за аналогичный период предыдущих двух лет.",
+      "forecast": null,
+      "date": "2026-09-07",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "afd9af4ac483-p1-8ecfe8",
+      "doc_id": "afd9af4ac483",
+      "page": 1,
+      "factors": [
+        "consumption",
+        "gdp_growth"
+      ],
+      "thesis": "Аналитики банка считают, что рост оборота розничной торговли на 5,3% г/г в июле поддерживает их ожидание: ключевой вызов для экономики - ограничения предложения, а не торможение спроса.",
+      "quote": "Рост оборота розничной торговли был на уровне 5,3% г/г в июле, что поддерживает наше ожидание, что ключевым вызовом для экономики будут ограничения со стороны предложения, а не торможение спроса.",
+      "forecast": null,
+      "date": "2026-09-07",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "afd9af4ac483-p1-52cf7e",
+      "doc_id": "afd9af4ac483",
+      "page": 1,
+      "factors": [
+        "consumption"
+      ],
+      "thesis": "Банк ожидает в ближайшие месяцы дополнительного замедления роста потребления из-за более слабых продаж автомобилей: в августе они упали на 7% и к июлю, и в годовом выражении.",
+      "quote": "В ближайшие месяцы мы ориентируемся на дополнительное замедление роста потребления на фоне более слабых продаж автомобилей - в августе объем их продаж упал на 7% как к июлю 2026 г., так и в годовом выражении.",
+      "forecast": null,
+      "date": "2026-09-07",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "afd9af4ac483-p1-1443a0",
+      "doc_id": "afd9af4ac483",
+      "page": 1,
+      "factors": [
+        "company_event",
+        "key_rate"
+      ],
+      "thesis": "Банк ожидает, что в ближайшие месяцы финансовые показатели компаний останутся на низких уровнях из-за проблем не только нефтепереработки, но и других отраслей.",
+      "quote": "С учетом того, что в летние месяцы негативное развитие событий касалось не только сегмента нефтепереработки, но и других отраслей (складов и транспортной инфраструктуры), мы ожидаем, что в ближайшие месяцы показатели финансов компаний останутся на низких уровнях.",
+      "forecast": null,
+      "date": "2026-09-07",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "afd9af4ac483-p2-f2bf6c",
+      "doc_id": "afd9af4ac483",
+      "page": 2,
+      "factors": [
+        "labor"
+      ],
+      "thesis": "Банк отмечает, что рост номинальных зарплат в июне на 9,6% г/г оказался выше их ожиданий в 9,0% г/г, так как компании не могут сокращать расходы на персонал.",
+      "quote": "Номинальные зарплаты в июне выросли на 9,6% г/г, выше ожиданий. Необходимость проводить ремонтные и восстановительные работы, как мы полагаем, не позволяет компаниям сокращать расходы на персонал. По состоянию на июнь темп роста зарплат составил 9,6% г/г (см Рис.5), хотя мы ожидали замедления до 9,0% г/г.",
+      "forecast": null,
+      "date": "2026-09-07",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "afd9af4ac483-p2-326cd6",
+      "doc_id": "afd9af4ac483",
+      "page": 2,
+      "factors": [
+        "labor"
+      ],
+      "thesis": "По мнению банка, оперативные данные HeadHunter не подтверждают ускоренного охлаждения рынка труда: вакансии в августе выросли на 2,0% м/м, а за лето - на 12%, и рынок труда мог опять стать более жестким.",
+      "quote": "В августе рост числа вакансий составил 2,0% м/м (в августе 2024-2025 гг. наблюдалась околонулевая динамика), а суммарно за летние месяцы их число выросло на 12% - для сравнения, за июнь-август 2024 и 2025 гг. количество вакансий росло на 4% и 5% соответственно (см Рис.6).",
+      "forecast": null,
+      "date": "2026-09-07",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "afd9af4ac483-p2-c56faf",
+      "doc_id": "afd9af4ac483",
+      "page": 2,
+      "factors": [
+        "inflation",
+        "gdp_growth"
+      ],
+      "thesis": "Аналитики банка полагают, что июльская статистика говорит о сохранении проинфляционных рисков, и на горизонте 2027 г. ситуация приведет к повышению устойчивого инфляционного давления из-за более слабого роста производства.",
+      "quote": "Хотя в ряде сегментов, например, в сельскохозяйственной отрасли, нельзя исключать проявления временных дезинфляционных моментов, складывается впечатление, что на горизонте 2027 г. текущая ситуация приведет к повышению устойчивого инфляционного давления за счет более слабой траектории роста производства.",
+      "forecast": null,
+      "date": "2026-09-07",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "afd9af4ac483-p2-4b184b",
+      "doc_id": "afd9af4ac483",
+      "page": 2,
+      "factors": [
+        "gdp_growth",
+        "consumption",
+        "key_rate"
+      ],
+      "thesis": "Банк ожидает роста ВВП на 0,3% г/г и оборота розничной торговли на 1,0% г/г в 2027 г., что отражено в его консервативном прогнозе по ключевой ставке на 2027 год.",
+      "quote": "Напомним, что мы ожидаем роста ВВП на 0,3% г/г в 2027 г. при росте оборота розничной торговли на 1,0% г/г, что находит отражение в нашем консервативном прогнозе по динамике ключевой ставки на 2027 год.",
+      "forecast": {
+        "metric": "gdp_growth",
+        "value": "0,3% г/г",
+        "horizon": "2027",
+        "label": "Рост ВВП, % г/г"
+      },
+      "date": "2026-09-07",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "afd9af4ac483-p3-8a76d8",
+      "doc_id": "afd9af4ac483",
+      "page": 3,
+      "factors": [
+        "key_rate"
+      ],
+      "thesis": "Банк прогнозирует ключевую ставку на конец 2026 года на уровне 13,5% и на конец 2027 года - 12,0%.",
+      "quote": "Ставка, конец года, % | 6,3% | 4,3% | 8,5% | 7,5% | 16,0% | 21,0% | 16,0% | 13,5% | 12,0%",
+      "forecast": {
+        "metric": "key_rate_eoy",
+        "value": "13,5%",
+        "horizon": "2026",
+        "label": "Ключевая ставка на конец периода"
+      },
+      "date": "2026-09-07",
+      "superseded_by": "e7aca197722c-p1-1ded6f",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": 1.0
+      }
+    },
+    {
+      "position_id": "afd9af4ac483-p3-cca7bd",
+      "doc_id": "afd9af4ac483",
+      "page": 3,
+      "factors": [
+        "inflation"
+      ],
+      "thesis": "Банк ожидает инфляцию на конец 2026 года на уровне 7,5% дек./дек. и на конец 2027 года - 5,5%.",
+      "quote": "Инфляция, % дек./дек. | 3,0% | 4,9% | 8,4% | 11,9% | 7,4% | 9,5% | 5,6% | 7,5% | 5,5%",
+      "forecast": {
+        "metric": "inflation_eoy",
+        "value": "7,5%",
+        "horizon": "2026",
+        "label": "Инфляция на конец года, % дек./дек."
+      },
+      "date": "2026-09-07",
+      "superseded_by": "e7aca197722c-p2-cca7bd",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": 1.0
+      }
+    },
+    {
+      "position_id": "afd9af4ac483-p3-64b9ea",
+      "doc_id": "afd9af4ac483",
+      "page": 3,
+      "factors": [
+        "fx"
+      ],
+      "thesis": "Банк прогнозирует курс рубля на конец 2026 года на уровне 87,2 руб./$ и на конец 2027 года - 95,0 руб./$.",
+      "quote": "Курс, конец года, руб./$ | 62 | 74 | 74 | 70 | 90 | 102 | 78,2 | 87,2 | 95,0",
+      "forecast": {
+        "metric": "usd_rub_eoy",
+        "value": "87,2 руб./$",
+        "horizon": "2026",
+        "label": "Курс доллара на конец периода, руб."
+      },
+      "date": "2026-09-07",
+      "superseded_by": "e7aca197722c-p2-27d9e4",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": 1.0
+      }
+    },
+    {
+      "position_id": "e7aca197722c-p1-082026",
+      "doc_id": "e7aca197722c",
+      "page": 1,
+      "factors": [
+        "key_rate"
+      ],
+      "thesis": "ЦБ РФ на заседании 11 сентября взял паузу и оставил ключевую ставку на уровне 14,0%; формальный сигнал пресс-релиза нейтральный, но вариант снижения ставки не рассматривался.",
+      "quote": "ЦБ РФ на сегодняшнем заседании принял решение взять паузу и оставить ставку неизменной на уровне 14,0%. Формально сигнал пресс-релиза остался нейтральным: ЦБ РФ «будет принимать дальнейшие решения по ключевой ставке в зависимости от динамики инфляции и инфляционных ожиданий, а также от оценки рисков со стороны внутренних и внешних условий».",
+      "forecast": null,
+      "date": "2026-09-11",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "e7aca197722c-p1-abf88a",
+      "doc_id": "e7aca197722c",
+      "page": 1,
+      "factors": [
+        "key_rate"
+      ],
+      "thesis": "Банк ожидает сохранения паузы по ключевой ставке на заседании 23 октября — то есть сохранения ставки на уровне 14,0%.",
+      "quote": "Мы ожидаем сохранения паузы на заседании 23 октября: С учетом риторики ЦБ РФ мы меняем наш взгляд на динамику ключевой ставки на этот год.",
+      "forecast": {
+        "metric": "key_rate_decision",
+        "value": "14,0%",
+        "horizon": "2026-10-23",
+        "label": "Решение по ключевой ставке на заседании"
+      },
+      "date": "2026-09-11",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "e7aca197722c-p1-1ded6f",
+      "doc_id": "e7aca197722c",
+      "page": 1,
+      "factors": [
+        "key_rate"
+      ],
+      "thesis": "Банк поменял взгляд на ставку на конец 2026 года: вместо 13,5% теперь ожидает ее сохранения на текущем значении 14,0% до конца года.",
+      "quote": "Если раньше мы ориентировались на ставку на уровне 13,5% на конец 2026 г., то теперь мы ожидаем ее сохранения на текущем значении 14,0% до конца года.",
+      "forecast": {
+        "metric": "key_rate_eoy",
+        "value": "14,0%",
+        "horizon": "2026",
+        "label": "Ключевая ставка на конец периода"
+      },
+      "date": "2026-09-11",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "e7aca197722c-p1-de1202",
+      "doc_id": "e7aca197722c",
+      "page": 1,
+      "factors": [
+        "key_rate"
+      ],
+      "thesis": "Банк сохраняет прогноз ключевой ставки на конец 2027 года на уровне 12,0%.",
+      "quote": "При этом наш прогноз по ставке на конец 2027 г. остается на уровне 12,0%.",
+      "forecast": {
+        "metric": "key_rate_eoy",
+        "value": "12,0%",
+        "horizon": "2027",
+        "label": "Ключевая ставка на конец периода"
+      },
+      "date": "2026-09-11",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "e7aca197722c-p1-4007a6",
+      "doc_id": "e7aca197722c",
+      "page": 1,
+      "factors": [
+        "inflation",
+        "key_rate"
+      ],
+      "thesis": "Банк отмечает, что ЦБ РФ впервые заговорил об ускорении роста цен в устойчивых компонентах до 5-6%, и считает это ужесточением тональности комментария.",
+      "quote": "ЦБ РФ отметил ускорение роста цен в устойчивых компонентах до 5-6%: Сам факт, что в начале пресс-релиза отмечается ускорение инфляции в устойчивых компонентах, говорит об ужесточении тональности комментария ЦБ РФ.",
+      "forecast": null,
+      "date": "2026-09-11",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "e7aca197722c-p1-e10e4f",
+      "doc_id": "e7aca197722c",
+      "page": 1,
+      "factors": [
+        "inflation"
+      ],
+      "thesis": "Банк считает повышенный уровень инфляционных ожиданий источником риска: в августе ожидания населения составили 13,7%, выше средних 13,2% за 2025 год и 13,3% за 7М26.",
+      "quote": "Глава ЦБ РФ в выступлении уделила большое внимание повышенному уровню инфляционных ожиданий, которые остаются источником риска. Обновленных данных по инфляционным ожиданиям населения за сентябрь пока нет, но в августе показатель составил 13,7%, что было выше среднего значения 13,2% за 2025 год и 13,3% за 7М26.",
+      "forecast": null,
+      "date": "2026-09-11",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "e7aca197722c-p1-7d68b8",
+      "doc_id": "e7aca197722c",
+      "page": 1,
+      "factors": [
+        "inflation",
+        "key_rate"
+      ],
+      "thesis": "Банк обращает внимание, что ЦБ РФ впервые с начала года отметил рост проинфляционных рисков вместо прежней формулировки о их преобладании.",
+      "quote": "Следует отметить, что впервые с начала текущего года в релизе отмечено, что проинфляционные риски выросли - до этого использовалась формулировка, что проинфляционные риски преобладают над дезинфляционными.",
+      "forecast": null,
+      "date": "2026-09-11",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "e7aca197722c-p1-e39675",
+      "doc_id": "e7aca197722c",
+      "page": 1,
+      "factors": [
+        "bonds",
+        "key_rate"
+      ],
+      "thesis": "Банк указывает, что накопленный дефицит федерального бюджета в 5,8 трлн руб. существенно выше прогнозов, а динамика кредитования и бюджет остаются главными индикаторами спроса для денежных властей.",
+      "quote": "Хотя в августе федеральный бюджет сведен с профицитом 0,7 трлн руб., накопленный дефицит бюджета остается 5,8 трлн руб., что существенно выше прогнозов.",
+      "forecast": null,
+      "date": "2026-09-11",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "e7aca197722c-p2-cca7bd",
+      "doc_id": "e7aca197722c",
+      "page": 2,
+      "factors": [
+        "inflation"
+      ],
+      "thesis": "Аналитики банка ожидают инфляцию по итогам 2026 года на уровне 7,5% декабрь к декабрю.",
+      "quote": "Инфляция, % дек./дек. | 3,0% | 4,9% | 8,4% | 11,9% | 7,4% | 9,5% | 5,6% | 7,5% | 5,5%",
+      "forecast": {
+        "metric": "inflation_eoy",
+        "value": "7,5%",
+        "horizon": "2026",
+        "label": "Инфляция на конец года, % дек./дек."
+      },
+      "date": "2026-09-11",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": 1.0
+      }
+    },
+    {
+      "position_id": "e7aca197722c-p2-27d9e4",
+      "doc_id": "e7aca197722c",
+      "page": 2,
+      "factors": [
+        "fx"
+      ],
+      "thesis": "Банк прогнозирует курс доллара на конец 2026 года на уровне 87,2 руб. за доллар.",
+      "quote": "Курс, конец года, руб./$ | 62 | 74 | 74 | 70 | 90 | 102 | 78,2 | 87,2 | 93,0",
+      "forecast": {
+        "metric": "usd_rub_eoy",
+        "value": "87,2 руб./$",
+        "horizon": "2026",
+        "label": "Курс доллара на конец периода, руб."
+      },
+      "date": "2026-09-11",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": 1.0
+      }
+    },
+    {
+      "position_id": "3ff9c067ca92-p1-adc791",
+      "doc_id": "3ff9c067ca92",
+      "page": 1,
+      "factors": [
+        "consumption"
+      ],
+      "thesis": "Банк полагает, что потребление сейчас на пике: в следующие месяцы рост спроса будет постепенно охлаждаться, а в 4K26 рост потребления ожидается на нулевых отметках в годовом выражении.",
+      "quote": "Мы полагаем, что динамика потребления сейчас находится на пике и в следующие месяцы будет происходить постепенное охлаждение темпов роста спроса - в 4K26 мы ориентируемся на рост потребления на нулевых отметках в годовом выражении.",
+      "forecast": {
+        "metric": "consumption_growth",
+        "value": "0% г/г",
+        "horizon": "2026Q4",
+        "label": "Рост потребления, % г/г"
+      },
+      "date": "2026-08-05",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "3ff9c067ca92-p1-05efcf",
+      "doc_id": "3ff9c067ca92",
+      "page": 1,
+      "factors": [
+        "consumption"
+      ],
+      "thesis": "Банк считает, что сильный рост оборота розничной торговли за 1П26 на 5,4% г/г был «взят взаймы» у 2П26, и ожидает замедления роста этого показателя до 1,5% г/г во 2П26, включая нулевой рост в 4K26.",
+      "quote": "В целом мы считаем, что сильный рост оборота розничной торговли за 1П26 на 5,4% г/г был реализован «взаймы» у 2П26, и ожидаем замедления роста этого показателя до 1,5% г/г на 2П26, включая нулевой рост в 4K26.",
+      "forecast": {
+        "metric": "retail_growth",
+        "value": "1,5% г/г",
+        "horizon": "2026H2",
+        "label": "Рост оборота розничной торговли, % г/г"
+      },
+      "date": "2026-08-05",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "3ff9c067ca92-p1-878bde",
+      "doc_id": "3ff9c067ca92",
+      "page": 1,
+      "factors": [
+        "consumption",
+        "regulation"
+      ],
+      "thesis": "Банк ожидает, что с точки зрения годовой динамики темпы роста продаж новых легковых автомобилей в ближайшие месяцы уйдут в отрицательную зону, хотя недельные данные показывают продажи в июле около 118-120 тыс. шт.",
+      "quote": "Недельные данные указывают на сохранение продаж в июле вблизи уровней 118-120 тыс. шт., однако с точки зрения годовой динамики темпы роста в этом сегменте в ближайшие месяцы уйдут в отрицательную зону.",
+      "forecast": null,
+      "date": "2026-08-05",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "3ff9c067ca92-p1-3b7979",
+      "doc_id": "3ff9c067ca92",
+      "page": 1,
+      "factors": [
+        "labor"
+      ],
+      "thesis": "Банк пересмотрел прогноз роста номинальных зарплат на 2026 год в сторону понижения - до 10% г/г с 11% г/г.",
+      "quote": "С учетом этого мы переставляем прогноз роста номинальных зарплат на 10% г/г с 11% г/г на 2026 г.",
+      "forecast": {
+        "metric": "wage_growth",
+        "value": "10% г/г",
+        "horizon": "2026",
+        "label": "Рост номинальных зарплат, % г/г"
+      },
+      "date": "2026-08-05",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "3ff9c067ca92-p1-844671",
+      "doc_id": "3ff9c067ca92",
+      "page": 1,
+      "factors": [
+        "labor"
+      ],
+      "thesis": "Банк повысил прогноз по уровню безработицы до 2,3% на конец 2026 года.",
+      "quote": "С учетом этого мы переставляем прогноз роста номинальных зарплат на 10% г/г с 11% г/г на 2026 г. и повышаем прогноз по безработице до 2,3% на конец 2026 года.",
+      "forecast": {
+        "metric": "unemployment",
+        "value": "2,3%",
+        "horizon": "2026",
+        "label": "Уровень безработицы, %"
+      },
+      "date": "2026-08-05",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "3ff9c067ca92-p1-40293e",
+      "doc_id": "3ff9c067ca92",
+      "page": 1,
+      "factors": [
+        "gdp_growth",
+        "labor"
+      ],
+      "thesis": "Банк понизил прогноз по росту промпроизводства до нулевых оценок на 2026 г., видя в динамике безработицы предвестник углубления спада инвестиций и слабого роста производства по данным 1П26.",
+      "quote": "Это может быть предвестником углубления спада инвестиций и слабого роста производства, очевидного по данным 1П26: мы понизили наш прогноз по росту промпроизводства до нулевых оценок на 2026 г.",
+      "forecast": {
+        "metric": "industrial_growth",
+        "value": "0% г/г",
+        "horizon": "2026",
+        "label": "Рост промышленного производства, % г/г"
+      },
+      "date": "2026-08-05",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "3ff9c067ca92-p1-51bf7a",
+      "doc_id": "3ff9c067ca92",
+      "page": 1,
+      "factors": [
+        "gdp_growth"
+      ],
+      "thesis": "Банк ожидает роста ВВП всего на 0,1% г/г в 2026 году, на фоне слабого роста производства.",
+      "quote": "мы понизили наш прогноз по росту промпроизводства до нулевых оценок на 2026 г. и также ожидаем роста ВВП всего на 0,1% г/г.",
+      "forecast": {
+        "metric": "gdp_growth",
+        "value": "0,1% г/г",
+        "horizon": "2026",
+        "label": "Рост ВВП, % г/г"
+      },
+      "date": "2026-08-05",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "3ff9c067ca92-p2-6364bf",
+      "doc_id": "3ff9c067ca92",
+      "page": 2,
+      "factors": [
+        "inflation",
+        "oil_gas"
+      ],
+      "thesis": "Банк видит перенос повышенных цен на топливо в цены широкого спектра товаров: в продовольствии темпы роста цен ускоряются, базовая инфляция остаётся повышенной пять недель подряд, что говорит об устойчивости спроса и способности предприятий переносить издержки в конечные цены.",
+      "quote": "Однако мы видим перенос повышенных цен на топливо в цены по широкому спектру товаров - в продовольственном сегменте за исключением плодоовощной продукции темпы роста цен постепенно ускоряются, в итоге индикатор базовой инфляции остается повышенным уже пять недель подряд",
+      "forecast": null,
+      "date": "2026-08-05",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "3ff9c067ca92-p2-7687fa",
+      "doc_id": "3ff9c067ca92",
+      "page": 2,
+      "factors": [
+        "inflation",
+        "key_rate"
+      ],
+      "thesis": "Банк повысил прогноз по инфляции по итогам 2026 года до 7,5% г/г, отмечая, что высокий вес временных факторов в динамике инфляции пока допускает дальнейшее снижение ключевой ставки.",
+      "quote": "С учетом возросшего инфляционного давления мы повышаем наш прогноз по инфляции по итогам 2026 г. до 7,5% г/г, при этом высокий вес временных факторов в динамике инфляции пока делает возможным дальнейшее снижение ключевой ставки",
+      "forecast": {
+        "metric": "inflation_eoy",
+        "value": "7,5% г/г",
+        "horizon": "2026",
+        "label": "Инфляция на конец года, % дек./дек."
+      },
+      "date": "2026-08-05",
+      "superseded_by": "e7aca197722c-p2-cca7bd",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "3ff9c067ca92-p2-67de80",
+      "doc_id": "3ff9c067ca92",
+      "page": 2,
+      "factors": [
+        "key_rate",
+        "inflation"
+      ],
+      "thesis": "Банк ждёт ещё два снижения ключевой ставки по 25 б. п. до конца текущего года и ожидает ставку на уровне 13,5% на конец 2026 года.",
+      "quote": "высокий вес временных факторов в динамике инфляции пока делает возможным дальнейшее снижение ключевой ставки - мы ждем еще два снижения по 25 б. п. до конца текущего года и на конец 2026 г. ожидаем ставку на уровне 13,5%",
+      "forecast": {
+        "metric": "key_rate_eoy",
+        "value": "13,5%",
+        "horizon": "2026",
+        "label": "Ключевая ставка на конец периода"
+      },
+      "date": "2026-08-05",
+      "superseded_by": "e7aca197722c-p1-1ded6f",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "3ff9c067ca92-p3-4da7f8",
+      "doc_id": "3ff9c067ca92",
+      "page": 3,
+      "factors": [
+        "consumption",
+        "inflation"
+      ],
+      "thesis": "Банк считает, что повышение инфляционных ожиданий отразится в снижении нормы сбережений, и это сделает замедление потребления достаточно постепенным.",
+      "quote": "В целом, хорошая новость заключается в том, что повышение инфляционных ожиданий найдет свое отражение в снижении нормы сбережений, что сделает замедление потребления достаточно постепенным.",
+      "forecast": null,
+      "date": "2026-08-05",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p1-da0e7c",
+      "doc_id": "a898da760e6e",
+      "page": 1,
+      "factors": [
+        "gdp_growth"
+      ],
+      "thesis": "Банк понижает прогноз роста ВВП на 2026 год до 0,1% г/г: слабый рост будет сочетать более глубокий спад инвестиций, более быстрый рост потребления и более быстрый рост импорта товаров.",
+      "quote": "Мы понижаем наш прогноз темпов роста ВВП до 0,1% г/г. Более слабые темпы роста в 2026 г. будут отражать сочетание более глубокого спада инвестиций (-4,0% г/г), более быстрого роста потребления (+3,3% г/г) и более быстрого роста импорта товаров (+11% г/г).",
+      "forecast": {
+        "metric": "gdp_growth",
+        "value": "0,1% г/г",
+        "horizon": "2026",
+        "label": "Рост ВВП, % г/г"
+      },
+      "date": "2026-07-31",
+      "superseded_by": "3ff9c067ca92-p1-51bf7a",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p3-a2b4bf",
+      "doc_id": "a898da760e6e",
+      "page": 3,
+      "factors": [
+        "gdp_growth"
+      ],
+      "thesis": "Аналитики банка ожидают нулевого роста промышленного производства по итогам 2026 года из-за слабой динамики внутреннего предложения.",
+      "quote": "Во-первых, динамика промышленности идет по гораздо более слабой траектории, и мы ожидаем нулевой рост по итогам текущего года (см Рис.5).",
+      "forecast": {
+        "metric": "industrial_growth",
+        "value": "0,0% г/г",
+        "horizon": "2026",
+        "label": "Рост промышленного производства, % г/г"
+      },
+      "date": "2026-07-31",
+      "superseded_by": "3ff9c067ca92-p1-40293e",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p3-ca5423",
+      "doc_id": "a898da760e6e",
+      "page": 3,
+      "factors": [
+        "gdp_growth"
+      ],
+      "thesis": "Банк снижает прогноз инвестиций и ожидает их спада на 4% г/г в 2026 году.",
+      "quote": "Мы снижаем прогноз по динамике инвестиций и теперь ожидаем их спада на 4% г/г в текущем году.",
+      "forecast": {
+        "metric": "investment_growth",
+        "value": "-4% г/г",
+        "horizon": "2026",
+        "label": "Рост инвестиций, % г/г"
+      },
+      "date": "2026-07-31",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p3-525044",
+      "doc_id": "a898da760e6e",
+      "page": 3,
+      "factors": [
+        "sanctions_trade",
+        "fx"
+      ],
+      "thesis": "Банк повышает прогноз товарного импорта на 2026 год до $340 млрд против прежней оценки $320 млрд.",
+      "quote": "За 5М26 стоимостные объемы товарного импорта уже выросли на 11% г/г; по итогам года наш новый прогноз составляет $340 млрд против предыдущей оценки в $320 млрд (см Рис.6).",
+      "forecast": {
+        "metric": "imports_usd",
+        "value": "$340 млрд",
+        "horizon": "2026",
+        "label": "Импорт товаров, $ млрд"
+      },
+      "date": "2026-07-31",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p3-3664c4",
+      "doc_id": "a898da760e6e",
+      "page": 3,
+      "factors": [
+        "consumption"
+      ],
+      "thesis": "Банк повышает прогноз роста оборота розничной торговли до 3,3% г/г по итогам 2026 года, ожидая замедления во 2П26 после роста на 5,4% за 1П26.",
+      "quote": "Поскольку динамика спроса домохозяйств идет при этом по более сильной траектории, по итогам года, мы повышаем прогноз роста оборота розничной торговли до 3,3% г/г.",
+      "forecast": {
+        "metric": "retail_growth",
+        "value": "3,3% г/г",
+        "horizon": "2026",
+        "label": "Рост оборота розничной торговли, % г/г"
+      },
+      "date": "2026-07-31",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p3-9c21ef",
+      "doc_id": "a898da760e6e",
+      "page": 3,
+      "factors": [
+        "labor",
+        "inflation"
+      ],
+      "thesis": "Аналитики банка пересматривают прогноз роста номинальных зарплат на 2026 год до 10% г/г.",
+      "quote": "Хотя фактор бюджетных расходов будет сдерживать замедление роста зарплат, мы переставляем прогноз роста номинальных зарплат на 10% г/г на 2026 год.",
+      "forecast": {
+        "metric": "wage_growth",
+        "value": "10% г/г",
+        "horizon": "2026",
+        "label": "Рост номинальных зарплат, % г/г"
+      },
+      "date": "2026-07-31",
+      "superseded_by": "3ff9c067ca92-p1-3b7979",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p3-78c94d",
+      "doc_id": "a898da760e6e",
+      "page": 3,
+      "factors": [
+        "labor"
+      ],
+      "thesis": "Банк ожидает роста безработицы и прогнозирует 2,3% на конец 2026 года, тогда как в среднем за год показатель останется на уровне 2,2%.",
+      "quote": "Мы ожидаем, что уровень безработицы начнет расти и по итогам года составит 2,3%, хотя в среднем за год показатель останется на уровне 2,2%.",
+      "forecast": {
+        "metric": "unemployment",
+        "value": "2,3%",
+        "horizon": "2026",
+        "label": "Уровень безработицы, %"
+      },
+      "date": "2026-07-31",
+      "superseded_by": "3ff9c067ca92-p1-844671",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p1-4f9b5e",
+      "doc_id": "a898da760e6e",
+      "page": 1,
+      "factors": [
+        "inflation",
+        "key_rate"
+      ],
+      "thesis": "Банк ожидает инфляцию 7,5% г/г по итогам 2026 года; из-за ограничений на стороне предложения это будет сдерживать снижение ключевой ставки.",
+      "quote": "При этом с учетом ограничений на стороне предложения мы ожидаем, что инфляция составит 7,5% г/г по итогам текущего года, что будет сдерживать снижение ключевой ставки.",
+      "forecast": {
+        "metric": "inflation_eoy",
+        "value": "7,5% г/г",
+        "horizon": "2026",
+        "label": "Инфляция на конец года, % дек./дек."
+      },
+      "date": "2026-07-31",
+      "superseded_by": "e7aca197722c-p2-cca7bd",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p3-a8f27e",
+      "doc_id": "a898da760e6e",
+      "page": 3,
+      "factors": [
+        "inflation"
+      ],
+      "thesis": "Банк повысил прогноз инфляции на конец 2027 года до 5,5% г/г.",
+      "quote": "Наш прогноз по инфляции по итогам 2026 г. повышен до 7,5% г/г, мы также повысили прогноз по инфляции до 5,5% г/г на конец 2027 года (см Рис.7).",
+      "forecast": {
+        "metric": "inflation_eoy",
+        "value": "5,5% г/г",
+        "horizon": "2027",
+        "label": "Инфляция на конец года, % дек./дек."
+      },
+      "date": "2026-07-31",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p3-4718cd",
+      "doc_id": "a898da760e6e",
+      "page": 3,
+      "factors": [
+        "key_rate",
+        "inflation"
+      ],
+      "thesis": "Банк закладывает в прогноз еще два снижения ключевой ставки до конца 2026 года и ожидает ее на уровне 13,5% на конец года.",
+      "quote": "С учетом сохраняющего значимого разрыва в динамике спроса и предложения, мы считаем возможным заложить в прогноз еще два снижения ключевой ставки до конца текущего года. На конец года мы ожидаем ключевую ставку на уровне 13,5%; наш прогноз по ставке на конец 2027 г. на уровне 12% остается без изменения (см Рис.8).",
+      "forecast": {
+        "metric": "key_rate_eoy",
+        "value": "13,5%",
+        "horizon": "2026",
+        "label": "Ключевая ставка на конец периода"
+      },
+      "date": "2026-07-31",
+      "superseded_by": "e7aca197722c-p1-1ded6f",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p1-7bf759",
+      "doc_id": "a898da760e6e",
+      "page": 1,
+      "factors": [
+        "fx"
+      ],
+      "thesis": "Банк сохраняет прогноз курса рубля на уровне 87 руб./$ на конец 2026 года.",
+      "quote": "Прогноз по курсу рубля остается без изменений на уровне 87 руб./$ на конец 2026 года.",
+      "forecast": {
+        "metric": "usd_rub_eoy",
+        "value": "87 руб./$",
+        "horizon": "2026",
+        "label": "Курс доллара на конец периода, руб."
+      },
+      "date": "2026-07-31",
+      "superseded_by": "e7aca197722c-p2-27d9e4",
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a898da760e6e-p2-7ef947",
+      "doc_id": "a898da760e6e",
+      "page": 2,
+      "factors": [
+        "inflation"
+      ],
+      "thesis": "Аналитики банка ожидают роста цен на 0,7% м/м в июле, что вместе с августовской динамикой выведет годовую инфляцию на 6,7-6,9% г/г в конце 3К26.",
+      "quote": "Напомним, что после инфляции на уровне 0,87 м/м в июне мы ожидаем рост цен 0,7% м/м в июле и 0,2% м/м в августе, что выведет показатель годовой инфляции на уровни 6,7-6,9% г/г в конце 3К26.",
+      "forecast": {
+        "metric": "inflation_mom",
+        "value": "0,7% м/м",
+        "horizon": "2026-07",
+        "label": "Инфляция за месяц, % м/м"
+      },
+      "date": "2026-07-31",
+      "superseded_by": null,
+      "horizon_passed": true,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "f3b403644d04-p1-e4c2f5",
+      "doc_id": "f3b403644d04",
+      "page": 1,
+      "factors": [
+        "metals"
+      ],
+      "thesis": "Банк ожидает, что производители плоского проката покажут сильные финансовые результаты за 1К21 благодаря завершению крупных ремонтов и росту цен на сталь.",
+      "quote": "Подводя итоги первого квартала, мы ожидаем, что производители плоского проката представят сильные финансовые результаты на производства после завершения крупных ремонтов и за счет роста цен на сталь.",
+      "forecast": null,
+      "date": "2021-04-15",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "f3b403644d04-p1-7afea5",
+      "doc_id": "f3b403644d04",
+      "page": 1,
+      "factors": [
+        "metals"
+      ],
+      "thesis": "Аналитики банка считают высокие цены на сталь устойчивыми на горизонте 2-3 месяцев: цены на г/к прокат в Турции приблизились к $1 000/т.",
+      "quote": "Высокие цены на сталь выглядят устойчивыми на горизонте 2-3 месяцев: предложение на г/к прокат на заводах в Турции к началу Рамадана приблизилось к $1 000/т",
+      "forecast": null,
+      "date": "2021-04-15",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "f3b403644d04-p1-e363dd",
+      "doc_id": "f3b403644d04",
+      "page": 1,
+      "factors": [
+        "metals"
+      ],
+      "thesis": "Банк указывает, что при спотовых ценах $830-840/т FOB Черное море средние цены на сталь во 2К21 могут превысить уровни 1К21.",
+      "quote": "Цены на г/к прокат, FOB, Черное море на прошлой неделе были в диапазоне $830-840/т, что указывает на то, что средние цены на сталь в 2K21 могут превзойти ценовые уровни 1K21.",
+      "forecast": {
+        "metric": "other",
+        "value": "выше уровней 1K21",
+        "horizon": "2021Q2",
+        "label": "Другой показатель"
+      },
+      "date": "2021-04-15",
+      "superseded_by": null,
+      "horizon_passed": true,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "f3b403644d04-p1-3fbf42",
+      "doc_id": "f3b403644d04",
+      "page": 1,
+      "factors": [
+        "metals",
+        "company_event"
+      ],
+      "thesis": "Банк ожидает, что дивидендная доходность производителей в среднем составит не менее 2%, причём с высокой вероятностью окажется выше ожиданий.",
+      "quote": "Тем не менее, ожидаем, чтО дивидендная доходность производителей в среднем составит не менее 2%, с высокой вероятностью доходности выше наших ожиданий.",
+      "forecast": {
+        "metric": "other",
+        "value": "не менее 2%",
+        "horizon": "2021Q1",
+        "label": "Другой показатель"
+      },
+      "date": "2021-04-15",
+      "superseded_by": null,
+      "horizon_passed": true,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "f3b403644d04-p1-1585bc",
+      "doc_id": "f3b403644d04",
+      "page": 1,
+      "factors": [
+        "metals",
+        "company_event"
+      ],
+      "thesis": "Банк полагает, что производители направят на дивиденды 100% СДП на квартальной основе: $0,45/ГДР у ММК, $0,59/ГДР у Северстали, $0,69/ГДР у НЛМК.",
+      "quote": "Мы полагаем, что производители стали направят на дивидендные выплаты 100% СДП на квартальной основе. Это предполагает дивиденд на акцию на уровне $0,45/ГДР для ММК, $0,59/ГДР для Северстали, $0,69/ГДР для НЛМК.",
+      "forecast": {
+        "metric": "other",
+        "value": "$0,45/ГДР для ММК, $0,59/ГДР для Северстали, $0,69/ГДР для НЛМК",
+        "horizon": "2021Q1",
+        "label": "Другой показатель"
+      },
+      "date": "2021-04-15",
+      "superseded_by": null,
+      "horizon_passed": true,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "f3b403644d04-p1-e766e7",
+      "doc_id": "f3b403644d04",
+      "page": 1,
+      "factors": [
+        "metals"
+      ],
+      "thesis": "Банк ожидает, что компании покажут рекордно высокий квартальный показатель EBITDA с дальнейшим потенциалом роста во 2К21 на фоне продолжающегося роста цен на сталь.",
+      "quote": "Мы ожидаем, что компании продемонстрируют рекордно высокий квартальный показатель EBITDA с дальнейшим потенциалом роста в 2K21, так как рост цен на сталь в 2K21 продолжился.",
+      "forecast": null,
+      "date": "2021-04-15",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "f3b403644d04-p1-d15549",
+      "doc_id": "f3b403644d04",
+      "page": 1,
+      "factors": [
+        "metals",
+        "company_event"
+      ],
+      "thesis": "Банк напоминает, что заявленные инвестиции Северстали, НЛМК и ММК в 2021 году составят около $3,5 млрд, при этом в первом квартале они традиционно ниже.",
+      "quote": "Сильный прирост EBITDA поддерживает ожидания в отношении СДП компаний. При этом стоит учитывать заявленный уровень инвестиций по Северстали, НЛМК и ММК размере около $3,5 млрд в 2021.",
+      "forecast": {
+        "metric": "other",
+        "value": "около $3,5 млрд",
+        "horizon": "2021",
+        "label": "Другой показатель"
+      },
+      "date": "2021-04-15",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "f3b403644d04-p1-35599c",
+      "doc_id": "f3b403644d04",
+      "page": 1,
+      "factors": [
+        "metals",
+        "company_event"
+      ],
+      "thesis": "Банк отмечает, что без учёта разового возмещения $100 млн в 4К20 рост EBITDA НЛМК в 1К21 был бы близок к 40% к/к.",
+      "quote": "Справедливости ради следует отметить, что на 4K20 EBITDA НЛМК позитивно повлияло начисленное возмещение в связи с импортом слябов в США (около $100 млн). Без учета этого фактора рост EBITDA НЛМК в 1K21 был бы близок к 40% к/к.",
+      "forecast": {
+        "metric": "other",
+        "value": "близко к 40% к/к",
+        "horizon": "2021Q1",
+        "label": "Другой показатель"
+      },
+      "date": "2021-04-15",
+      "superseded_by": null,
+      "horizon_passed": true,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "f3b403644d04-p1-fc9efe",
+      "doc_id": "f3b403644d04",
+      "page": 1,
+      "factors": [
+        "metals",
+        "fx"
+      ],
+      "thesis": "Аналитики банка считают, что сильный экспортный спрос на сталь поможет нейтрализовать укрепление рубля на 2%, произошедшее в 1К21.",
+      "quote": "Сильный спрос на сталь на экспортных рынках, как мы считаем, поможет нейтрализовать укрепление курса рубля на 2%, произошедшее в 1K21.",
+      "forecast": null,
+      "date": "2021-04-15",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "f3b403644d04-p1-fc30cc",
+      "doc_id": "f3b403644d04",
+      "page": 1,
+      "factors": [
+        "metals",
+        "company_event"
+      ],
+      "thesis": "Банк ожидает, что объёмы продаж Северстали в квартальном сравнении останутся сопоставимыми, а доля экспорта вырастет.",
+      "quote": "Мы ожидаем, что объемы продаж Северстали будут сопоставимы в квартальном сравнении и ожидаем увеличение доли экспорта.",
+      "forecast": null,
+      "date": "2021-04-15",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "0610b1dc454a-p3-2435e4",
+      "doc_id": "0610b1dc454a",
+      "page": 3,
+      "factors": [
+        "key_rate",
+        "bonds"
+      ],
+      "thesis": "Банк ожидает, что 24 июля ЦБ сохранит ключевую ставку на уровне 14,25%, а прогноз по среднему уровню ключевой ставки в 2026 и 2027 гг. будет пересмотрен вверх.",
+      "quote": "Мы ожидаем, что 24 июля регулятор сохранит ставку неизменной на уровне 14,25%, при этом прогноз по среднему уровню ключевой ставки в 2026 и 2027 гг. будет пересмотрен вверх.",
+      "forecast": {
+        "metric": "key_rate_decision",
+        "value": "14,25%",
+        "horizon": "2026-07-24",
+        "label": "Решение по ключевой ставке на заседании"
+      },
+      "date": "2026-07-22",
+      "superseded_by": null,
+      "horizon_passed": true,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "0610b1dc454a-p3-22a442",
+      "doc_id": "0610b1dc454a",
+      "page": 3,
+      "factors": [
+        "bonds",
+        "key_rate"
+      ],
+      "thesis": "Банк не считает текущий момент подходящим для открытия спекулятивных позиций в длинных ОФЗ-ПД, несмотря на привлекательную доходность длинных ОФЗ выше 16,5%.",
+      "quote": "Несмотря на привлекательный уровень доходности длинных ОФЗ-ПД на уровне выше 16,5%, мы не считаем текущий момент подходящим для открытия спекулятивных позиций.",
+      "forecast": null,
+      "date": "2026-07-22",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "0610b1dc454a-p3-213fca",
+      "doc_id": "0610b1dc454a",
+      "page": 3,
+      "factors": [
+        "bonds"
+      ],
+      "thesis": "Банк сохраняет рекомендацию формировать защитный портфель облигаций и на 3К26 г., смещая фокус в корпоративном сегменте на эмитентов инвесткатегории из-за роста кредитных рисков.",
+      "quote": "Мы сохраняем эту рекомендацию и на 3К26 г., при этом в сегменте корпоративных облигаций смещаем фокус на эмитентов с рейтингом инвесткатегории из-за роста кредитных рисков.",
+      "forecast": null,
+      "date": "2026-07-22",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "0610b1dc454a-p9-9e6fb8",
+      "doc_id": "0610b1dc454a",
+      "page": 9,
+      "factors": [
+        "bonds"
+      ],
+      "thesis": "Банк полагает, что право Минфина в любой момент увеличить объем размещения ОФЗ (план 6,5 трлн руб. в 2026 г.) создает дополнительное давление на рынок ОФЗ.",
+      "quote": "Текущий план предполагает размещение в 2026 г. ОФЗ на сумму 6,5 трлн руб. по номиналу, однако рынок ожидает, что эта цифра будет скорректирована вверх. Право увеличить объем размещений в любой момент создает дополнительное давление на рынок ОФЗ, где и без того имеется существенный навес",
+      "forecast": null,
+      "date": "2026-07-22",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "0610b1dc454a-p11-c8a5eb",
+      "doc_id": "0610b1dc454a",
+      "page": 11,
+      "factors": [
+        "consumption",
+        "key_rate",
+        "inflation"
+      ],
+      "thesis": "Аналитики банка считают, что восстановление потребительского спроса при повышенных инфляционных рисках ограничивает пространство для снижения ключевой ставки на заседании ЦБ 24 июля.",
+      "quote": "Восстановление потребительского спроса на протяжении нескольких месяцев подряд в условиях повышенных инфляционных рисков, по нашему мнению, ограничивает пространство для снижения ключевой ставки на заседании ЦБ 24 июля",
+      "forecast": null,
+      "date": "2026-07-22",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "0610b1dc454a-p13-76fdd0",
+      "doc_id": "0610b1dc454a",
+      "page": 13,
+      "factors": [
+        "oil_gas",
+        "key_rate",
+        "bonds"
+      ],
+      "thesis": "Банк ожидает, что нерешенность ситуации с бюджетным правилом и незавершенный конфликт на Ближнем Востоке будут ограничивать ЦБ в снижении ключевой ставки в 3К26 г.",
+      "quote": "Во 2к26 г. ситуация с бюджетным правилом не прояснилась, а конфликт на Ближнем Востоке не завершился. Оба эти фактора, по нашему мнению, будут ограничивать ЦБ в снижении ключевой ставки в 3К26 г.",
+      "forecast": null,
+      "date": "2026-07-22",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "0610b1dc454a-p15-40b167",
+      "doc_id": "0610b1dc454a",
+      "page": 15,
+      "factors": [
+        "bonds"
+      ],
+      "thesis": "Банк ожидает, что прирост госдолга в 2026 г. превысит план (+17% за год), так как фактический объем размещений ОФЗ будет выше плановых 6,5 трлн руб. из-за роста дефицита бюджета.",
+      "quote": "План Минфина предполагает размещение ОФЗ на сумму 6,5 трлн руб. по номиналу в 2026 г. при запланированном объеме погашений в 1,34 трлн. руб., т.е. прирост госдолга составит ~5,2 трлн руб. или +17% за год. Мы ожидаем, что прирост будет выше, т.к. фактический объем размещений превысит плановый на фоне увеличения дефицита бюджета в 2026 г.",
+      "forecast": null,
+      "date": "2026-07-22",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "0610b1dc454a-p16-783a71",
+      "doc_id": "0610b1dc454a",
+      "page": 16,
+      "factors": [
+        "bonds"
+      ],
+      "thesis": "Банк отдает предпочтение среднесрочным ОФЗ-ПД со сроками погашения в 2031-2033 гг. (выпуски 26249 и 26241), торгующимся с доходностью около 16%.",
+      "quote": "Мы отдаем предпочтение ОФЗ-ПД со сроком погашения в 2031- 2033 гг., в т.ч. 26249 (погашение 16.06.2032г.) и 26241 (погашение 17.11.2032г.), которые в настоящий момент торгуются с доходностью около 16%",
+      "forecast": null,
+      "date": "2026-07-22",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "0610b1dc454a-p19-d75f5c",
+      "doc_id": "0610b1dc454a",
+      "page": 19,
+      "factors": [
+        "bonds",
+        "key_rate"
+      ],
+      "thesis": "Банк оценивает: при снижении ключевой ставки до 12% через 12 месяцев доходность ОФЗ 26249 снизится до 12%, что предполагает рост цены до 97,2% и доход 30% на горизонте 12 месяцев.",
+      "quote": "При снижении ключевой ставки до уровня 12% через 12 месяцев доходность ОФЗ 26249, по нашим оценкам, может снизиться так же до 12% с текущих ~16%, что предполагает рост цены до 97,2% с текущих 83,4%, что обеспечит доход (рост цены+купон) в размере 30% на горизонте 12 месяцев",
+      "forecast": {
+        "metric": "ofz_yield",
+        "value": "12%",
+        "horizon": "2027-07",
+        "label": "Доходность ОФЗ, %"
+      },
+      "date": "2026-07-22",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "0610b1dc454a-p23-39628d",
+      "doc_id": "0610b1dc454a",
+      "page": 23,
+      "factors": [
+        "bonds"
+      ],
+      "thesis": "Банк ожидает миграции спроса всех групп инвесторов в сторону эмитентов высокого кредитного качества и не ждет расширения кредитных спредов у эмитентов «ААА»-категории за пределами топ-10 заемщиков.",
+      "quote": "При сохранении текущего геополитического контекста (в т.ч. высокой неопределенности) мы ожидаем миграции спроса всех групп инвесторов в сторону эмитентов высокого кредитного качества, в связи с чем мы не ждем расширения кредитных спредов у эмитентов «ААА»-категории за пределам топ-10 заемщиков",
+      "forecast": null,
+      "date": "2026-07-22",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "0610b1dc454a-p24-4c4b52",
+      "doc_id": "0610b1dc454a",
+      "page": 24,
+      "factors": [
+        "bonds",
+        "key_rate"
+      ],
+      "thesis": "Банк рассматривает качественные корпоративные флоутеры как подходящий актив в условиях геополитической напряженности - в ожидании лучшего момента входа в инструменты с фиксированной доходностью.",
+      "quote": "С учетом сохраняющейся геополитической напряженности, в моменте мы рассматриваем качественные корпоративные флоутеры как подходящий актив для инвестирования средств в ожидании более благоприятного момента входа в рынок инструментов с фиксированной доходностью.",
+      "forecast": null,
+      "date": "2026-07-22",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "75505651a316-p2-ca1c7b",
+      "doc_id": "75505651a316",
+      "page": 2,
+      "factors": [
+        "gold"
+      ],
+      "thesis": "Банк оценивает август как месяц восстановления золота: в моменте металл показал лучший месячный результат с января, котировки поднимались до $4 650-4 700 за унцию, но к концу месяца скорректировались примерно к $4 400.",
+      "quote": "Август стал месяцем восстановления для драгметалла: в моменте золото показало лучший месячный результат с января. В ходе ралли котировки вернулись в область $4 650-4 700 за унцию с $4 000 за унцию, затем скорректировались примерно к $4 400 на конец месяца.",
+      "forecast": null,
+      "date": "2026-09-08",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "75505651a316-p2-95e48b",
+      "doc_id": "75505651a316",
+      "page": 2,
+      "factors": [
+        "gold",
+        "bonds"
+      ],
+      "thesis": "Банк считает, что золото поддержало внеплановое объявление Минфина США 19 августа о выкупе гособлигаций со сроком 10-30 лет, и расценивает это как признание того, что долгосрочные заимствования для государства стали слишком дорогими.",
+      "quote": "Более того, 19 августа Минфин США внепланово объявил об увеличении выкупа собственных гособлигаций со сроком 10-30 лет, что существенно подтолкнуло котировки золота вверх. Это фактически признание того, что занимать на 30 лет государству стало слишком дорого.",
+      "forecast": null,
+      "date": "2026-09-08",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "75505651a316-p2-d52e9d",
+      "doc_id": "75505651a316",
+      "page": 2,
+      "factors": [
+        "gold",
+        "key_rate",
+        "bonds"
+      ],
+      "thesis": "После заявлений главы ФРС К. Уорша 28 августа о приоритете борьбы с инфляцией банк отмечает: переоценка перспектив ставки повысила альтернативную стоимость владения золотом, а рост доходностей американских облигаций и отскок доллара затормозили ралли.",
+      "quote": "28 августа Кевин Уорш, глава ФРС, подчеркнул устойчивость экономики и приоритет борьбы с инфляцией. Переоценка перспектив ставки повысила альтернативную стоимость владения золотом; рост доходностей американских облигаций и отскок доллара США затормозили ралли.",
+      "forecast": null,
+      "date": "2026-09-08",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "75505651a316-p2-1bc3fe",
+      "doc_id": "75505651a316",
+      "page": 2,
+      "factors": [
+        "gold",
+        "fx",
+        "sanctions_trade"
+      ],
+      "thesis": "Аналитики банка видят реальную цель расширения золотых запасов Китая в создании параллельного финансового цикла «сырье-юань-золото» через локализованные оффшорные клиринговые экосистемы.",
+      "quote": "Реальная цель расширения золотых запасов Китая и создания локализованных оффшорных клиринговых экосистем заключается в создании параллельного финансового цикла: сырье-юань-золото.",
+      "forecast": null,
+      "date": "2026-09-08",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "75505651a316-p2-2276b2",
+      "doc_id": "75505651a316",
+      "page": 2,
+      "factors": [
+        "gold",
+        "bonds"
+      ],
+      "thesis": "Банк считает, что опорой рынка золота остаются диверсификация резервов центральных банков, широкий спрос на золотые ETF и покупки в Азии, а рост госдолга США и геополитическая неопределенность повышают интерес к золоту как активу без обязательств суверенного эмитента.",
+      "quote": "Диверсификация резервов центральных банков, широкий спрос на золотые ETF и покупки в Азии остаются опорой рынка золота. Рост госдолга США и геополитическая неопределенность повышают интерес к золоту как активу без обязательств суверенного эмитента.",
+      "forecast": null,
+      "date": "2026-09-08",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "75505651a316-p2-66cdc8",
+      "doc_id": "75505651a316",
+      "page": 2,
+      "factors": [
+        "gold",
+        "inflation",
+        "fx"
+      ],
+      "thesis": "Банк полагает, что рост золота может продолжить устойчивая дезинфляция вместе с ослаблением доллара, снижением реальных доходностей, новыми притоками в ETF и покупками мировых ЦБ, но важен именно совместный сигнал этих факторов.",
+      "quote": "Устойчивая дезинфляция вместе с ослаблением доллара и снижением реальных доходностей, новые притоки в ETF, а также продолжение покупок со стороны мировых ЦБ. Важен именно совместный сигнал этих факторов.",
+      "forecast": null,
+      "date": "2026-09-08",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "75505651a316-p4-b6e3cd",
+      "doc_id": "75505651a316",
+      "page": 4,
+      "factors": [
+        "inflation",
+        "key_rate"
+      ],
+      "thesis": "Банк отмечает, что небольшой месячный рост цен в США поддержал ожидания паузы в ставке ФРС, но не гарантировал ее, а предпочитаемый ФРС индекс инфляции по-прежнему существенно выше цели 2%.",
+      "quote": "Небольшой месячный рост цен поддержал ожидания паузы в ставке ФРС, но не гарантировал ее. Предпочитаемый ФРС индекс по-прежнему существенно выше цели в 2%.",
+      "forecast": null,
+      "date": "2026-09-08",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "75505651a316-p4-5f89b4",
+      "doc_id": "75505651a316",
+      "page": 4,
+      "factors": [
+        "gold",
+        "gdp_growth",
+        "inflation"
+      ],
+      "thesis": "Банк считает охлаждение экономики США без нового инфляционного шока благоприятным для золота, но августовские данные давали такому сценарию лишь частичное подтверждение.",
+      "quote": "Для золота благоприятно охлаждение экономики без нового инфляционного шока. Августовские данные давали лишь частичное подтверждение такого сценария.",
+      "forecast": null,
+      "date": "2026-09-08",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "75505651a316-p5-b61937",
+      "doc_id": "75505651a316",
+      "page": 5,
+      "factors": [
+        "key_rate",
+        "gold"
+      ],
+      "thesis": "Банк считает заседание FOMC 15-16 сентября следующим ключевым рубежом: для золота важны и само решение по ставке, и его отклонение от ожиданий рынка.",
+      "quote": "Следующий ключевой рубеж - заседание FOMC 15-16 сентября. Для золота важны и решение, и отклонение решения от ожиданий рынка.",
+      "forecast": null,
+      "date": "2026-09-08",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "75505651a316-p6-780fa3",
+      "doc_id": "75505651a316",
+      "page": 6,
+      "factors": [
+        "bonds",
+        "gold"
+      ],
+      "thesis": "Банк ожидает, что рост долговой нагрузки США усилит потребность в рефинансировании и чувствительность бюджета к стоимости обслуживания, а инвесторы могут наращивать долю золота как защиту от инфляционных и валютных рисков.",
+      "quote": "Рост долговой нагрузки усиливает потребность в рефинансировании и чувствительность бюджета к стоимости обслуживания. Инвесторы могут увеличивать долю золота как защиты от инфляционных и валютных рисков.",
+      "forecast": null,
+      "date": "2026-09-08",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a9fe66fbf85c-p1-4fef08",
+      "doc_id": "a9fe66fbf85c",
+      "page": 1,
+      "factors": [
+        "oil_gas",
+        "inflation"
+      ],
+      "thesis": "Банк отмечает, что рост цен на бензин остался умеренно высоким, а дизель почти не подорожал; в целом динамика топливных цен оказалась значительно лучше прогнозов банка.",
+      "quote": "Рост цен на бензин остался умеренно высоким – 0,91% н/н после роста на 0,89% н/н неделей ранее. Цены на дизель остались почти без изменений. В целом динамика цен на топливо оказалась значительно лучше наших прогнозов.",
+      "forecast": null,
+      "date": "2026-09-02",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a9fe66fbf85c-p1-dced64",
+      "doc_id": "a9fe66fbf85c",
+      "page": 1,
+      "factors": [
+        "inflation"
+      ],
+      "thesis": "Банк считает недельную дефляцию в конце августа сигналом проявления дезинфляционных тенденций.",
+      "quote": "Недельная дефляция, зафиксированная на фоне продолжающегося роста цен на бензин в самом конце августа, является сигналом проявления дезинфляционных тенденций.",
+      "forecast": null,
+      "date": "2026-09-02",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a9fe66fbf85c-p1-f287e2",
+      "doc_id": "a9fe66fbf85c",
+      "page": 1,
+      "factors": [
+        "inflation",
+        "agri",
+        "sanctions_trade"
+      ],
+      "thesis": "Банк не исключает, что продовольственные цены пойдут по более низкой траектории из-за сложностей с экспортом урожая.",
+      "quote": "Кроме того, мы не исключаем, что динамика продовольственных цен также может пойти по более низкой траектории из-за сложностей с экспортом урожая.",
+      "forecast": null,
+      "date": "2026-09-02",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a9fe66fbf85c-p1-0784e4",
+      "doc_id": "a9fe66fbf85c",
+      "page": 1,
+      "factors": [
+        "fx",
+        "inflation"
+      ],
+      "thesis": "По мнению банка, ослабление курса рубля продолжит воздействовать на динамику цен в непродовольственном сегменте.",
+      "quote": "С другой стороны, ослабление курса рубля, на наш взгляд, продолжит воздействовать на динамику цен в непродовольственном сегменте.",
+      "forecast": null,
+      "date": "2026-09-02",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a9fe66fbf85c-p1-cb6b9a",
+      "doc_id": "a9fe66fbf85c",
+      "page": 1,
+      "factors": [
+        "oil_gas",
+        "inflation"
+      ],
+      "thesis": "Банк полагает, что ситуация на рынке топлива не позволяет считать новую волну роста цен исчерпанной, и видит в этом важный проинфляционный риск.",
+      "quote": "Мы также полагаем, что складывающаяся ситуация на рынке топлива не позволяет рассчитывать на то, что новая волна роста цен уже исчерпана, поэтому динамика в этом сегменте остается важным проинфляционным риском.",
+      "forecast": {
+        "metric": "inflation_wow",
+        "value": "0,03% н/н",
+        "horizon": "2026-09-07",
+        "label": "Инфляция за неделю, % н/н"
+      },
+      "date": "2026-09-02",
+      "superseded_by": null,
+      "horizon_passed": true,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "a9fe66fbf85c-p1-31000e",
+      "doc_id": "a9fe66fbf85c",
+      "page": 1,
+      "factors": [
+        "inflation"
+      ],
+      "thesis": "Банк изменил прогноз по августу и ждёт, что Росстат покажет дефляцию 0,07%.",
+      "quote": "По итогам августа мы меняем наш прогноз и ждем, что Росстат покажет дефляцию на уровне 0,07%.",
+      "forecast": {
+        "metric": "inflation_mom",
+        "value": "-0,07% м/м",
+        "horizon": "2026-08",
+        "label": "Инфляция за месяц, % м/м"
+      },
+      "date": "2026-09-02",
+      "superseded_by": null,
+      "horizon_passed": true,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "c462b20ee531-p1-73feab",
+      "doc_id": "c462b20ee531",
+      "page": 1,
+      "factors": [
+        "key_rate",
+        "bonds"
+      ],
+      "thesis": "Банк считает октябрьское заседание ЦБ крайне важным для дальнейшей динамики долгового рынка; до конца года заседаний два - 23 октября и 18 декабря.",
+      "quote": "До конца года состоится два заседания ЦБ по ключевой ставке (23 октября и 18 декабря). Ранее мы писали о том, что считаем октябрьское заседание крайне важным для дальнейшей динамики долгового рынка.",
+      "forecast": null,
+      "date": "2026-09-14",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "c462b20ee531-p1-633e87",
+      "doc_id": "c462b20ee531",
+      "page": 1,
+      "factors": [
+        "key_rate",
+        "bonds"
+      ],
+      "thesis": "Банк фиксирует, что ЦБ 11 сентября сохранил ставку на уровне 14,0%, а долговые инвесторы разочарованы тем, что опция снижения ставки даже не рассматривалась.",
+      "quote": "В пятницу 11 сентября ЦБ ожидаемо сохранил ключевую ставку на уровне 14,0%, однако долговые инвесторы остались разочарованы тем, что регулятор не рассматривал опцию снижения ставки.",
+      "forecast": null,
+      "date": "2026-09-14",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "c462b20ee531-p1-0d8061",
+      "doc_id": "c462b20ee531",
+      "page": 1,
+      "factors": [
+        "inflation",
+        "key_rate"
+      ],
+      "thesis": "Банк отмечает, что, по словам главы ЦБ, регулятору нужно больше данных для оценки влияния временных эффектов на устойчивую инфляцию, а проинфляционные риски выросли.",
+      "quote": "Глава ЦБ сообщила, что ЦБ потребуется больше данных для оценки влияния на устойчивую инфляцию временных эффектов., а также отметила, что проинфляционные риски выросли, а экономика может вернуться к дисбалансу спроса и предложения.",
+      "forecast": null,
+      "date": "2026-09-14",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "c462b20ee531-p1-ce2490",
+      "doc_id": "c462b20ee531",
+      "page": 1,
+      "factors": [
+        "bonds",
+        "key_rate"
+      ],
+      "thesis": "Аналитики банка полагают, что возврат Минфина к активному размещению ОФЗ-ПД окажет заметное давление на рынок ОФЗ и усилит опасения участников перед объявлением новых параметров бюджета в октябре.",
+      "quote": "Мы полагаем, что если в текущей конъюнктура Минфин вернется к активному размещению ОФЗ-ПД, это может оказать заметное давление на рынок ОФЗ. Кроме того, это может усилить опасения участников рынка относительно того, чего ожидать в октябре от объявления новых параметров бюджета.",
+      "forecast": null,
+      "date": "2026-09-14",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "c462b20ee531-p2-3453f6",
+      "doc_id": "c462b20ee531",
+      "page": 2,
+      "factors": [
+        "company_event",
+        "bonds"
+      ],
+      "thesis": "Банк не ожидает ухудшения кредитного качества «Полюса» в краткосрочном и среднесрочном горизонте, но допускает рост кредитного спреда из-за ограниченного формата публикации МСФО-отчетности за год.",
+      "quote": "Мы не ожидаем ухудшения кредитного качества Компании в краткосрочном и среднесрочном горизонте. Тем не менее мы полагаем, публикация финансовых показателей по МСФО за год в подобном ограниченном формате может привести к ухудшению восприятия кредитного риска инвесторами и росту кредитного спреда.",
+      "forecast": null,
+      "date": "2026-09-14",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "c462b20ee531-p3-ed4c98",
+      "doc_id": "c462b20ee531",
+      "page": 3,
+      "factors": [
+        "company_event",
+        "energy",
+        "regulation"
+      ],
+      "thesis": "Банк отмечает, что высокая инвестпрограмма «РусГидро» давит на свободный денежный поток, но поэтапная либерализация цен в 2026-2030 годах поддержит финансы компании.",
+      "quote": "Компания осуществляет высокую программу капитальных затрат на строительство новых и модернизацию действующих энергообъектов, что оказывает давление на ее Свободный Денежный Поток. При этом поэтапная либерализация цен, утвержденная в 2025 году с 2026 к 2030 году, окажет поддержку финансам Компании.",
+      "forecast": null,
+      "date": "2026-09-14",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    },
+    {
+      "position_id": "c462b20ee531-p3-03349a",
+      "doc_id": "c462b20ee531",
+      "page": 3,
+      "factors": [
+        "company_event",
+        "regulation"
+      ],
+      "thesis": "Аналитики банка полагают, что в случае стресса государство окажет поддержку «РусГидро» из-за высокой важности компании для ДФО.",
+      "quote": "Ввиду высокой важности Компании для ДФО мы полагаем, что государство окажет поддержку Компании в случае стресса.",
+      "forecast": null,
+      "date": "2026-09-14",
+      "superseded_by": null,
+      "horizon_passed": false,
+      "checks": {
+        "quote": "exact",
+        "page_corrected": false,
+        "second_ocr": null
+      }
+    }
+  ],
+  "rejected": []
+}

@@ -373,3 +373,23 @@ def test_search_news_bm25_recent_window(db):
     assert set(res[0]) == {"news_id", "title", "url", "source", "published_at", "summary", "score"}
     assert retriever.search_news(db, "цен на стали")[0]["news_id"] == "n2"
     assert retriever.search_news(db, "") == []
+
+
+def test_chunk_of_page_with_superseded_forecast_is_flagged_and_ranks_lower(db, tmp_path):
+    _chunks(db, ("o", 3, "Прогноз: курс доллара на конец 2027 года 95,0 руб., ставка", "2026-07-31"),
+            ("n", 1, "Прогноз: курс доллара на конец 2027 года 93,0 руб., ставка", "2026-09-11"))
+    path = _positions_file(tmp_path, [
+        _position("old", "o", 3, ["fx"], "Банк ждёт курс 95,0 на конец 2027 года.", "95,0", "2026-07-31", superseded_by="new"),
+    ], [{"doc_id": "o", "title": "1П26", "stale": False}, {"doc_id": "n", "title": "Ставка", "stale": False}])
+    res = retriever.search_bank_analytics(db, "курс доллара на конец 2027 года", 4, positions_path=path)
+    chunks = {r["doc_id"]: r for r in res if r["kind"] == "chunk"}
+    assert chunks["n"]["superseded_by"] is None
+    assert res[0]["doc_id"] == "n"   # страница со старым прогнозом ниже свежей
+
+
+def test_horizon_passed_is_checked_against_today():
+    from datetime import date
+    p = {"forecast": {"metric": "key_rate_meeting", "value": "14%", "horizon": "2026-10-23"}, "horizon_passed": False}
+    assert bp.horizon_passed(p, today=date(2026, 10, 24))
+    assert not bp.horizon_passed(p, today=date(2026, 10, 23))
+    assert not bp.horizon_passed({"forecast": {"horizon": "2026"}}, today=date(2026, 12, 31))

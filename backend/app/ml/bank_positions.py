@@ -22,7 +22,6 @@ import base64
 import hashlib
 import json
 import logging
-import os
 import re
 import struct
 import time
@@ -359,6 +358,24 @@ def link_forecasts(positions: list[dict], as_of: date | None = None) -> None:
             p["horizon_passed"] = True
 
 
+def horizon_passed(p: dict, today: date | None = None) -> bool:
+    """Горизонт прогноза закончился: по разметке (раньше самого свежего документа) или на сегодня."""
+    end = _horizon_end((p.get("forecast") or {}).get("horizon"))
+    return bool(p.get("horizon_passed")) or bool(end and end < (today or date.today()))
+
+
+def newer_forecast(position_id: str | None, path: str | Path | None = None) -> dict | None:
+    """Позиция с обновлённым прогнозом (по superseded_by) и её документ: для пометки «прогноз обновлён»."""
+    if not position_id:
+        return None
+    data = load_positions_data(path)
+    p = next((x for x in data.get("positions", []) if x["position_id"] == position_id), None)
+    if p is None:
+        return None
+    doc = next((d for d in data.get("documents", []) if d["doc_id"] == p["doc_id"]), {})
+    return p | {"doc_title": doc.get("title") or p["doc_id"], "doc_date": p.get("date") or doc.get("date")}
+
+
 def documents_section(docs: list[analytics_loader.Document]) -> list[dict]:
     keys = ("file", "doc_id", "title", "date", "date_estimated", "type", "stale", "stale_reason", "factors",
             "text_source", "in_case_list", "case_title")
@@ -437,7 +454,6 @@ def load_positions(path: str | Path | None = None) -> list[dict]:
 
 # ---------- OCR страниц-картинок моделью Qwen3-VL ----------
 
-VLM_MODEL_DEFAULT = "qwen/qwen3-vl-30b-a3b-instruct"
 VLM_PROMPT = (
     "Ты - система OCR. На изображении страница аналитического отчёта банка. Перепиши текст страницы "
     "дословно, на языке оригинала: ничего не добавляй, не исправляй, не пересказывай и не меняй формы слов.\n"
@@ -494,8 +510,7 @@ def page_image(pdf_path: str | Path, page_no: int) -> tuple[str, bytes]:
 
 
 def vlm_model() -> str:
-    """В Settings нет поля для vision-модели: берём из окружения (LLM_MODEL_VISION в .env)."""
-    return os.environ.get("LLM_MODEL_VISION") or VLM_MODEL_DEFAULT
+    return get_settings().llm_model_vision
 
 
 def vlm_transcribe(db: Session, mime: str, image: bytes, *, http: httpx.Client | None = None,

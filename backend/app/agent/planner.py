@@ -1,8 +1,11 @@
 """Планирование: какие данные и источники нужны для вывода о конкретном клиенте.
 
 План строит Gemma (5 с, ~0,02 ₽; Qwen3.6 на этом промпте зацикливался, GLM втрое дороже - замер 21.10), валидатор гарантирует минимальный набор
-доказательств: граф контрагентов и поиск позиции банка по каждому фактору фокуса. При сбое модели -
-детерминированный план по факторам с наибольшей чувствительностью клиента.
+доказательств: граф контрагентов и поиск позиции банка по каждому фактору фокуса. Обычный план - 300-400
+токенов за 5-10 с; изредка Gemma зацикливается и, не обращая внимания на max_tokens, пишет 8192 токена
+за 2 минуты (2 из 35 вызовов 21-23.10). Поэтому у Gemma короткий таймаут без повтора, а при сбое план
+строит GLM (5-6 с). Если не ответил и он - детерминированный план по факторам с наибольшей
+чувствительностью клиента.
 """
 from pathlib import Path
 
@@ -18,6 +21,8 @@ from app.services.token_budget import BudgetExceeded
 
 PROMPT = (Path(__file__).parent / "prompts" / "planner.md").read_text(encoding="utf-8")
 MAX_STEPS = 6
+PLAN_MAX_TOKENS = 900
+PLAN_TIMEOUT_S = {"light": 25.0, "reasoning": 40.0}
 
 
 def _fallback(meta: NewsClassification, exps: dict[str, taxonomy.Exposure]) -> Plan:
@@ -37,6 +42,8 @@ def _validate(plan: Plan, meta: NewsClassification) -> tuple[Plan, list[str]]:
         plan.focus_factors = meta.factor_codes[:2] or ["gdp_growth"]
         notes.append("focus_factors взяты из разметки новости")
     steps, seen = [], set()
+    # обязательные шаги ниже не должны вытесняться лимитом: оставляем им место
+    plan.steps = plan.steps[:max(1, MAX_STEPS - 1 - len(plan.focus_factors))]
     for s in plan.steps:
         key = (s.tool, (s.query or "").lower(), tuple(s.factors))
         if key not in seen:
@@ -67,16 +74,20 @@ def make_plan(llm: LLMClient, tracer: Tracer, state: AgentState) -> list[dict]:
         context.profile_brief(profile, state.user_role),
         context.exposures_brief(exps, list(dict.fromkeys(meta.factor_codes + ["key_rate", "fx"])), state.user_role),
     ])
-    source = "llm"
-    try:
-        plan, _ = llm.structured(
-            [{"role": "system", "content": f"{PROMPT}\n\n{json_instruction(Plan)}"}, {"role": "user", "content": user}],
-            Plan, complexity="light", name="planner", max_tokens=1500,
-        )
-    except BudgetExceeded:
-        raise
-    except LLMError as e:
-        plan, source = _fallback(meta, exps), f"fallback: {str(e)[:200]}"
+    messages = [{"role": "system", "content": f"{PROMPT}\n\n{json_instruction(Plan)}"}, {"role": "user", "content": user}]
+    plan, source, errors = None, "llm", []
+    for complexity, retries in (("light", 0), ("reasoning", 1)):  # Gemma, при сбое - GLM
+        try:
+            plan, _ = llm.structured(messages, Plan, complexity=complexity, name="planner", retries=retries,
+                                     max_tokens=PLAN_MAX_TOKENS, timeout=PLAN_TIMEOUT_S[complexity])
+            source = "llm" if not errors else f"llm ({complexity}; {errors[0]})"
+            break
+        except BudgetExceeded:
+            raise
+        except LLMError as e:
+            errors.append(str(e)[:200])
+    if plan is None:
+        plan, source = _fallback(meta, exps), f"fallback: {'; '.join(errors)[:300]}"
     plan, notes = _validate(plan, meta)
     state.focus_factors = list(plan.focus_factors)
     state.hypotheses = list(plan.hypotheses)

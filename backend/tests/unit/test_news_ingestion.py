@@ -1,5 +1,6 @@
 """Сбор новостей: проверка разметки по тексту, нечёткие дубли, RSS, планировщик, ручное добавление.
 LLM подменена фейком, БД - SQLite в памяти, сеть - фейковым Http/MockTransport."""
+import json
 from datetime import UTC, datetime, timedelta
 
 import httpx
@@ -13,7 +14,7 @@ from app.db.session import Base
 from app.ingestion import classify, dedup, manual, scheduler
 from app.ingestion.sources.base import FetchError, Http, Page, RawNews, html_to_text
 from app.ingestion.sources.rss import RssSource
-from app.ml.news import FactorTag, NewsClassification
+from app.ml.news import FactorTag, NewsClassification, news_meta
 from app.ml.taxonomy import FACTOR_CODES
 
 NOW = datetime.now(UTC)
@@ -183,6 +184,21 @@ def test_request_retries_on_unknown_keys_and_sanitizes_small_deviations():
     assert [(t.factor, t.direction) for t in out.factors] == [("key_rate", "unknown")]
     assert out.importance == 5 and out.industries == ["64"]
     assert "key_facts Pol" in llm.calls[1][-1]["content"] and len(llm.calls) == 2
+
+
+def test_request_ignores_json_schema_keys_copied_from_schema():
+    # реальный ответ Gemma (23.10): разметка + "$defs" из схемы ответа
+    reply = '{"$defs": {"FactorTag": {"type": "object"}}, "summary": "ЦБ сохранил ставку 14%.", "factors": [{"factor": "key_rate"}]}'
+    llm = FakeLLM(replies=[reply])
+    out = classify.request(llm, [{"role": "system", "content": "s"}, {"role": "user", "content": "u"}])
+    assert out.factor_codes == ["key_rate"] and len(llm.calls) == 1
+
+
+def test_request_retries_when_model_returns_schema_instead_of_labels():
+    schema = json.dumps(NewsClassification.model_json_schema())
+    llm = FakeLLM(replies=[schema, '{"summary": "ЦБ сохранил ставку 14%."}'])
+    out = classify.request(llm, [{"role": "system", "content": "s"}, {"role": "user", "content": "u"}])
+    assert out.summary == "ЦБ сохранил ставку 14%." and len(llm.calls) == 2
 
 
 def test_request_gives_up_after_retry():
@@ -394,11 +410,21 @@ def test_scheduler_skips_duplicates_irrelevant_and_stale(db):
     assert again.added == 0 and len(llm.calls) == 3
 
 
-def test_scheduler_writes_ml_meta_when_column_exists(db, monkeypatch):
-    monkeypatch.setattr(NewsItem, "ml_meta", None, raising=False)
-    pipe = scheduler.NewsPipeline(db, FakeLLM(relevant(importance=5)))
+def test_scheduler_persists_ml_meta(db):
+    pipe = scheduler.NewsPipeline(db, FakeLLM(relevant(importance=5, countries=["Китай"])))
     item = pipe.process(_raw("https://a.test/9", "Банк России сохранил ключевую ставку"))
-    assert item.ml_meta["importance"] == 5 and item.ml_meta["factors"][0]["factor"] == "key_rate"
+    db.expire_all()
+    meta = news_meta(db.get(NewsItem, item.news_id))
+    assert meta.importance == 5 and meta.countries == ["Китай"]
+    assert meta.factors[0].factor == "key_rate" and meta.factors[0].direction == "unchanged"
+
+
+def test_news_meta_falls_back_to_columns_without_ml_meta(db):
+    db.add(NewsItem(news_id="old", source="s", url="https://a.test/old", title="Ставка", dedup_hash="old",
+                    summary="Ставка сохранена.", event_type="key_rate", industries=["41"], published_at=NOW))
+    db.commit()
+    meta = news_meta(db.get(NewsItem, "old"))
+    assert meta.factor_codes == ["key_rate"] and meta.industries == ["41"] and meta.importance == 3
 
 
 def test_scheduler_stops_on_budget(db):

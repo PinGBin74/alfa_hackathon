@@ -90,13 +90,19 @@ class LLMClient:
         self.cache_dir = Path(cache_dir) if cache_dir else None
         self._sleep = time.sleep
 
-    def _post(self, payload: dict) -> httpx.Response:
+    def _post(self, payload: dict, timeout: float | None = None) -> httpx.Response:
+        """timeout - свой лимит ожидания ответа: по нему не повторяем, вызывающий код переходит к запасному пути."""
         url = f"{self.settings.llm_base_url}/chat/completions"
         headers = {"Authorization": f"Bearer {self.settings.llm_api_key}"}
         last: Exception | None = None
         for attempt in range(3):
             try:
-                resp = self.http.post(url, headers=headers, json=payload)
+                resp = self.http.post(url, headers=headers, json=payload,
+                                      timeout=timeout if timeout is not None else httpx.USE_CLIENT_DEFAULT)
+            except httpx.TimeoutException as e:
+                if timeout is not None:
+                    raise LLMError(f"no answer from {payload.get('model')} in {timeout:.0f} s") from e
+                last = e
             except httpx.TransportError as e:
                 last = e
             else:
@@ -119,6 +125,7 @@ class LLMClient:
         max_tokens: int | None = None,
         reasoning: bool | None = None,
         name: str = "llm",
+        timeout: float | None = None,
     ) -> dict:
         """Возвращает {"content", "model", "tokens_in", "tokens_out", "reasoning_tokens", "cost_rub",
         "latency_ms", "finish_reason", "cached"}."""
@@ -143,10 +150,10 @@ class LLMClient:
 
         token_budget.check_budget(self.db)
         start = time.perf_counter()
-        resp = self._post(payload)
+        resp = self._post(payload, timeout)
         if resp.status_code == 400 and schema is not None:  # провайдер не принял json_schema
             payload["response_format"] = {"type": "json_object"}
-            resp = self._post(payload)
+            resp = self._post(payload, timeout)
         if resp.status_code >= 400:
             raise LLMError(f"HTTP {resp.status_code} from {model}: {resp.text[:500]}")
         data = resp.json()

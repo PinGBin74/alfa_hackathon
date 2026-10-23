@@ -119,3 +119,24 @@ def test_cache_skips_second_call(db, tmp_path):
     c.chat(msgs)
     again = c.chat(msgs)
     assert len(sent) == 1 and again["cached"] is True and again["content"] == "ok"
+
+
+def test_own_timeout_fails_fast_without_retries(db):
+    def slow(request, n):
+        assert request.extensions["timeout"]["read"] == 2.0   # свой лимит дошёл до запроса
+        raise httpx.ReadTimeout("slow", request=request)
+
+    c, sent = _client(db, slow)
+    with pytest.raises(LLMError, match="in 2 s"):
+        c.chat([{"role": "user", "content": "x"}], timeout=2.0)
+    assert len(sent) == 1
+
+
+def test_timeout_without_own_limit_is_retried(db):
+    def flaky(request, n):
+        if n == 1:
+            raise httpx.ReadTimeout("slow", request=request)
+        return _reply("ok")
+
+    c, sent = _client(db, flaky)
+    assert c.chat([{"role": "user", "content": "x"}])["content"] == "ok" and len(sent) == 2

@@ -7,7 +7,8 @@
 
 search_bank_analytics смешивает позиции банка (data/bank_analytics/positions.json: тезис + дословная
 цитата со страницы) и чанки PDF; позиции с факторами запроса получают сильный буст, свежие документы -
-небольшой, устаревшие и заменённые более поздним прогнозом - штраф.
+небольшой, устаревшие и заменённые более поздним прогнозом - штраф. Чанк страницы, на которой есть прогноз,
+обновлённый в более свежем материале, помечается так же (superseded_by): в сыром тексте страницы старые цифры.
 """
 import math
 import re
@@ -137,7 +138,8 @@ def _chunk_index(db: Session, positions_path: str | Path | None = None) -> dict:
     count, max_id, total = db.query(func.count(AnalyticsChunk.chunk_id), func.max(AnalyticsChunk.chunk_id),
                                     func.sum(func.length(AnalyticsChunk.text))).one()
     flags = _doc_flags(positions_path)
-    key = (str(db.get_bind().url), count, max_id, total,
+    positions = bank_positions.load_positions_data(positions_path).get("positions", [])
+    key = (str(db.get_bind().url), count, max_id, total, id(positions),
            tuple(sorted((k, bool(v.get("stale"))) for k, v in flags.items())))
 
     def build() -> dict:
@@ -145,6 +147,7 @@ def _chunk_index(db: Session, positions_path: str | Path | None = None) -> dict:
         rows = db.query(AnalyticsChunk.chunk_id, AnalyticsChunk.doc_id, AnalyticsChunk.page,
                         AnalyticsChunk.text).order_by(AnalyticsChunk.chunk_id).all()
         manifest = flags
+        superseded = {(p["doc_id"], p["page"]): p["superseded_by"] for p in positions if p.get("superseded_by")}
         items = []
         for chunk_id, doc_id, page, text in rows:
             d = docs.get(doc_id)
@@ -153,8 +156,8 @@ def _chunk_index(db: Session, positions_path: str | Path | None = None) -> dict:
                 "doc_id": doc_id, "title": d.title if d else doc_id, "page": page, "text": text,
                 "kind": "chunk", "factors": list((d.topics if d else None) or []),
                 "published_at": _iso(d.published_at) if d else None, "stale": bool(m.get("stale")),
-                "superseded_by": None, "horizon_passed": False, "position_id": None, "forecast": None,
-                "chunk_id": chunk_id,
+                "superseded_by": superseded.get((doc_id, page)), "horizon_passed": False, "position_id": None,
+                "forecast": None, "chunk_id": chunk_id,
             })
         newest = max((_day(i["published_at"]) for i in items if i["published_at"]), default=None)
         for i in items:  # документ вне манифеста: устаревший, если на год старше самого свежего
@@ -202,7 +205,8 @@ def search_bank_analytics(db: Session, query: str, k: int = 4, factors: list[str
 
     Ключи: doc_id, title, page, text, kind (position|chunk), factors, published_at (YYYY-MM-DD|None),
     stale, superseded_by, horizon_passed, position_id, forecast, score; у позиций ещё thesis и quote,
-    у чанков chunk_id (position_id, forecast, superseded_by у чанков - None)."""
+    у чанков chunk_id (position_id и forecast у чанков - None; superseded_by - если на странице есть
+    обновлённый позднее прогноз)."""
     q = tokenize(query)
     wanted = set(factors or [])
     pos, chunks = _position_index(positions_path), _chunk_index(db, positions_path)
@@ -211,6 +215,7 @@ def search_bank_analytics(db: Session, query: str, k: int = 4, factors: list[str
     candidates: list[dict] = []
     lexical = _normalized(pos["bm25"].scores(q))
     for i, it in enumerate(pos["items"]):
+        it = it | {"horizon_passed": bank_positions.horizon_passed(it)}  # на сегодня, не на дату сборки файла
         hit = bool(wanted & set(it["factors"]))
         if i not in lexical and not hit:
             continue
@@ -222,7 +227,7 @@ def search_bank_analytics(db: Session, query: str, k: int = 4, factors: list[str
     for i, s in lexical.items():
         it = chunks["items"][i]
         s += CHUNK_FACTOR_BOOST * bool(wanted & set(it["factors"])) + _recency(it["published_at"], newest)
-        s -= STALE_PENALTY * it["stale"]
+        s -= STALE_PENALTY * it["stale"] + SUPERSEDED_PENALTY * bool(it["superseded_by"])
         candidates.append(it | {"score": round(s, 4)})
     candidates.sort(key=lambda c: (c["score"], c["published_at"] or ""), reverse=True)
 

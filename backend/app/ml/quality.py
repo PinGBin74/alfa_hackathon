@@ -1,7 +1,7 @@
 """Метрики качества AI-компонента по сохранённым инсайтам и трассам (критерий 08).
 
-Считаются по таблицам insights / agent_traces / feedback, без LLM. Подключение (делает backend):
-в observability.metrics.quality_snapshot добавить `**insight_quality(db)`.
+Считаются по таблицам insights / agent_traces / feedback, без LLM. Отдаются в GET /api/feedback/metrics
+вместе с расходом токенов (observability.metrics.quality_snapshot).
 """
 from collections import defaultdict
 

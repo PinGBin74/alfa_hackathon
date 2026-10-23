@@ -1,0 +1,50 @@
+{"news_id": "89a2912c45cd43ef", "is_business_relevant": true, "factors": ["regulation"], "industries": ["64"], "countries": []}
+{"news_id": "4561da70fb38b4fe", "is_business_relevant": true, "factors": ["regulation"], "industries": ["02"], "countries": []}
+{"news_id": "64910c01b1493bb8", "is_business_relevant": true, "factors": ["gdp_growth", "oil_gas"], "industries": ["06", "19"], "countries": ["Таиланд"]}
+{"news_id": "bf7fc7d48b1c24b0", "is_business_relevant": true, "factors": ["key_rate"], "industries": ["64"], "countries": []}
+{"news_id": "052da90654a6850a", "is_business_relevant": true, "factors": ["taxes"], "industries": [], "countries": ["Таиланд"]}
+{"news_id": "fdad0469c1574659", "is_business_relevant": true, "factors": [], "industries": ["64"], "countries": []}
+{"news_id": "70d7658de650c89c", "is_business_relevant": true, "factors": ["gdp_growth", "oil_gas", "bonds", "inflation"], "industries": ["06"], "countries": []}
+{"news_id": "112dfee2ec408fc9", "is_business_relevant": false, "factors": [], "industries": [], "countries": []}
+{"news_id": "c9ea10287d9407b6", "is_business_relevant": true, "factors": ["labor", "regulation", "real_estate"], "industries": [], "countries": []}
+{"news_id": "daf91115399476b1", "is_business_relevant": true, "factors": ["company_event"], "industries": ["25"], "countries": ["Литва", "Германия"]}
+{"news_id": "d939f798ba2f4ea4", "is_business_relevant": true, "factors": ["bonds", "key_rate"], "industries": ["64"], "countries": []}
+{"news_id": "11484611400f9ff7", "is_business_relevant": true, "factors": ["fx", "sanctions_trade"], "industries": [], "countries": []}
+{"news_id": "d27d32b9555618cc", "is_business_relevant": true, "factors": ["sanctions_trade", "oil_gas"], "industries": ["64", "06"], "countries": ["Украина", "США"]}
+{"news_id": "47425fee5e93b461", "is_business_relevant": true, "factors": ["key_rate", "gdp_growth"], "industries": [], "countries": []}
+{"news_id": "c23e77250f9ae64a", "is_business_relevant": true, "factors": ["company_event", "energy"], "industries": ["63", "26"], "countries": ["Казахстан", "США"]}
+{"news_id": "478940a7edcd60dd", "is_business_relevant": true, "factors": ["fx", "key_rate"], "industries": [], "countries": ["США"]}
+{"news_id": "829bb387910a9d5b", "is_business_relevant": true, "factors": ["company_event"], "industries": ["63"], "countries": []}
+{"news_id": "a495d2cc033e59e1", "is_business_relevant": true, "factors": ["key_rate", "gdp_growth"], "industries": [], "countries": []}
+{"news_id": "5b6ba6225cb97a80", "is_business_relevant": true, "factors": ["company_event", "consumption"], "industries": ["63"], "countries": ["США"]}
+{"news_id": "8285997a78fb64d8", "is_business_relevant": false, "factors": [], "industries": [], "countries": []}
+{"news_id": "af457d663b96428a", "is_business_relevant": true, "factors": [], "industries": ["55"], "countries": []}
+{"news_id": "e9c7f7a1d517fa2f", "is_business_relevant": true, "factors": ["company_event", "labor"], "industries": ["29"], "countries": ["Германия"]}
+{"news_id": "903b711300248e1c", "is_business_relevant": true, "factors": ["company_event", "consumption", "key_rate"], "industries": ["29"], "countries": []}
+{"news_id": "9aedae838d729659", "is_business_relevant": true, "factors": ["company_event", "consumption"], "industries": ["29"], "countries": []}
+{"news_id": "7e0d94978ca10d7d", "is_business_relevant": true, "factors": ["logistics", "inflation", "oil_gas"], "industries": ["51"], "countries": ["США"]}
+{"news_id": "54480b029aebac4b", "is_business_relevant": true, "factors": ["company_event"], "industries": ["73"], "countries": ["США", "Ирландия"]}
+{"news_id": "70f58df0739ff8e0", "is_business_relevant": true, "factors": ["regulation"], "industries": [], "countries": []}
+{"news_id": "52940eff731d5e09", "is_business_relevant": true, "factors": ["taxes"], "industries": [], "countries": []}
+{"news_id": "1d917624da0850f0", "is_business_relevant": true, "factors": ["real_estate", "regulation"], "industries": ["68", "41"], "countries": []}
+{"news_id": "c08ba1f8d87ee8c8", "is_business_relevant": true, "factors": ["consumption", "key_rate"], "industries": ["64"], "countries": []}
+{"news_id": "95c9e2a00a5f4f8e", "is_business_relevant": true, "factors": ["taxes"], "industries": [], "countries": []}
+{"news_id": "dcfb18f6013a4827", "is_business_relevant": true, "factors": ["regulation", "agri"], "industries": ["01"], "countries": []}
+{"news_id": "e68cbd64fbbb1e93", "is_business_relevant": true, "factors": ["taxes"], "industries": ["41", "46"], "countries": []}
+{"news_id": "de8d618320de928c", "is_business_relevant": true, "factors": ["inflation", "oil_gas"], "industries": [], "countries": []}
+{"news_id": "6df50ba93e098d61", "is_business_relevant": true, "factors": ["company_event", "oil_gas", "taxes"], "industries": ["06"], "countries": []}
+{"news_id": "c14186fd7ff83028", "is_business_relevant": true, "factors": ["oil_gas"], "industries": ["06"], "countries": ["США"]}
+{"news_id": "54369d2c95bd6301", "is_business_relevant": true, "factors": ["company_event", "consumption"], "industries": ["29"], "countries": []}
+{"news_id": "62be49a05c7e5d6b", "is_business_relevant": true, "factors": ["gdp_growth"], "industries": ["29"], "countries": []}
+{"news_id": "9f0560a483a6f280", "is_business_relevant": true, "factors": ["logistics", "regulation"], "industries": ["50"], "countries": []}
+{"news_id": "297c04863ec3d3ad", "is_business_relevant": true, "factors": ["company_event", "regulation"], "industries": ["47", "10"], "countries": []}
+{"news_id": "ffc611682716afef", "is_business_relevant": true, "factors": ["sanctions_trade", "oil_gas"], "industries": ["19"], "countries": ["США", "Мальта"]}
+{"news_id": "afae82f53ee1cfd3", "is_business_relevant": true, "factors": ["company_event"], "industries": ["64"], "countries": []}
+{"news_id": "70371349a2e678fe", "is_business_relevant": true, "factors": ["key_rate", "gdp_growth"], "industries": [], "countries": []}
+{"news_id": "714d65408703afd2", "is_business_relevant": true, "factors": ["sanctions_trade"], "industries": [], "countries": ["Азербайджан", "Италия", "Турция", "Китай"]}
+{"news_id": "8edc62185a4daf85", "is_business_relevant": true, "factors": ["gdp_growth", "energy"], "industries": ["36", "35", "42", "49"], "countries": []}
+{"news_id": "09271e2d4e199750", "is_business_relevant": false, "factors": [], "industries": [], "countries": []}
+{"news_id": "ad46a2a161001028", "is_business_relevant": true, "factors": ["taxes", "real_estate"], "industries": ["53"], "countries": []}
+{"news_id": "7ae0da9eeb8003ca", "is_business_relevant": true, "factors": ["regulation"], "industries": [], "countries": []}
+{"news_id": "5b5dd207e28eae95", "is_business_relevant": true, "factors": ["oil_gas", "sanctions_trade"], "industries": ["06", "19"], "countries": ["Франция", "Катар", "Бахрейн", "Кувейт", "ОАЭ", "Нидерланды"]}
+{"news_id": "3e04ea298f6a2f2e", "is_business_relevant": true, "factors": ["taxes"], "industries": ["29", "28"], "countries": []}

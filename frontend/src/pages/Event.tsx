@@ -103,7 +103,7 @@ export function Event() {
 
       <div className="event-layout">
         <div className="event-main">
-          <div className="tabs" role="tablist">
+          <div role="tablist">
             {([["insight", "Разбор"], ["trace", "Как получен разбор"], ["news", "Текст новости"]] as [Tab, string][]).map(([t, label]) => (
               <button key={t} role="tab" aria-selected={tab === t} className={`tab${tab === t ? " active" : ""}`}
                       onClick={() => setTab(t)} disabled={t === "trace" && !insight}>{label}</button>

@@ -23,7 +23,10 @@ export function Chat({ insightId, onSources }: { insightId: string; onSources: (
   useEffect(() => {
     setTurns([]);
   }, [insightId]);
-  useEffect(() => end.current?.scrollIntoView({ block: "nearest" }), [turns, busy]);
+  // без фигурных скобок эффект вернёт Promise (scrollIntoView в новых Chrome), и React упадёт на очистке
+  useEffect(() => {
+    end.current?.scrollIntoView({ block: "nearest" });
+  }, [turns, busy]);
 
   const ask = async (question: string) => {
     const q = question.trim();

@@ -44,6 +44,10 @@ class LLMError(RuntimeError):
     pass
 
 
+class LLMNotConfigured(LLMError):
+    """Не задан ключ или адрес LLM: повтор не поможет, нужна настройка .env (API отвечает 503, а не 502)."""
+
+
 def config_problem() -> str | None:
     """Что не так с настройками LLM (None - всё в порядке): без них любой вызов модели упадёт."""
     s = get_settings()
@@ -162,7 +166,7 @@ class LLMClient:
             return meta
 
         if problem := config_problem():
-            raise LLMError(problem)
+            raise LLMNotConfigured(problem)
         token_budget.check_budget(self.db)
         start = time.perf_counter()
         resp = self._post(payload, timeout)

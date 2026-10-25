@@ -12,7 +12,7 @@ settings.check_prod_secrets()
 
 if problem := config_problem():
     logging.getLogger("uvicorn.error").warning(
-        "%s: new insights, chat and news tagging will return 502 (see .env.example)", problem)
+        "%s: new insights, chat and news tagging will return 503 (see .env.example)", problem)
 
 app = FastAPI(
     title="Alfa News Insights API",

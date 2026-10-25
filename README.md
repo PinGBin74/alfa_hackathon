@@ -58,9 +58,22 @@ make seed                # исходные CSV кейса из data/raw + те�
 make ingest              # аналитика банка в БД и разовый сбор новостей из RSS (~3 ₽ на разметку ~80 новостей)
 make warmup              # заранее подготовить разборы по верху лент тестовых пользователей (~0,8 ₽ за разбор)
 ```
+
+Без `make` (на Windows его обычно нет) - те же шаги через Docker Compose, команды одинаковы в PowerShell и bash:
+```powershell
+cp .env.example .env                 # вписать LLM_API_KEY и POSTGRES_PASSWORD
+docker compose up -d --build
+docker compose exec backend python -m app.db.seed
+docker compose exec backend python -m app.db.seed --dir data/synthetic --news data/synthetic/news.jsonl   # вместо предыдущей, без исходных CSV
+docker compose exec backend python -m app.ingestion.scheduler --once
+docker compose exec backend python -m app.agent.warmup --top 2
+```
+Остановить: `docker compose down` (данные БД сохраняются); удалить вместе с данными: `docker compose down -v`.
+
 - Интерфейс: http://localhost:3000
 - API и Swagger: http://localhost:8000/docs (схема также в `contracts/openapi.json`)
 - Worker собирает новости каждые 30 минут; без `make warmup` разбор готовится при первом открытии события (1-1,5 мин).
+- Без `LLM_API_KEY` экран события сообщает, что модели не настроены (API отвечает 503); вход, лента и профиль работают.
 
 Исходные CSV кейса (`df_Uid_data_hack.csv`, `df_Fid_Uid_link_hack.csv`, `df_Uid_payment_hack.csv`) кладутся в `data/raw/`
 (в git их нет).

@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.agent.llm_client import LLMError
+from app.api.errors import llm_unavailable
 from app.db.models import AgentTrace, InsightRecord, User
 from app.db.session import get_db
 from app.observability.progress import step_view
@@ -30,7 +31,8 @@ def get_or_create_insight(
     """Инсайт по новости для клиента и роли пользователя. Кэш: готовый инсайт для (клиент, новость, роль)
     отдаётся сразу (экономия токенов); иначе запускается агент (1-1,5 мин), ход - в `.../progress`.
 
-    404 - нет клиента или новости, 429 - исчерпан дневной бюджет LLM, 502 - модели недоступны."""
+    404 - нет клиента или новости, 429 - исчерпан дневной бюджет LLM, 502 - модели недоступны,
+    503 - модели не настроены (нет LLM_API_KEY)."""
     ensure_client_access(user, client_id)
     cached = cached_insight(db, client_id, news_id, user.role)
     if cached:
@@ -41,8 +43,8 @@ def get_or_create_insight(
         raise HTTPException(429, "Daily LLM budget exhausted") from None
     except LookupError:
         raise HTTPException(404, "Client or news not found") from None
-    except LLMError:
-        raise HTTPException(502, "LLM is unavailable, try again later") from None
+    except LLMError as e:
+        raise llm_unavailable(e) from None
     except TimeoutError:
         raise HTTPException(504, "Insight generation is taking too long, try again later") from None
 

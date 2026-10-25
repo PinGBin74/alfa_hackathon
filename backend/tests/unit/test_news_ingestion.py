@@ -471,6 +471,18 @@ def test_manual_ingest_rejects_irrelevant_and_empty_pages(db, web):
     assert db.query(NewsItem).count() == 0
 
 
+def test_manual_ingest_without_llm_key_says_not_configured(db, web, monkeypatch):
+    from app.agent.llm_client import LLMNotConfigured
+
+    class NoKey(FakeLLM):
+        def chat(self, *a, **kw):
+            raise LLMNotConfigured("LLM_API_KEY is not set")
+
+    monkeypatch.setattr(manual, "config_problem", lambda: "LLM_API_KEY is not set")
+    with pytest.raises(LLMNotConfigured, match="LLM_API_KEY"):   # не «повторите позже»: нужен ключ в .env
+        manual.ingest_url(db, NoKey(), "https://news.test/a")
+    assert db.query(NewsItem).count() == 0
+
 def test_manual_source_name_uses_registry():
     assert manual.source_name("https://www.rbc.ru/economics/1") == "РБК"
     assert manual.source_name("https://www.interfax.ru/business/1") == "Интерфакс"

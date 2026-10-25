@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.agent import chat
 from app.agent.llm_client import LLMError
+from app.api.errors import llm_unavailable
 from app.db.models import InsightRecord, User
 from app.db.session import get_db
 from app.schemas.news import ChatAnswer, ChatRequest
@@ -27,5 +28,5 @@ def ask(body: ChatRequest, user: User = Depends(get_current_user), db: Session =
         return chat.answer(db, rec, body.question, user.role, body.history)
     except BudgetExceeded:
         raise HTTPException(429, "Daily LLM budget exhausted") from None
-    except LLMError:
-        raise HTTPException(502, "LLM is unavailable, try again later") from None
+    except LLMError as e:
+        raise llm_unavailable(e) from None

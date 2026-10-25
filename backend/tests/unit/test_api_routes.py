@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
 
-from app.agent.llm_client import LLMError
+from app.agent.llm_client import LLMError, LLMNotConfigured
 from app.api.routes import analytics as analytics_route
 from app.api.routes import chat as chat_route
 from app.api.routes import feed as feed_route
@@ -112,7 +112,8 @@ def test_chat_history_block_is_bounded():
     assert block.count("\n") == HISTORY_TURNS and _history_block([]) == ""
 
 
-@pytest.mark.parametrize(("error", "status"), [(BudgetExceeded("limit"), 429), (LLMError("down"), 502)])
+@pytest.mark.parametrize(("error", "status"), [(BudgetExceeded("limit"), 429), (LLMError("down"), 502),
+                                               (LLMNotConfigured("LLM_API_KEY is not set"), 503)])
 def test_chat_maps_llm_failures(client, monkeypatch, error, status):
     def failing(*a, **kw):
         raise error
@@ -153,6 +154,7 @@ def test_news_by_url_returns_stored_item(client, db, monkeypatch):
     (manual.NotBusinessNews(NewsClassification(is_business_relevant=False, summary="Матч")), 422),
     (BudgetExceeded("limit"), 429),
     (LLMError("down"), 502),
+    (LLMNotConfigured("LLM_API_KEY is not set"), 503),
 ])
 def test_news_by_url_maps_errors(client, monkeypatch, error, status):
     def failing(*a, **kw):
@@ -255,7 +257,7 @@ def test_insight_cached_and_by_id(client, db, monkeypatch):
 
 
 @pytest.mark.parametrize(("error", "status"), [(LookupError("no news"), 404), (LLMError("down"), 502),
-                                               (BudgetExceeded("limit"), 429)])
+                                               (BudgetExceeded("limit"), 429), (LLMNotConfigured("LLM_API_KEY is not set"), 503)])
 def test_insight_maps_agent_failures(client, monkeypatch, error, status):
     def failing(*a, **kw):
         raise error
@@ -359,3 +361,12 @@ def test_prod_requires_strong_jwt_secret(env, secret, ok):
     else:
         with pytest.raises(RuntimeError, match="JWT_SECRET"):
             s.check_prod_secrets()
+
+
+def test_not_configured_llm_explains_reason(client, monkeypatch):
+    def no_key(*a, **kw):
+        raise LLMNotConfigured("LLM_API_KEY is not set")
+
+    monkeypatch.setattr(insight_jobs.orchestrator, "run", no_key)
+    r = client.post("/api/insights/C/n2")
+    assert r.status_code == 503 and r.json()["detail"] == "LLM is not configured: LLM_API_KEY is not set"

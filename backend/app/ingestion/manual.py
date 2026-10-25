@@ -10,7 +10,7 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 import trafilatura
 from sqlalchemy.orm import Session
 
-from app.agent.llm_client import LLMClient
+from app.agent.llm_client import LLMClient, LLMNotConfigured, config_problem
 from app.db.models import NewsItem
 from app.ingestion.scheduler import NewsPipeline, news_id_for
 from app.ingestion.sources import SOURCES
@@ -105,6 +105,8 @@ def ingest_url(db: Session, llm: LLMClient, url: str) -> NewsItem:
     news_id = news_id_for(raw.url)
     cls = pipe.classify_raw(raw, news_id)
     if cls is None:
+        if problem := config_problem():  # без ключа разметка невозможна: не «повторите позже», а 503
+            raise LLMNotConfigured(problem)
         raise IngestError("не удалось разметить новость, повторите позже")
     if not cls.is_business_relevant:
         raise NotBusinessNews(cls)

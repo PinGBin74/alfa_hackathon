@@ -16,6 +16,9 @@ export function Login() {
 
   if (user) return <Navigate to="/" replace />;
 
+  // Пустой список - в БД не загружены данные (свежий запуск без seed): вход невозможен ни под каким логином
+  const noAccounts = accounts.data !== null && accounts.data.length === 0;
+
   const enter = async (value: string) => {
     setBusy(value);
     setError(null);
@@ -23,7 +26,9 @@ export function Login() {
       await signIn(value);
       navigate("/");
     } catch (e) {
-      setError(e instanceof ApiError && e.status === 401 ? "Такой учётной записи нет. Выберите тестовую ниже." : (e as Error).message);
+      const unknown = e instanceof ApiError && e.status === 401;
+      setError(unknown && noAccounts ? "Учётные записи ещё не загружены: см. подсказку ниже."
+        : unknown ? "Такой учётной записи нет. Выберите тестовую ниже." : (e as Error).message);
     } finally {
       setBusy(null);
     }
@@ -59,6 +64,13 @@ export function Login() {
         <p className="muted">У одной компании несколько пользователей с разными ролями: роль меняет порядок ленты и акценты разбора.</p>
         {accounts.loading && <p className="muted">Загружаем…</p>}
         {accounts.error && <p className="error-text">{accounts.error.message} Учётные записи загружаются командой make seed.</p>}
+        {noAccounts && (
+          <div className="error-text" role="status">
+            <p>В базе нет учётных записей: данные ещё не загружены. Выполните в корне проекта</p>
+            <p><code>make seed-demo</code> (синтетические данные) или <code>make seed</code> (исходные CSV кейса из data/raw)</p>
+            <p>и обновите страницу.</p>
+          </div>
+        )}
         <ul className="account-list">
           {accounts.data?.map((a) => (
             <li key={a.login}>

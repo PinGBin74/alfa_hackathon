@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.agent.llm_client import LLMClient
+from app.agent.llm_client import LLMClient, LLMError
 from app.db.models import NewsItem, User
 from app.db.session import get_db
 from app.ingestion import manual
@@ -27,6 +27,8 @@ def add_by_url(body: NewsUrlIn, user: User = Depends(get_current_user), db: Sess
         raise HTTPException(422, str(e)) from None
     except BudgetExceeded:
         raise HTTPException(429, "Daily LLM budget exhausted") from None
+    except LLMError:
+        raise HTTPException(502, "LLM is unavailable, try again later") from None
     return NewsItemOut.from_row(item)
 
 

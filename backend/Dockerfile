@@ -1,12 +1,13 @@
-FROM python:3.12-slim
+FROM python:3.12.12-slim-bookworm
 
-COPY --from=ghcr.io/astral-sh/uv:0.4 /uv /usr/local/bin/uv
+# uv 0.9 читает uv.lock формата revision 3; старые версии его не понимают
+COPY --from=ghcr.io/astral-sh/uv:0.9.5 /uv /usr/local/bin/uv
 
 WORKDIR /app
 
-COPY pyproject.toml uv.lock* ./
-ENV UV_DEFAULT_INDEX=https://mirrors.aliyun.com/pypi/simple/
-RUN uv sync --frozen --no-install-project 2>/dev/null || uv sync --no-install-project
+# Зависимости строго по uv.lock: если lock не совпадает с pyproject.toml, сборка падает
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-install-project
 
 ENV PATH="/app/.venv/bin:$PATH"
 

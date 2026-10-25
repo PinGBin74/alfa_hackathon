@@ -22,7 +22,8 @@ FastAPI, Pydantic, SQLAlchemy, Alembic, psycopg, pgvector, httpx, feedparser, tr
 ## Библиотеки frontend
 React 19, React DOM, React Router 7 (MIT); сборка - Vite 6, @vitejs/plugin-react, TypeScript 5 (MIT/Apache-2.0).
 Шрифт Golos Text (SIL Open Font License 1.1) подключается с Google Fonts; без сети - системный шрифт.
-Docker-образы: python:3.12-slim, uv, pgvector/pgvector:pg16, node:20-alpine, nginx:1.27-alpine.
+Docker-образы (версии зафиксированы): python:3.12.12-slim-bookworm, ghcr.io/astral-sh/uv:0.9.5,
+pgvector/pgvector:0.8.7-pg16-bookworm, node:20.19.5-alpine, nginx:1.27.5-alpine.
 
 ## Датасеты
 - Обезличенные данные о юрлицах, физлицах и платежах (предоставлены организаторами, Приложение 1).

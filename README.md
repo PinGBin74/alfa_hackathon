@@ -51,7 +51,7 @@ CSV банка (компании, платежи) ─> профиль, груп�
 
 ## Запуск
 ```bash
-cp .env.example .env     # вписать LLM_API_KEY (адрес прокси и ID моделей уже указаны)
+cp .env.example .env     # вписать LLM_API_KEY и POSTGRES_PASSWORD (любой), для стенда - JWT_SECRET
 make up                  # db + backend + worker + frontend; миграции применяются при старте backend
 make seed                # исходные CSV кейса из data/raw + тестовые учётки
 #   или, без исходных данных: make seed-demo  (синтетические компании и платежи + 16 демо-новостей с разметкой)
@@ -66,7 +66,7 @@ make warmup              # заранее подготовить разборы 
 (в git их нет).
 
 ### Разработка без Docker
-Команды - из корня репозитория: так читаются `.env` (в нём раскомментировать `DATABASE_URL` на локальный Postgres) и `data/`.
+Команды - из корня репозитория: так читаются `.env` (адрес БД собирается из `POSTGRES_*`, хост по умолчанию `localhost`) и `data/`.
 ```bash
 (cd backend && uv sync)
 export PYTHONPATH=backend
@@ -119,8 +119,9 @@ cd frontend && npm ci && npm run dev                            # http://localho
 | `LLM_BASE_URL`, `LLM_API_KEY` | OpenAI-совместимый прокси организаторов и ключ команды |
 | `LLM_MODEL_*` | ID моделей в прокси (только модели из Приложения 3), роли моделей - `docs/ml.md`, раздел 5 |
 | `DAILY_BUDGET_RUB` | мягкий дневной лимит расходов на LLM (жёсткий лимит ключа - 500 ₽/день); при исчерпании новые разборы недоступны (429), остальное работает |
-| `DATABASE_URL`, `POSTGRES_*` | БД; в Docker задаётся compose-файлом |
-| `JWT_SECRET`, `JWT_TTL_MINUTES` | подпись токенов входа |
+| `POSTGRES_*`, `DATABASE_URL` | БД: адрес собирается из `POSTGRES_USER/PASSWORD/DB/HOST/PORT` (в Docker хост - `db`); `DATABASE_URL` - задать адрес целиком |
+| `POSTGRES_PASSWORD` | обязателен: пароль БД (значения по умолчанию нет, без него compose не стартует) |
+| `JWT_SECRET`, `JWT_TTL_MINUTES` | подпись токенов входа; при `APP_ENV=prod` backend не стартует с ключом короче 32 байт или из шаблона |
 | `APP_ENV` | `prod` скрывает список тестовых учёток |
 | `INGEST_INTERVAL_MINUTES`, `NEWS_MAX_AGE_DAYS` | период сбора новостей и окно ленты |
 

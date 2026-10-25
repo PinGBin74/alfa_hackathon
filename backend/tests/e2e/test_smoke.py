@@ -14,6 +14,3 @@ def test_openapi_has_core_routes():
     for p in ("/api/auth/login", "/api/feed/{client_id}", "/api/insights/{client_id}/{news_id}", "/api/chat",
               "/api/news", "/api/feedback/metrics"):
         assert p in paths
-
-
-# TODO: сквозной сценарий на синтетических данных: login -> clients -> feed -> insight -> chat -> feedback

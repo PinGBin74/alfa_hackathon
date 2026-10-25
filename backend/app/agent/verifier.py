@@ -89,6 +89,12 @@ def source_text(state: AgentState, source_id: str) -> str:
     return ""
 
 
+def _usable_bank_refs(state: AgentState) -> set[str]:
+    """Страницы банка, которые можно приводить как текущую позицию (не устаревшие и не обновлённые позже)."""
+    return {f"bank:{c['doc_id']}:{c.get('page')}" for c in state.bank_chunks
+            if not c.get("stale") and not c.get("superseded_by")}
+
+
 def _stale_ref(state: AgentState, quote_ref: str | None) -> str | None:
     """Все найденные материалы этой страницы помечены как обновлённые позже - описание пометки, иначе None."""
     items = [c for c in state.bank_chunks if f"bank:{c['doc_id']}:{c.get('page')}" == quote_ref]
@@ -195,6 +201,16 @@ def check(state: AgentState) -> list[Issue]:
                             text="найдена позиция банка по фактору события, но она не использована",
                             fix="добавить позицию банка со ссылкой на материал"))
 
+    # Вывод опирается на материал банка, а тезиса банка из этого материала нет: пользователь не видит, что именно
+    # говорит банк, и позиция банка смешивается с выводом AI (критерий 02)
+    cited_docs = {bp.get("analytics_doc_id") for bp in d.get("bank_position") or []}
+    usable = _usable_bank_refs(state)
+    orphan = sorted({b for _, _, basis in _statements(d) for b in basis
+                     if b in usable and b.split(":")[1] not in cited_docs})
+    if orphan:
+        issues.append(Issue(type="missing_bank_view", field="bank_position",
+                            text=f"выводы опираются на материалы банка {orphan}, но их тезисов нет в bank_position",
+                            fix="добавить в bank_position тезис банка из этих фрагментов, близко к тексту"))
     return issues
 
 

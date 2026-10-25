@@ -315,6 +315,16 @@ def test_month_from_other_source_is_only_a_warning(db, monkeypatch):
     assert any(i.startswith("(warning) wrong_date consequences.risks[0]") for i in ins.verification.issues)
 
 
+def test_inference_on_bank_material_requires_bank_thesis(db, monkeypatch):
+    orphan = copy.deepcopy(GOOD)
+    orphan["bank_position"] = []   # ai_inference опирается на bank:d1:1, а тезиса банка нет
+    llm = FakeLLM([orphan, GOOD])
+    ins = _run(db, monkeypatch, llm)
+    assert ins.verification.iterations == 2 and ins.bank_position
+    second = [m for n, m in llm.calls if n == "draft#2"][0][-1]["content"]
+    assert "выводы опираются на материалы банка ['bank:d1:1']" in second
+
+
 def test_bank_thesis_with_date_prefix_is_kept_and_cleaned(db, monkeypatch):
     dated = copy.deepcopy(GOOD)
     dated["bank_position"][0]["text"] = ("По материалу от 11 сентября 2026 года (до решения 23 октября): "

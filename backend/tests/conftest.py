@@ -1,4 +1,4 @@
-"""Общие настройки unit-тестов (SQLite в памяти вместо Postgres)."""
+"""Общие настройки тестов (SQLite в памяти вместо Postgres)."""
 from sqlalchemy import BigInteger
 from sqlalchemy.ext.compiler import compiles
 

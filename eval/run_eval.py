@@ -332,12 +332,13 @@ def _insight_text(ins: dict) -> str:
     return json.dumps({k: ins.get(k) for k in keys}, ensure_ascii=False)
 
 
-def _evidence(db, ins: dict, limit: int = 8, chars: int = 2500) -> list[str]:
+def _evidence(db, ins: dict, limit: int = 8, chars: int = 4000) -> list[str]:
     """Тексты источников, на которые ссылается инсайт (кроме главной новости и данных клиента): страницы аналитики
     банка (извлечённые позиции и фрагменты) и связанные новости - без них судья не может сверить цифры и ссылки."""
-    from app.db.models import AnalyticsChunk, NewsItem
+    from app.db.models import AnalyticsChunk, AnalyticsDoc, NewsItem
     from app.ingestion.classify import truncate
     from app.ml import bank_positions
+    from app.ml.grounding import ru_date
     from app.security import injection_guard
     cons = ins["consequences"]
     refs = [b.get("quote_ref") for b in ins["bank_position"]]
@@ -352,13 +353,18 @@ def _evidence(db, ins: dict, limit: int = 8, chars: int = 2500) -> list[str]:
         if kind == "bank":
             doc, _, page = rest.partition(":")
             if page.isdigit():
-                texts = [bank_positions.position_text(p) for p in positions
-                         if p["doc_id"] == doc and p["page"] == int(page)]
-                texts += [t for (t,) in db.query(AnalyticsChunk.text).filter_by(doc_id=doc, page=int(page))
-                          .order_by(AnalyticsChunk.chunk_id)]
-                text = "\n".join(texts)
+                # сначала исходный текст страницы, потом извлечённые тезисы: при обрезке по chars судья должен
+                # видеть первоисточник, иначе верные цифры из конца страницы он считает выдуманными
+                texts = [t for (t,) in db.query(AnalyticsChunk.text).filter_by(doc_id=doc, page=int(page))
+                         .order_by(AnalyticsChunk.chunk_id)]
+                texts += [bank_positions.position_text(p) for p in positions
+                          if p["doc_id"] == doc and p["page"] == int(page)]
+                doc_row = db.get(AnalyticsDoc, doc)
+                if texts:
+                    published = (ru_date(doc_row.published_at) if doc_row else "") or "дата неизвестна"
+                    text = f"Материал банка, опубликован {published}\n" + "\n".join(texts)
         elif kind == "news" and (row := db.get(NewsItem, rest)) is not None:
-            text = f"{row.title}\n{row.body or row.summary or ''}"
+            text = f"{row.title}\n(опубликовано {ru_date(row.published_at)})\n{row.body or row.summary or ''}"
         if text:
             blocks.append(injection_guard.wrap_untrusted(truncate(text, chars), ref))
     return blocks
@@ -370,15 +376,20 @@ def _judge(db, ins: dict, client_id: str, role: str | None) -> tuple[dict, float
     from app.agent.llm_client import LLMClient, json_instruction
     from app.db.models import NewsItem
     from app.ingestion.classify import truncate
+    from app.ml.grounding import ru_date
     from app.schemas.client import ClientProfile
     from app.security import injection_guard
     from app.services.client_profile import build_profile
 
     profile = ClientProfile.model_validate(build_profile(db, client_id).model_dump())
     item = db.get(NewsItem, ins["news_id"])
+    # без даты публикации судья не может понять «сегодня» в тексте новости и считает верную дату ошибкой
+    dates = (f"ДАТЫ: новость опубликована {ru_date(item.published_at) or 'дата неизвестна'}; "
+             f"разбор подготовлен {ru_date(ins.get('generated_at'))}.")
     verdict, meta = LLMClient(db).structured(
         [{"role": "system", "content": f"{JUDGE_PROMPT}\n\n{json_instruction(Judgement)}"},
          {"role": "user", "content": "\n\n".join([
+             dates,
              injection_guard.wrap_untrusted(f"{item.title}\n{truncate(item.body or item.summary or '')}",
                                             f"news:{item.news_id}"),
              *_evidence(db, ins),

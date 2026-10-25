@@ -259,3 +259,83 @@ def test_chat_answer_with_invented_number_is_revised(db, monkeypatch):
     steps = db.query(AgentTrace).filter_by(trace_id=ans.trace_id).all()
     assert any(s.name == "chat_grounding" for s in steps)
     assert ans.sources and ans.sources[0].source_id == "news:n1"
+
+
+# ---------- даты: контекст и проверка ----------
+
+def _absent_month() -> tuple[int, str]:
+    """Месяц, которого нет в источниках теста (новость и банк - сентябрь) и который не совпадает с сегодняшним:
+    сегодняшняя дата тоже допустимый источник месяца."""
+    from datetime import date
+    return next((m, f) for m, f in ((3, "марте"), (4, "апреле")) if m != date.today().month)
+
+
+def test_months_are_extracted_in_any_form():
+    from app.ml.grounding import months, ru_date, ungrounded_months
+    assert set(months("в сентябре банк, сентябрьский прогноз, 23 октября, в мае")) == {9, 10, 5}
+    assert months("маржа и масштаб бизнеса") == {}
+    assert ru_date("2026-09-11T08:00:00+00:00") == "11 сентября 2026" and ru_date(None) == ""
+    assert ungrounded_months("решение 23 октября", "заседание 11 сентября 2026") == ["октября"]
+
+
+def test_context_marks_bank_material_published_before_news():
+    from app.agent import context
+    block = context.bank_block([dict(BANK_ITEM)], event_date="2026-10-23T10:00:00+00:00")
+    assert "11 сентября 2026" in block and "вышел за 42 дн. до новости" in block
+    same_day = context.bank_block([dict(BANK_ITEM)], event_date="2026-09-11T18:00:00+00:00")
+    assert "до новости" not in same_day
+    dates = context.dates_block("2026-10-25", "2026-10-23")
+    assert "сегодня 25 октября 2026" in dates and "новость опубликована 23 октября 2026" in dates
+
+
+def test_draft_prompt_has_dates_block(db, monkeypatch):
+    llm = FakeLLM([GOOD])
+    _run(db, monkeypatch, llm)
+    prompt = [m for n, m in llm.calls if n == "draft#1"][0][-1]["content"]
+    assert prompt.startswith("ДАТЫ: сегодня ") and "ожидания банка на ту дату" in prompt
+
+
+def test_month_absent_from_sources_triggers_revision(db, monkeypatch):
+    _, form = _absent_month()
+    bad = copy.deepcopy(GOOD)
+    bad["consequences"]["risks"][0]["text"] = f"Решение ЦБ в {form} подтвердило дорогой долг"
+    llm = FakeLLM([bad, GOOD])
+    ins = _run(db, monkeypatch, llm)
+    assert ins.verification.iterations == 2 and ins.verification.passed
+    second = [m for n, m in llm.calls if n == "draft#2"][0][-1]["content"]
+    assert "[wrong_date] consequences.risks[0]" in second
+
+
+def test_month_from_other_source_is_only_a_warning(db, monkeypatch):
+    shifted = copy.deepcopy(GOOD)
+    # сентябрь есть в новости, но пункт ссылается только на данные клиента
+    shifted["consequences"]["risks"][0] = {"text": "С сентября процентная нагрузка не снизится", "basis": ["client:C"]}
+    ins = _run(db, monkeypatch, FakeLLM([shifted]))
+    assert ins.verification.passed and ins.verification.iterations == 1
+    assert any(i.startswith("(warning) wrong_date consequences.risks[0]") for i in ins.verification.issues)
+
+
+def test_inference_on_bank_material_requires_bank_thesis(db, monkeypatch):
+    orphan = copy.deepcopy(GOOD)
+    orphan["bank_position"] = []   # ai_inference опирается на bank:d1:1, а тезиса банка нет
+    llm = FakeLLM([orphan, GOOD])
+    ins = _run(db, monkeypatch, llm)
+    assert ins.verification.iterations == 2 and ins.bank_position
+    second = [m for n, m in llm.calls if n == "draft#2"][0][-1]["content"]
+    assert "выводы опираются на материалы банка ['bank:d1:1']" in second
+
+
+def test_bank_thesis_with_date_prefix_is_kept_and_cleaned(db, monkeypatch):
+    dated = copy.deepcopy(GOOD)
+    dated["bank_position"][0]["text"] = ("По материалу от 11 сентября 2026 года (до решения 23 октября): "
+                                         "банк ожидает ставку 14,0% на конец 2026 года")
+    ins = _run(db, monkeypatch, FakeLLM([dated]))
+    assert ins.verification.passed and ins.verification.iterations == 1        # дата - не повод удалять тезис
+    assert ins.bank_position[0].text == "Банк ожидает ставку 14,0% на конец 2026 года"
+    assert any(i.startswith("(warning) wrong_date bank_position[0]") for i in ins.verification.issues)
+
+
+def test_strip_bank_date_prefix_leaves_plain_text():
+    assert orchestrator.strip_bank_date_prefix("Банк прогнозирует ставку 13,5%") == "Банк прогнозирует ставку 13,5%"
+    assert orchestrator.strip_bank_date_prefix("Согласно материалу банка от 2 сентября: инфляция замедлится") == \
+        "Инфляция замедлится"

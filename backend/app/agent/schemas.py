@@ -41,7 +41,7 @@ class DraftInsight(BaseModel):
     confidence: Literal["low", "medium", "high"] = "medium"
 
 
-IssueType = Literal["unsupported_fact", "wrong_number", "contradiction", "generic", "restates_news",
+IssueType = Literal["unsupported_fact", "wrong_number", "wrong_date", "contradiction", "generic", "restates_news",
                     "wrong_bank_attribution", "stale_bank_view", "missing_bank_view", "unknown_source", "other"]
 
 

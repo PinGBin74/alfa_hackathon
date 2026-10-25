@@ -120,7 +120,7 @@ export function Event() {
           {tab !== "news" && error && (
             <Notice tone="error">
               {error.message}{" "}
-              {error.status !== 403 && error.status !== 404 && <button className="button secondary small" onClick={retry}>Повторить</button>}
+              {![403, 404, 503].includes(error.status) && <button className="button secondary small" onClick={retry}>Повторить</button>}
             </Notice>
           )}
           {tab === "insight" && !insight && !error && (startedAt ? <AgentRun steps={steps} startedAt={startedAt} /> : <Skeleton lines={6} />)}

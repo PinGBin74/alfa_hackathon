@@ -121,7 +121,7 @@ cd frontend && npm ci && npm run dev                            # http://localho
 | `DAILY_BUDGET_RUB` | мягкий дневной лимит расходов на LLM (жёсткий лимит ключа - 500 ₽/день); при исчерпании новые разборы недоступны (429), остальное работает |
 | `POSTGRES_*`, `DATABASE_URL` | БД: адрес собирается из `POSTGRES_USER/PASSWORD/DB/HOST/PORT` (в Docker хост - `db`); `DATABASE_URL` - задать адрес целиком |
 | `POSTGRES_PASSWORD` | обязателен: пароль БД (значения по умолчанию нет, без него compose не стартует) |
-| `JWT_SECRET`, `JWT_TTL_MINUTES` | подпись токенов входа |
+| `JWT_SECRET`, `JWT_TTL_MINUTES` | подпись токенов входа; при `APP_ENV=prod` backend не стартует с ключом короче 32 байт или из шаблона |
 | `APP_ENV` | `prod` скрывает список тестовых учёток |
 | `INGEST_INTERVAL_MINUTES`, `NEWS_MAX_AGE_DAYS` | период сбора новостей и окно ленты |
 

@@ -8,6 +8,7 @@ from app.api.routes import analytics, auth, chat, clients, feed, feedback, insig
 from app.config import get_settings
 
 settings = get_settings()
+settings.check_prod_secrets()
 
 if problem := config_problem():
     logging.getLogger("uvicorn.error").warning(

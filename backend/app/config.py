@@ -4,6 +4,9 @@ from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.engine import URL
 
+DEFAULT_JWT_SECRET = "change-me-to-random-64-hex-chars-openssl-rand-hex-32"
+MIN_JWT_SECRET_BYTES = 32
+
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
@@ -19,7 +22,8 @@ class Settings(BaseSettings):
     postgres_port: int = 5432
     cors_origins: str = "http://localhost:3000"
 
-    jwt_secret: str = "change-me"
+    # 32+ байт: HS256 с более коротким ключом PyJWT считает небезопасным (InsecureKeyLengthWarning)
+    jwt_secret: str = DEFAULT_JWT_SECRET
     jwt_ttl_minutes: int = 480
 
     llm_base_url: str = ""
@@ -56,6 +60,14 @@ class Settings(BaseSettings):
                 host=self.postgres_host, port=self.postgres_port, database=self.postgres_db,
             ).render_as_string(hide_password=False)
         return self
+
+    def check_prod_secrets(self) -> None:
+        """На стенде (APP_ENV=prod) токены входа нельзя подписывать общеизвестным или коротким ключом."""
+        if self.app_env != "prod":
+            return
+        if self.jwt_secret in (DEFAULT_JWT_SECRET, "change-me-in-prod") or \
+                len(self.jwt_secret.encode()) < MIN_JWT_SECRET_BYTES:
+            raise RuntimeError("APP_ENV=prod requires JWT_SECRET of 32+ random bytes: openssl rand -hex 32")
 
 
 @lru_cache

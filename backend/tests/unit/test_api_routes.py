@@ -345,3 +345,17 @@ def test_demo_accounts_and_meta(client, db):
     meta = client.get("/api/meta").json()
     assert meta["factors"]["key_rate"] and meta["roles"]["cfo"] == "финансовый директор" and meta["okved2"]["42"]
 
+
+@pytest.mark.parametrize(("env", "secret", "ok"), [
+    ("dev", "change-me-to-random-64-hex-chars-openssl-rand-hex-32", True),   # локально - можно
+    ("prod", "change-me-to-random-64-hex-chars-openssl-rand-hex-32", False),  # общеизвестный ключ
+    ("prod", "short-secret", False),
+    ("prod", "a" * 64, True),
+])
+def test_prod_requires_strong_jwt_secret(env, secret, ok):
+    s = Settings(_env_file=None, app_env=env, jwt_secret=secret)
+    if ok:
+        s.check_prod_secrets()
+    else:
+        with pytest.raises(RuntimeError, match="JWT_SECRET"):
+            s.check_prod_secrets()

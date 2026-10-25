@@ -122,6 +122,15 @@ def _adapt(db: Session, tracer: Tracer, state: AgentState, issues: list[Issue]) 
     tracer.log("adapt", "adapt", output={"actions": actions, "feedback": state.feedback})
 
 
+# «По материалу от 11 сентября 2026 года (до решения 23 октября): банк ожидал...» - дата видна по ссылке на материал
+_BANK_DATE_PREFIX = re.compile(r"^\s*(?:по|согласно)\s+материал\w*\s+(?:банка\s+)?от\s+[^:]{3,80}:\s*", re.IGNORECASE)
+
+
+def strip_bank_date_prefix(text: str) -> str:
+    rest = _BANK_DATE_PREFIX.sub("", text, count=1)
+    return rest[:1].upper() + rest[1:] if rest != text and rest else text
+
+
 _ITEM = re.compile(r"^(what_happened\.confirmed_facts|why_it_matters|consequences\.risks|consequences\.opportunities"
                    r"|suggested_actions|bank_position|ai_inference)\[(\d+)\]")
 
@@ -154,6 +163,7 @@ def _sanitize(state: AgentState) -> list[str]:
     wh = d["what_happened"]
     for bp in d["bank_position"]:
         verifier.normalize_bank_ref(bp)
+        bp["text"] = strip_bank_date_prefix(bp["text"])
     kept = []
     for f in wh["confirmed_facts"]:
         sid = f["source_id"]

@@ -10,12 +10,13 @@
 """
 import json
 import re
+from datetime import date
 from pathlib import Path
 
 from app.agent.llm_client import LLMClient, LLMError, json_instruction
 from app.agent.schemas import Issue, Verdict
 from app.agent.state import AgentState
-from app.ml.grounding import ungrounded
+from app.ml.grounding import ru_date, ungrounded, ungrounded_months
 
 PROMPT = (Path(__file__).parent / "prompts" / "verifier.md").read_text(encoding="utf-8")
 RESTATE_JACCARD = 0.5
@@ -30,11 +31,11 @@ def _words(text: str) -> set[str]:
 
 
 def date_forms(value) -> str:
-    """Дата источника в форматах, которыми модель её цитирует: «11.09.2026», «11.09», «2026»."""
+    """Дата источника в форматах, которыми модель её цитирует: «11.09.2026», «11.09», «2026», «11 сентября 2026»."""
     text = str(value or "")[:10]
     if len(text) == 10 and text[4] == "-" and text[7] == "-":
         y, m, d = text.split("-")
-        return f" {d}.{m}.{y} {d}.{m} {y}"
+        return f" {d}.{m}.{y} {d}.{m} {y} {ru_date(text)}"
     return ""
 
 
@@ -74,6 +75,18 @@ def bank_text(state: AgentState, doc_id: str | None, quote_ref: str | None = Non
         exact = [c for c in items if f"bank:{c['doc_id']}:{c.get('page')}" == quote_ref]
         items = exact or items
     return "\n".join((c.get("text") or "") + date_forms(c.get("published_at")) for c in items)
+
+
+def source_text(state: AgentState, source_id: str) -> str:
+    """Текст источника по его id (news:, bank:<doc>:<page>, client:) - для сверки пункта с его basis."""
+    kind, _, rest = str(source_id).partition(":")
+    if kind == "news":
+        return news_text(state, source_id)
+    if kind == "bank":
+        return bank_text(state, rest.split(":")[0], source_id)
+    if kind == "client":
+        return state.scratch.get("context_text", "")
+    return ""
 
 
 def _stale_ref(state: AgentState, quote_ref: str | None) -> str | None:
@@ -116,6 +129,9 @@ def check(state: AgentState) -> list[Issue]:
             issues.append(Issue(type="unknown_source", field=field, text=f"источник {sid} не найден", fix="сослаться на id новости"))
         elif miss := ungrounded(f.get("text", ""), news_text(state, sid)):
             issues.append(Issue(type="wrong_number", field=field, text=f"чисел {miss} нет в новости {sid}", fix="взять цифры из текста новости"))
+        elif miss := ungrounded_months(f.get("text", ""), news_text(state, sid)):
+            issues.append(Issue(type="wrong_date", field=field, text=f"месяц {miss} не упоминается в новости {sid}",
+                                fix="даты и сроки - только как в тексте новости"))
 
     for i, bp in enumerate(d.get("bank_position") or []):
         normalize_bank_ref(bp)
@@ -127,6 +143,11 @@ def check(state: AgentState) -> list[Issue]:
         elif miss := ungrounded(bp.get("text", ""), source):
             issues.append(Issue(type="wrong_number", field=field, text=f"чисел {miss} нет в материале банка {bp.get('quote_ref') or doc}",
                                 fix="цифры позиции банка - только из цитируемого фрагмента"))
+        elif miss := ungrounded_months(bp.get("text", ""), source):
+            # предупреждение: тезис банка не удаляем из-за даты (модель любит приписывать «до решения 23 октября»)
+            issues.append(Issue(type="wrong_date", field=field, blocking=False,
+                                text=f"месяц {miss} не упоминается в материале банка {bp.get('quote_ref') or doc}",
+                                fix="в bank_position не писать даты: тезис банка близко к тексту фрагмента"))
         elif stale := _stale_ref(state, bp.get("quote_ref")):
             # прогноз с цифрами из материала, который банк позже обновил, - ошибка; без цифр - предупреждение
             issues.append(Issue(type="stale_bank_view", field=field, blocking=bool(_DIGITS.search(bp.get("text", ""))),
@@ -145,13 +166,22 @@ def check(state: AgentState) -> list[Issue]:
     summary_words = _words(wh.get("summary", "") + " " + (state.news or {}).get("title", ""))
     full_context = "\n".join([context_text, news_text(state, f"news:{state.news_id}"),
                               *(news_text(state, f"news:{n['news_id']}") for n in state.related_news),
-                              *(c.get("text") or "" for c in state.bank_chunks)])
+                              *((c.get("text") or "") + date_forms(c.get("published_at")) for c in state.bank_chunks),
+                              date_forms(date.today().isoformat())])
     for field, text, basis in _statements(d):
         if unknown := [b for b in basis if b not in known and b not in allowed]:
             issues.append(Issue(type="unknown_source", field=field, text=f"неизвестные источники {unknown}", blocking=False))
         if miss := ungrounded(text, full_context, skip_small_ints=True):
             issues.append(Issue(type="wrong_number", field=field, text=f"чисел {miss} нет в источниках",
                                 fix="не приводить цифры, которых нет в данных"))
+        elif miss := ungrounded_months(text, full_context):
+            issues.append(Issue(type="wrong_date", field=field, text=f"месяц {miss} не упоминается ни в одном источнике",
+                                fix="даты и сроки - только из источников, ничего не сдвигать"))
+        elif basis and (miss := ungrounded_months(text, "\n".join(source_text(state, b) for b in basis))):
+            # месяц есть в других источниках, но не в тех, на которые ссылается пункт: скорее всего, перепутан материал
+            issues.append(Issue(type="wrong_date", field=field, blocking=False,
+                                text=f"месяц {miss} не упоминается в источниках пункта {basis}",
+                                fix="сослаться на источник, где есть эта дата, или убрать дату"))
         w = _words(text)
         if field.startswith("why_it_matters") and w and len(w & summary_words) / len(w | summary_words) > RESTATE_JACCARD:
             issues.append(Issue(type="restates_news", field=field, text="пункт пересказывает новость", blocking=False))
@@ -164,6 +194,7 @@ def check(state: AgentState) -> list[Issue]:
         issues.append(Issue(type="missing_bank_view", field="bank_position",
                             text="найдена позиция банка по фактору события, но она не использована",
                             fix="добавить позицию банка со ссылкой на материал"))
+
     return issues
 
 

@@ -13,21 +13,21 @@ services:
       timeout: 3s
       retries: 10
     ports:
-      - "5435:5432"
+      - "127.0.0.1:5435:5432" # Закрыли базу от внешнего мира
 
   backend:
     build: ./backend
     env_file: .env
     environment:
       POSTGRES_HOST: db
-      DATABASE_URL: ""   # адрес собирается из POSTGRES_* (.env), см. backend/app/config.py
+      DATABASE_URL: ""
     volumes:
       - ./data:/app/data
     depends_on:
       db:
         condition: service_healthy
-    ports:
-      - "8003:8000"
+    # ports больше не нужны наружу, общаемся внутри сети на порту 8000
+
     command: >
       sh -c "alembic upgrade head &&
              uvicorn app.main:app --host 0.0.0.0 --port 8000"
@@ -37,7 +37,7 @@ services:
     env_file: .env
     environment:
       POSTGRES_HOST: db
-      DATABASE_URL: ""   # адрес собирается из POSTGRES_* (.env), см. backend/app/config.py
+      DATABASE_URL: ""
     volumes:
       - ./data:/app/data
     depends_on:
@@ -50,8 +50,8 @@ services:
     depends_on:
       - backend
     ports:
-      - "3003:80"
-
+      - "80:80" # Открываем веб-сервер на стандартном порту
+    # В Dockerfile фронтенда нужно подменить дефолтный конфиг nginx на наш (см. выше)
 
 volumes:
   pgdata:

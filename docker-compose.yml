@@ -3,7 +3,7 @@ services:
     image: pgvector/pgvector:0.8.7-pg16-bookworm
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-alfa}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-alfa}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
       POSTGRES_DB: ${POSTGRES_DB:-alfa_news}
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -19,7 +19,8 @@ services:
     build: ./backend
     env_file: .env
     environment:
-      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-alfa}:${POSTGRES_PASSWORD:-alfa}@db:5432/${POSTGRES_DB:-alfa_news}
+      POSTGRES_HOST: db
+      DATABASE_URL: ""   # адрес собирается из POSTGRES_* (.env), см. backend/app/config.py
     volumes:
       - ./data:/app/data
     depends_on:
@@ -35,7 +36,8 @@ services:
     build: ./backend
     env_file: .env
     environment:
-      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-alfa}:${POSTGRES_PASSWORD:-alfa}@db:5432/${POSTGRES_DB:-alfa_news}
+      POSTGRES_HOST: db
+      DATABASE_URL: ""   # адрес собирается из POSTGRES_* (.env), см. backend/app/config.py
     volumes:
       - ./data:/app/data
     depends_on:

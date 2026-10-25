@@ -37,10 +37,21 @@ PROFILES: dict[str, dict] = {
 }
 RETRY_STATUS = {408, 409, 429, 500, 502, 503, 504}
 BUDGET_MARKER = "budget has been exceeded"
+PLACEHOLDER_KEYS = {"", "changeme"}
 
 
 class LLMError(RuntimeError):
     pass
+
+
+def config_problem() -> str | None:
+    """Что не так с настройками LLM (None - всё в порядке): без них любой вызов модели упадёт."""
+    s = get_settings()
+    if not s.llm_base_url.startswith(("http://", "https://")) or "<" in s.llm_base_url:
+        return "LLM_BASE_URL is not set"
+    if s.llm_api_key.strip() in PLACEHOLDER_KEYS:
+        return "LLM_API_KEY is not set"
+    return None
 
 
 def pick_model(complexity: Complexity) -> str:
@@ -105,6 +116,8 @@ class LLMClient:
                 last = e
             except httpx.TransportError as e:
                 last = e
+            except (httpx.InvalidURL, httpx.UnsupportedProtocol) as e:  # повтор не поможет
+                raise LLMError(f"invalid LLM_BASE_URL: {e}") from e
             else:
                 if BUDGET_MARKER in resp.text.lower():
                     raise token_budget.BudgetExceeded("LLM proxy: budget has been exceeded")
@@ -148,6 +161,8 @@ class LLMClient:
             self._trace(name, messages, meta)
             return meta
 
+        if problem := config_problem():
+            raise LLMError(problem)
         token_budget.check_budget(self.db)
         start = time.perf_counter()
         resp = self._post(payload, timeout)
@@ -156,7 +171,10 @@ class LLMClient:
             resp = self._post(payload, timeout)
         if resp.status_code >= 400:
             raise LLMError(f"HTTP {resp.status_code} from {model}: {resp.text[:500]}")
-        data = resp.json()
+        try:
+            data = resp.json()
+        except ValueError as e:  # прокси вернул HTML-страницу ошибки и т.п.
+            raise LLMError(f"non-JSON response from {model}: {resp.text[:300]}") from e
         usage = data.get("usage") or {}
         choice = (data.get("choices") or [{}])[0]
         cost = resp.headers.get("x-litellm-response-cost")

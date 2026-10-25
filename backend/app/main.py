@@ -1,10 +1,17 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.agent.llm_client import config_problem
 from app.api.routes import analytics, auth, chat, clients, feed, feedback, insights, meta, news
 from app.config import get_settings
 
 settings = get_settings()
+
+if problem := config_problem():
+    logging.getLogger("uvicorn.error").warning(
+        "%s: new insights, chat and news tagging will return 502 (see .env.example)", problem)
 
 app = FastAPI(
     title="Alfa News Insights API",

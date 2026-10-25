@@ -23,6 +23,7 @@ class Tags(BaseModel):
 @pytest.fixture
 def db(monkeypatch):
     monkeypatch.setenv("LLM_BASE_URL", "http://llm.test/v1")
+    monkeypatch.setenv("LLM_API_KEY", "sk-test")
     get_settings.cache_clear()
     engine = create_engine("sqlite://")
     Base.metadata.create_all(engine, tables=[TokenUsage.__table__])
@@ -140,3 +141,36 @@ def test_timeout_without_own_limit_is_retried(db):
 
     c, sent = _client(db, flaky)
     assert c.chat([{"role": "user", "content": "x"}])["content"] == "ok" and len(sent) == 2
+
+
+# ---------- ошибки настройки и ответа прокси: LLMError (502), а не 500 ----------
+
+@pytest.mark.parametrize(("env", "value"), [
+    ("LLM_API_KEY", "changeme"),
+    ("LLM_API_KEY", ""),
+    ("LLM_BASE_URL", "https://<endpoint-из-кейса>/v1"),
+    ("LLM_BASE_URL", ""),
+])
+def test_misconfigured_llm_fails_before_request(db, monkeypatch, env, value):
+    monkeypatch.setenv(env, value)
+    get_settings.cache_clear()
+    c, sent = _client(db, lambda r, n: pytest.fail("request must not be sent"))
+    with pytest.raises(LLMError, match=env):
+        c.chat([{"role": "user", "content": "hi"}])
+    assert sent == []
+
+
+def test_invalid_base_url_is_llm_error(db):
+    def broken(request, n):
+        raise httpx.InvalidURL("Invalid IDNA hostname")
+
+    c, sent = _client(db, broken)
+    with pytest.raises(LLMError, match="invalid LLM_BASE_URL"):
+        c.chat([{"role": "user", "content": "hi"}])
+    assert len(sent) == 1   # без бессмысленных повторов
+
+
+def test_non_json_response_is_llm_error(db):
+    c, _ = _client(db, lambda r, n: httpx.Response(200, text="<html>Bad gateway</html>"))
+    with pytest.raises(LLMError, match="non-JSON"):
+        c.chat([{"role": "user", "content": "hi"}])

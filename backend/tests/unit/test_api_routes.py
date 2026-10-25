@@ -152,6 +152,7 @@ def test_news_by_url_returns_stored_item(client, db, monkeypatch):
     (manual.IngestError("ссылка ведёт во внутреннюю сеть"), 422),
     (manual.NotBusinessNews(NewsClassification(is_business_relevant=False, summary="Матч")), 422),
     (BudgetExceeded("limit"), 429),
+    (LLMError("down"), 502),
 ])
 def test_news_by_url_maps_errors(client, monkeypatch, error, status):
     def failing(*a, **kw):
@@ -343,3 +344,4 @@ def test_demo_accounts_and_meta(client, db):
     assert client.post("/api/auth/login", json={"login": "nobody"}).status_code == 401
     meta = client.get("/api/meta").json()
     assert meta["factors"]["key_rate"] and meta["roles"]["cfo"] == "финансовый директор" and meta["okved2"]["42"]
+

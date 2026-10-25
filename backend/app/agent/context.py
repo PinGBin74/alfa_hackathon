@@ -5,6 +5,7 @@
 верификатор проверяет ссылки по тем же спискам (критерии 04, 12).
 """
 from app.ml import bank_positions, taxonomy
+from app.ml.grounding import parse_date, ru_date
 from app.ml.news import NewsClassification
 from app.schemas.client import ClientProfile
 from app.security import injection_guard
@@ -102,12 +103,25 @@ def exposures_brief(exps: dict[str, taxonomy.Exposure], factors: list[str], role
     return "\n".join(lines)
 
 
+def dates_block(today, news_published) -> str:
+    """Опорные даты: без них модель путает ожидания из прошлых материалов с уже случившимся."""
+    return "\n".join([
+        f"ДАТЫ: сегодня {ru_date(today)}; новость опубликована {ru_date(news_published) or 'дата неизвестна'}.",
+        "- Произошедшим считай только то, о чём прямо написано в новости. Событие, которое в источниках только "
+        "ожидается или запланировано (заседание, решение, публикация данных), не подавай как случившееся.",
+        "- Материал банка, опубликованный до новости, не оценивает это событие: это ожидания банка на дату "
+        "материала («банк ожидал», «банк прогнозировал»), а не его реакция.",
+        "- Даты и месяцы бери только из текста источников и их дат публикации, ничего не сдвигай и не достраивай.",
+    ])
+
+
 def news_block(news: dict, meta: NewsClassification) -> str:
     sid = f"news:{news['news_id']}"
     body = (news.get("body") or news.get("summary") or "")[:NEWS_BODY_CHARS]
     tags = ", ".join(f"{f.factor}:{f.direction}" for f in meta.factors) or "нет"
+    published = ru_date(news.get("published_at")) or "дата неизвестна"
     return "\n".join([
-        f"НОВОСТЬ (source_id {sid}), источник {news.get('source')}, опубликовано {news.get('published_at')}, {news.get('url')}",
+        f"НОВОСТЬ (source_id {sid}), источник {news.get('source')}, опубликовано {published}, {news.get('url')}",
         injection_guard.wrap_untrusted(f"{news.get('title', '')}\n\n{body}", sid),
         f"Разметка новости: факторы {tags}; отрасли {', '.join(meta.industries) or 'нет'}; "
         f"страны {', '.join(meta.countries) or 'нет'}; важность {meta.importance}/5",
@@ -133,14 +147,25 @@ def bank_flags(it: dict) -> list[str]:
     return flags
 
 
-def bank_block(items: list[dict]) -> str:
+def timing_flag(published, event_date) -> str | None:
+    """Материал вышел раньше новости - он не может оценивать это событие."""
+    doc, event = parse_date(published), parse_date(event_date)
+    if doc and event and (event - doc).days >= 1:
+        return (f"вышел за {(event - doc).days} дн. до новости: это ожидания банка на ту дату, не оценка этого "
+                "события; в bank_position приводи тезис без даты, сравнение с событием - в ai_inference")
+    return None
+
+
+def bank_block(items: list[dict], event_date=None) -> str:
     if not items:
         return "АНАЛИТИКА АЛЬФА-БАНКА: по теме события материалов не найдено."
     lines = ["АНАЛИТИКА АЛЬФА-БАНКА (Центр макроэкономического анализа; только это - позиция банка):"]
     for it in items:
         flags = bank_flags(it)
+        if timing := timing_flag(it.get("published_at"), event_date):
+            flags.append(timing)
         kind = "позиция" if it.get("kind") == "position" else "фрагмент"
-        lines.append(f"- [{bank_source_id(it)}] «{it.get('title')}», {it.get('published_at') or 'дата неизвестна'}, "
+        lines.append(f"- [{bank_source_id(it)}] «{it.get('title')}», {ru_date(it.get('published_at')) or 'дата неизвестна'}, "
                      f"стр. {it.get('page')}, {kind}" + (f" ({'; '.join(flags)})" if flags else ""))
         lines.append("  " + " ".join((it.get("text") or "").split())[:BANK_TEXT_CHARS])
     return "\n".join(lines)
@@ -150,7 +175,8 @@ def related_block(items: list[dict]) -> str:
     if not items:
         return ""
     lines = ["СВЯЗАННЫЕ НОВОСТИ (для контекста и перекрёстной проверки):"]
-    lines += [f"- [news:{n['news_id']}] {n.get('title')}" + (f" - {n['summary']}" if n.get("summary") else "") for n in items]
+    lines += [f"- [news:{n['news_id']}] {ru_date(n.get('published_at')) or 'дата неизвестна'}: {n.get('title')}"
+              + (f" - {n['summary']}" if n.get("summary") else "") for n in items]
     return "\n".join(lines)
 
 

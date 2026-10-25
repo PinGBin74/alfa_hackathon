@@ -259,3 +259,31 @@ def test_chat_answer_with_invented_number_is_revised(db, monkeypatch):
     steps = db.query(AgentTrace).filter_by(trace_id=ans.trace_id).all()
     assert any(s.name == "chat_grounding" for s in steps)
     assert ans.sources and ans.sources[0].source_id == "news:n1"
+
+
+# ---------- даты: контекст и проверка ----------
+
+
+def test_months_are_extracted_in_any_form():
+    from app.ml.grounding import months, ru_date, ungrounded_months
+    assert set(months("в сентябре банк, сентябрьский прогноз, 23 октября, в мае")) == {9, 10, 5}
+    assert months("маржа и масштаб бизнеса") == {}
+    assert ru_date("2026-09-11T08:00:00+00:00") == "11 сентября 2026" and ru_date(None) == ""
+    assert ungrounded_months("решение 23 октября", "заседание 11 сентября 2026") == ["октября"]
+
+
+def test_context_marks_bank_material_published_before_news():
+    from app.agent import context
+    block = context.bank_block([dict(BANK_ITEM)], event_date="2026-10-23T10:00:00+00:00")
+    assert "11 сентября 2026" in block and "вышел за 42 дн. до новости" in block
+    same_day = context.bank_block([dict(BANK_ITEM)], event_date="2026-09-11T18:00:00+00:00")
+    assert "до новости" not in same_day
+    dates = context.dates_block("2026-10-25", "2026-10-23")
+    assert "сегодня 25 октября 2026" in dates and "новость опубликована 23 октября 2026" in dates
+
+
+def test_draft_prompt_has_dates_block(db, monkeypatch):
+    llm = FakeLLM([GOOD])
+    _run(db, monkeypatch, llm)
+    prompt = [m for n, m in llm.calls if n == "draft#1"][0][-1]["content"]
+    assert prompt.startswith("ДАТЫ: сегодня ") and "ожидания банка на ту дату" in prompt

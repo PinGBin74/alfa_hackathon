@@ -5,6 +5,7 @@
 Роут: POST /api/chat (app/api/routes/chat.py).
 """
 import json
+from datetime import UTC, datetime
 from pathlib import Path
 
 from sqlalchemy.orm import Session
@@ -66,12 +67,15 @@ def answer(db: Session, record: InsightRecord, question: str, user_role: str | N
 
     known = {s["source_id"] for s in insight.get("sources", [])} | {f"client:{record.client_id}"}
     known |= {context.bank_source_id(b) for b in bank} | {f"news:{n['news_id']}" for n in news}
+    event_date = next((s.get("published_at") for s in insight.get("sources", [])
+                       if s.get("source_id") == f"news:{record.news_id}"), None)
     blocks = [
+        context.dates_block(datetime.now(UTC), event_date),
         "ИНСАЙТ (JSON):\n" + json.dumps({k: insight.get(k) for k in (
             "what_happened", "why_it_matters", "consequences", "suggested_actions", "bank_position", "ai_inference",
             "sources")}, ensure_ascii=False),
         context.profile_brief(profile, user_role),
-        context.bank_block(bank),
+        context.bank_block(bank, event_date),
         context.related_block(news),
         "ДОПУСТИМЫЕ source_id: " + ", ".join(sorted(known)),
     ]

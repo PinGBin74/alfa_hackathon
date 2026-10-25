@@ -70,13 +70,15 @@ def _context(state: AgentState, profile: ClientProfile, score: ranking.Score) ->
                     *(context.bank_source_id(c) for c in bank)})
     brief = context.profile_brief(profile, state.user_role)
     state.scratch["context_text"] = brief
+    event_date = state.news.get("published_at")
     blocks = [
+        context.dates_block(datetime.now(UTC), event_date),
         brief,
         context.exposures_brief(taxonomy.exposures(profile), factors, state.user_role),
         "ПОЧЕМУ НОВОСТЬ В ЛЕНТЕ КЛИЕНТА: " + ("; ".join(score.reasons) or "общая значимость события"),
         context.news_block(state.news, meta),
         context.related_block(state.related_news),
-        context.bank_block(bank),
+        context.bank_block(bank, event_date),
         context.products_block(hints),
         "ГИПОТЕЗЫ ПЛАНА: " + ("; ".join(state.hypotheses) or "нет"),
         "ДОПУСТИМЫЕ source_id: " + ", ".join(known),
